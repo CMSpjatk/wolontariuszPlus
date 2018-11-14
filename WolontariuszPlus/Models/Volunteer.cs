@@ -9,5 +9,7 @@ namespace WolontariuszPlus.Models
     {
         public string PESEL { get; set; }
         public int Points { get; set; } // wyliczalny
+
+        public virtual ICollection<VolunteerOnEvent> VolunteersOnEvent { get; set; }
     }
 }

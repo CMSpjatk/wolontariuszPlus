@@ -13,6 +13,6 @@ namespace WolontariuszPlus.Models
         public string PhoneNumber { get; set; }
 
         public string IdentityUserId { get; set; }
-        //public Address Address { get; set; }
+        public virtual Address Address { get; set; }
     }
 }
