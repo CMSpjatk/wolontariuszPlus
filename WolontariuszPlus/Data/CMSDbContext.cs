@@ -4,7 +4,6 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Data
 {
@@ -14,8 +13,6 @@ namespace WolontariuszPlus.Data
             : base(options)
         {
         }
-
-        public virtual DbSet<Test> Tests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

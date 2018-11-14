@@ -1,6 +1,6 @@
 using System;
 
-namespace WolontariuszPlus.Models
+namespace WolontariuszPlus.ViewModels
 {
     public class ErrorViewModel
     {
