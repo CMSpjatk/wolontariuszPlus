@@ -4,15 +4,23 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Controllers
 {
     public class HomeController : Controller
     {
+        CMSDbContext _db;
+
+        public HomeController(CMSDbContext db)
+        {
+            _db = db;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            return View(_db.Tests.ToList());
         }
 
         public IActionResult About()
