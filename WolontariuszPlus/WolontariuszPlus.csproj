@@ -12,6 +12,14 @@
     <Compile Remove="Data\Migrations\20181114165830_AddedUsers.Designer.cs" />
     <Compile Remove="Data\Migrations\20181114170509_AddedUsers.cs" />
     <Compile Remove="Data\Migrations\20181114170509_AddedUsers.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181114175236_aaa.cs" />
+    <Compile Remove="Data\Migrations\20181114175236_aaa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181114175651_aaa.cs" />
+    <Compile Remove="Data\Migrations\20181114175651_aaa.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181114202644_ImplementedAssociationsAndConstraints.cs" />
+    <Compile Remove="Data\Migrations\20181114202644_ImplementedAssociationsAndConstraints.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181114203817_ImplementedAssociationsAndConstraints.cs" />
+    <Compile Remove="Data\Migrations\20181114203817_ImplementedAssociationsAndConstraints.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
