@@ -6,6 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20181114165612_AddedApplicationUser.cs" />
+    <Compile Remove="Data\Migrations\20181114165612_AddedApplicationUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181114165830_AddedUsers.cs" />
+    <Compile Remove="Data\Migrations\20181114165830_AddedUsers.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181114170509_AddedUsers.cs" />
+    <Compile Remove="Data\Migrations\20181114170509_AddedUsers.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />

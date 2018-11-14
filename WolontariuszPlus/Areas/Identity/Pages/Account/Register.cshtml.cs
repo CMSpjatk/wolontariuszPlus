@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WolontariuszPlus.Data;
+using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.Identity.Pages.Account
 {
@@ -19,17 +21,20 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly CMSDbContext _db;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            CMSDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _db = db;
         }
 
         [BindProperty]
@@ -43,6 +48,22 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Required]
+            [Display(Name = "Imię")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Nazwisko")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Numer telefonu")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
+            [Display(Name = "PESEL")]
+            public string PESEL { get; set; }
 
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -71,6 +92,32 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    AppUser appUser = null;
+                    if (!string.IsNullOrEmpty(Input.PESEL))
+                    {
+                        appUser = new Volunteer
+                        {
+                            FirstName = Input.FirstName,
+                            LastName = Input.LastName,
+                            PhoneNumber = Input.PhoneNumber,
+                            IdentityUserId = user.Id,
+                            PESEL = Input.PESEL
+                        };
+                    }
+                    else
+                    {
+                        appUser = new Organizer
+                        {
+                            FirstName = Input.FirstName,
+                            LastName = Input.LastName,
+                            PhoneNumber = Input.PhoneNumber,
+                            IdentityUserId = user.Id
+                        };
+                    }
+
+                    _db.AppUsers.Add(appUser);
+                    _db.SaveChanges();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(

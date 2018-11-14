@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Data
 {
@@ -18,5 +19,9 @@ namespace WolontariuszPlus.Data
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<Volunteer> Volunteers { get; set; }
+        public DbSet<Organizer> Organizers { get; set; }
     }
 }

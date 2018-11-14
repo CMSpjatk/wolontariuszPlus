@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 
 namespace WolontariuszPlus.Models
 {
-    public class User
+    public abstract class AppUser
     {
-        public int UserId { get; set; }
+        public int AppUserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
 
+        public string IdentityUserId { get; set; }
         //public Address Address { get; set; }
     }
 }
