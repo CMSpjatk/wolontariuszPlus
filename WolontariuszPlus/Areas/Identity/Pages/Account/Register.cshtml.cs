@@ -61,7 +61,6 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
             [Display(Name = "Numer telefonu")]
             public string PhoneNumber { get; set; }
 
-            [Required]
             [Display(Name = "PESEL")]
             public string PESEL { get; set; }
 
