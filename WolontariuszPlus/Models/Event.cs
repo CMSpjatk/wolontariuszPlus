@@ -11,6 +11,10 @@ namespace WolontariuszPlus.Models
         public int EventId { get; private set; }
 
         [Required]
+        [MaxLength(50)]
+        public string Name { get; set; }
+
+        [Required]
         public DateTime Date { get; private set; }
 
         [Required]

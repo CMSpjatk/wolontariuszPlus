@@ -8,7 +8,7 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="VolunteerArea" asp-controller="VolunteerPanel" asp-action="PersonalData">Panel</a>
+                <a asp-area="VolunteerPanel" asp-controller="PersonalData" asp-action="Index">Panel</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Wyloguj</button>

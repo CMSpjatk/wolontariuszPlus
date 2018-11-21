@@ -4,23 +4,23 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using WolontariuszPlus.Areas.VolunteerArea.Models;
+using WolontariuszPlus.Areas.VolunteerPanel.Models;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
 
-namespace WolontariuszPlus.Areas.VolunteerArea.Controllers
+namespace WolontariuszPlus.Areas.VolunteerPanel.Controllers
 {
-    [Area("VolunteerArea")]
-    public class VolunteerPanelController : Controller
+    [Area("VolunteerPanel")]
+    public class PersonalDataController : Controller
     {
         private readonly CMSDbContext _db;
 
-        public VolunteerPanelController(CMSDbContext db)
+        public PersonalDataController(CMSDbContext db)
         {
             _db = db;
         }
 
-        public IActionResult PersonalData()
+        public IActionResult Index()
         {
             var user = LoggedUser;
             var vm = new UserViewModel
@@ -50,7 +50,7 @@ namespace WolontariuszPlus.Areas.VolunteerArea.Controllers
         }
 
         [HttpPost]
-        public IActionResult PersonalData(UserViewModel vm)
+        public IActionResult Index(UserViewModel vm)
         {
             if (!ModelState.IsValid)
             {

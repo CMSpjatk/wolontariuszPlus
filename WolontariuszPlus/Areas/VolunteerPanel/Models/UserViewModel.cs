@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolontariuszPlus.Areas.VolunteerArea.Models
+namespace WolontariuszPlus.Areas.VolunteerPanel.Models
 {
     public class UserViewModel
     {
