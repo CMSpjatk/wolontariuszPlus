@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WolontariuszPlus.Data;
+using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.Identity.Pages.Account
 {
@@ -19,17 +21,20 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly CMSDbContext _db;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            CMSDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _db = db;
         }
 
         [BindProperty]
@@ -39,20 +44,75 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [EmailAddress(ErrorMessage = "Wprowadzony email ma niepoprawny format.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [Display(Name = "Imię")]
+            public string FirstName { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [Display(Name = "Nazwisko")]
+            public string LastName { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [MaxLength(15, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [Display(Name = "Numer telefonu")]
+            [Phone]
+            public string PhoneNumber { get; set; }
+
+
+            [Display(Name = "PESEL")]
+            [StringLength(11)]
+            public string PESEL { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [Display(Name = "Miasto")]
+            public string City { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [Display(Name = "Ulica")]
+            public string Street { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [Display(Name = "Numer budynku")]
+            public int BuildingNumber { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [Display(Name = "Numer lokalu")]
+            public int ApartmentNumber { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [RegularExpression("\\d{2}[-]\\d{3}", ErrorMessage = "Wprowadzony kod pocztowy ma niepoprawny format.")]
+            [Display(Name = "Kod pocztowy")]
+            public string PostalCode { get; set; }
+
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [StringLength(100, ErrorMessage = "{0} musi mieć przynajmniej {2} i maksymalnie {1} znaków.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Hasło")]
             public string Password { get; set; }
 
+
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Potwierdź hasło")]
+            [Compare("Password", ErrorMessage = "Hasła nie zgadzają się ze sobą.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -71,6 +131,36 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    Address address = new Address(Input.City, Input.Street, Input.BuildingNumber, Input.ApartmentNumber, Input.PostalCode);
+
+                    AppUser appUser = null;
+                    if (!string.IsNullOrEmpty(Input.PESEL))
+                    {
+                        appUser = new Volunteer
+                        (
+                            user.Id,
+                            Input.FirstName,
+                            Input.LastName,
+                            Input.PhoneNumber,
+                            address,
+                            Input.PESEL
+                        );
+                    }
+                    else
+                    {
+                        appUser = new Organizer
+                        (
+                            user.Id,
+                            Input.FirstName,
+                            Input.LastName,
+                            Input.PhoneNumber,
+                            address
+                        );
+                    }
+
+                    _db.AppUsers.Add(appUser);
+                    _db.SaveChanges();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(

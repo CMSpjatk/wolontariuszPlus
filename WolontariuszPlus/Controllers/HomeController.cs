@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Data;
-using WolontariuszPlus.Models;
+using WolontariuszPlus.ViewModels;
 
 namespace WolontariuszPlus.Controllers
 {
@@ -20,7 +20,7 @@ namespace WolontariuszPlus.Controllers
 
         public IActionResult Index()
         {
-            return View(_db.Tests.ToList());
+            return View();
         }
 
         public IActionResult About()

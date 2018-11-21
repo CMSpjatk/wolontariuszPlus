@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WolontariuszPlus.Data;
 
 namespace WolontariuszPlus.Data.Migrations
 {
     [DbContext(typeof(CMSDbContext))]
-    partial class CMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181114173941_Finished-models-design")]
+    partial class Finishedmodelsdesign
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,16 +196,11 @@ namespace WolontariuszPlus.Data.Migrations
 
                     b.Property<int>("BuildingNumber");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("City");
 
-                    b.Property<string>("PostalCode")
-                        .IsRequired();
+                    b.Property<string>("PostalCode");
 
-                    b.Property<string>("Street")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("Street");
 
                     b.HasKey("AddressId");
 
@@ -216,25 +213,18 @@ namespace WolontariuszPlus.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId");
+                    b.Property<int?>("AddressId");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("FirstName");
 
-                    b.Property<string>("IdentityUserId")
-                        .IsRequired();
+                    b.Property<string>("IdentityUserId");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                    b.Property<string>("LastName");
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(15);
+                    b.Property<string>("PhoneNumber");
 
                     b.HasKey("AppUserId");
 
@@ -251,15 +241,13 @@ namespace WolontariuszPlus.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId");
+                    b.Property<int?>("AdressAddressId");
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500);
+                    b.Property<string>("Description");
 
-                    b.Property<int?>("OrganizerId");
+                    b.Property<int?>("OrganizerAppUserId");
 
                     b.Property<int>("RequiredPoints");
 
@@ -267,9 +255,9 @@ namespace WolontariuszPlus.Data.Migrations
 
                     b.HasKey("EventId");
 
-                    b.HasIndex("AddressId");
+                    b.HasIndex("AdressAddressId");
 
-                    b.HasIndex("OrganizerId");
+                    b.HasIndex("OrganizerAppUserId");
 
                     b.ToTable("Events");
                 });
@@ -282,25 +270,25 @@ namespace WolontariuszPlus.Data.Migrations
 
                     b.Property<double>("AmountOfMoneyCollected");
 
-                    b.Property<int>("EventId");
+                    b.Property<int?>("EventId");
 
                     b.Property<string>("EventRate")
                         .IsRequired()
                         .HasConversion(new ValueConverter<string, string>(v => default(string), v => default(string), new ConverterMappingHints(size: 1)));
 
-                    b.Property<string>("OpinionAboutEvent")
-                        .HasMaxLength(500);
+                    b.Property<string>("OpinionAboutEvent");
 
-                    b.Property<string>("OpinionAboutVolunteer")
-                        .HasMaxLength(500);
+                    b.Property<string>("OpinionAboutVolunteer");
 
-                    b.Property<int?>("VolunteerId");
+                    b.Property<int>("PointsReceived");
+
+                    b.Property<int?>("VolunteerAppUserId");
 
                     b.HasKey("VolunteerOnEventId");
 
                     b.HasIndex("EventId");
 
-                    b.HasIndex("VolunteerId");
+                    b.HasIndex("VolunteerAppUserId");
 
                     b.ToTable("VolunteersOnEvent");
                 });
@@ -309,6 +297,7 @@ namespace WolontariuszPlus.Data.Migrations
                 {
                     b.HasBaseType("WolontariuszPlus.Models.AppUser");
 
+                    b.Property<int>("CreatedEventsCount");
 
                     b.ToTable("Organizer");
 
@@ -319,8 +308,9 @@ namespace WolontariuszPlus.Data.Migrations
                 {
                     b.HasBaseType("WolontariuszPlus.Models.AppUser");
 
-                    b.Property<string>("PESEL")
-                        .HasMaxLength(11);
+                    b.Property<string>("PESEL");
+
+                    b.Property<int>("Points");
 
                     b.ToTable("Volunteer");
 
@@ -376,32 +366,29 @@ namespace WolontariuszPlus.Data.Migrations
                 {
                     b.HasOne("WolontariuszPlus.Models.Address", "Address")
                         .WithMany("AppUsers")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AddressId");
                 });
 
             modelBuilder.Entity("WolontariuszPlus.Models.Event", b =>
                 {
-                    b.HasOne("WolontariuszPlus.Models.Address", "Address")
+                    b.HasOne("WolontariuszPlus.Models.Address", "Adress")
                         .WithMany("Events")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AdressAddressId");
 
                     b.HasOne("WolontariuszPlus.Models.Organizer", "Organizer")
                         .WithMany("Events")
-                        .HasForeignKey("OrganizerId");
+                        .HasForeignKey("OrganizerAppUserId");
                 });
 
             modelBuilder.Entity("WolontariuszPlus.Models.VolunteerOnEvent", b =>
                 {
                     b.HasOne("WolontariuszPlus.Models.Event", "Event")
                         .WithMany("VolunteersOnEvent")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("EventId");
 
                     b.HasOne("WolontariuszPlus.Models.Volunteer", "Volunteer")
                         .WithMany("VolunteersOnEvent")
-                        .HasForeignKey("VolunteerId");
+                        .HasForeignKey("VolunteerAppUserId");
                 });
 #pragma warning restore 612, 618
         }
