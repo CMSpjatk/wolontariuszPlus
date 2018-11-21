@@ -90,8 +90,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
             [Display(Name = "Numer budynku")]
             public int BuildingNumber { get; set; }
 
-
-            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            
             [Display(Name = "Numer lokalu")]
             public int ApartmentNumber { get; set; }
 
@@ -137,7 +136,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                     AppUser appUser = null;
                     if (!string.IsNullOrEmpty(Input.PESEL))
                     {
-                        appUser = new Volunteer
+                        appUser = new Models.Volunteer
                         (
                             user.Id,
                             Input.FirstName,
@@ -149,7 +148,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        appUser = new Organizer
+                        appUser = new Models.Organizer
                         (
                             user.Id,
                             Input.FirstName,

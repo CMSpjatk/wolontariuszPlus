@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section VolunteerPanelCSS {
+    <link rel="stylesheet" href="~/css/volunteer-panel/personal-data.css" />
+}
+
+<h2>Panel wolontariusza</h2>
+
+<div>
+    @*<h4>Change your account settings</h4>*@
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a asp-action="PersonalData">Dane osobowe</a></li>
+                <li><a asp-action="#">Grafik</a></li>
+                <li><a asp-action="#">Archiwalne wydarzenia</a></li>
+                <li><a asp-action="#">Widok punktów</a></li>
+                <li><a asp-action="#">Wydarzenia bez opinii</a></li>
+            </ul>
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>

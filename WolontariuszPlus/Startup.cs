@@ -12,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using WolontariuszPlus.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace WolontariuszPlus
 {
@@ -43,7 +45,13 @@ namespace WolontariuszPlus
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<CMSDbContext>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,7 +78,7 @@ namespace WolontariuszPlus
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{area=Home}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

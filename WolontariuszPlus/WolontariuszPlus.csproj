@@ -20,6 +20,8 @@
     <Compile Remove="Data\Migrations\20181114202644_ImplementedAssociationsAndConstraints.Designer.cs" />
     <Compile Remove="Data\Migrations\20181114203817_ImplementedAssociationsAndConstraints.cs" />
     <Compile Remove="Data\Migrations\20181114203817_ImplementedAssociationsAndConstraints.Designer.cs" />
+    <Compile Remove="Data\Migrations\20181121175753_RemovedRequiredConstraintFromApartmentNumber.cs" />
+    <Compile Remove="Data\Migrations\20181121175753_RemovedRequiredConstraintFromApartmentNumber.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +36,25 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Home\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Home\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\VolunteerArea\Views\VolunteerPanel\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\VolunteerArea\Views\VolunteerPanel\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\VolunteerArea\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
 </Project>

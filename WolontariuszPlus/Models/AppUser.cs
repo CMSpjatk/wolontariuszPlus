@@ -56,5 +56,11 @@ namespace WolontariuszPlus.Models
                 address.AddUserToAddress(this);
             }
         }
+        
+        public void Update(string phoneNumber, string city, string street, int buildingNumber, int apartmentNumber, string postalCode)
+        {
+            PhoneNumber = phoneNumber;
+            Address.Update(city, street, buildingNumber, apartmentNumber, postalCode);
+        }
     }
 }

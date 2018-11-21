@@ -1,0 +1,20 @@
+﻿.main-header {
+    display: inline-block;
+}
+
+.points {
+    text-align: right;
+    display: inline-block;
+    float: right;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.last-name {
+    margin-bottom: 1em;
+}

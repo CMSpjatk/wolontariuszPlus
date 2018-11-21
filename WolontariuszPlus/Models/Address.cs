@@ -20,8 +20,7 @@ namespace WolontariuszPlus.Models
 
         [Required]
         public int BuildingNumber { get; private set; }
-
-        [Required]
+        
         public int ApartmentNumber { get; private set; }
 
         [Required]
@@ -73,6 +72,20 @@ namespace WolontariuszPlus.Models
         public void RemoveEvent(Event newEvent)
         {
             Events.Remove(newEvent);
+        }
+
+        public void Update(string city, string street, int buildingNumber, int apartmentNumber, string postalCode)
+        {
+            if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(street) || string.IsNullOrEmpty(postalCode) || buildingNumber <= 0)
+            {
+                throw new ArgumentException("Error in update method of Address");
+            }
+
+            City = city;
+            Street = street;
+            BuildingNumber = buildingNumber;
+            ApartmentNumber = apartmentNumber;
+            PostalCode = postalCode;
         }
     }
 }

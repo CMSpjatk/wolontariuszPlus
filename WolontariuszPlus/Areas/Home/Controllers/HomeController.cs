@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.ViewModels;
 
-namespace WolontariuszPlus.Controllers
+namespace WolontariuszPlus.Areas.Home.Controllers
 {
+    [Area("Home")]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         CMSDbContext _db;

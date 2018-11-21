@@ -31,5 +31,11 @@ namespace WolontariuszPlus.Models
         {
             VolunteersOnEvent = new List<VolunteerOnEvent>();
         }
+
+        public void Update(string phoneNumber, string city, string street, int buildingNumber, int apartmentNumber, string postalCode, string PESEL)
+        {
+            base.Update(phoneNumber, city, street, buildingNumber, apartmentNumber, postalCode);
+            this.PESEL = PESEL;
+        }
     }
 }
