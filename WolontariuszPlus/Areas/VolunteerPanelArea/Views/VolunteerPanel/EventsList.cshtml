@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ArchivedEventViewModel>
+﻿@model EventsViewModel
 
 <table class="table">
     <thead>
@@ -28,7 +28,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.EventViewModels)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -52,9 +53,20 @@
                 @Html.DisplayFor(modelItem => item.ReceivedPoints)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id=item.EventId }) |
+                @switch (Model.ViewType)
+                {
+                    case VolunteerPanelViewType.UPCOMING_EVENTS:
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:|
+                    break;
+                    case VolunteerPanelViewType.ARCHIVED_EVENTS:
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:|
+                    break;
+                    case VolunteerPanelViewType.EVENTS_WITHOUT_OPINION:
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:|
+                    break;
+                }
             </td>
         </tr>
-}
+        }
     </tbody>
 </table>

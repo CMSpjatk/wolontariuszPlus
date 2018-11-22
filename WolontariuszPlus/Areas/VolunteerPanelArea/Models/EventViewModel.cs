@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolontariuszPlus.Areas.VolunteerPanel.Models
+namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
 {
-    public class ArchivedEventViewModel
+    public class EventViewModel
     {
         public int EventId { get; set; }
 
