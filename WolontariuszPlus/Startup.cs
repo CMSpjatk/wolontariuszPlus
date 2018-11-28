@@ -42,8 +42,10 @@ namespace WolontariuszPlus
                 options.UseSqlServer(Configuration["CMSConfiguration:ConnectionString"]);
             });
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<CMSDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<CMSDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
 
             services.AddMvc(config =>
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Areas.VolunteerPanelArea.Models;
 using WolontariuszPlus.Data;
@@ -12,6 +13,7 @@ using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 {
+    [Authorize(Roles = Roles.OrganizerRole)]
     [Area("OrganizerPanelArea")]
     public class OrganizerPanelController : Controller
     {
@@ -25,7 +27,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId 
                                                         == User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        ActionResult PersonalData()
+        public IActionResult PersonalData()
         {
             var user = LoggedUser as Organizer;
             var vm = new UserViewModel

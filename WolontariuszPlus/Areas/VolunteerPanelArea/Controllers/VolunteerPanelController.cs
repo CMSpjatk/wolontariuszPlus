@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Areas.VolunteerPanelArea.Models;
 using WolontariuszPlus.Data;
@@ -10,6 +11,7 @@ using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
 {
+    [Authorize(Roles = Roles.VolunteerRole)]
     [Area("VolunteerPanelArea")]
     public class VolunteerPanelController : Controller
     {
