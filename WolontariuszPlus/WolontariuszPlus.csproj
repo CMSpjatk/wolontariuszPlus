@@ -40,6 +40,11 @@
 
   <ItemGroup>
     <Folder Include="Areas\Home\Models\" />
+    <Folder Include="Areas\OrganizerPanelArea\" />
+    <Folder Include="Areas\OrganizerPanelArea\Controllers\" />
+    <Folder Include="Areas\OrganizerPanelArea\Models\" />
+    <Folder Include="Areas\OrganizerPanelArea\Views\" />
+    <Folder Include="Areas\OrganizerPanelArea\Views\OrganizerPanel\" />
   </ItemGroup>
 
   <ItemGroup>

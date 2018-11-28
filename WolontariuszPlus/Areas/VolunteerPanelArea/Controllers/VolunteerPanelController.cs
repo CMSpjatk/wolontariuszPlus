@@ -22,29 +22,21 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
 
         public IActionResult PersonalData()
         {
-            var user = LoggedUser;
+            var volunteer = LoggedUser as Volunteer;
             var vm = new UserViewModel
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-                City = user.Address.City,
-                Street = user.Address.Street,
-                BuildingNumber = user.Address.BuildingNumber,
-                ApartmentNumber = user.Address.ApartmentNumber,
-                PostalCode = user.Address.PostalCode
+                FirstName = volunteer.FirstName,
+                LastName = volunteer.LastName,
+                PhoneNumber = volunteer.PhoneNumber,
+                City = volunteer.Address.City,
+                Street = volunteer.Address.Street,
+                BuildingNumber = volunteer.Address.BuildingNumber,
+                ApartmentNumber = volunteer.Address.ApartmentNumber,
+                PostalCode = volunteer.Address.PostalCode,
+                PESEL = volunteer.PESEL,
+                Points = volunteer.Points,
+                IsVolunteer = true
             };
-
-            if (user is Volunteer volunteer)
-            {
-                vm.PESEL = volunteer.PESEL;
-                vm.Points = volunteer.Points;
-                vm.IsVolunteer = true;
-            }
-            else if (user is Organizer organizer)
-            {
-                vm.CreatedEventsCount = organizer.CreatedEventsCount;
-            }
 
             return View(vm);
         }
@@ -58,17 +50,11 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                 return View(vm);
             }
 
-            var user = LoggedUser;
-            if (user is Volunteer volunteer)
-            {
-                volunteer.Update(vm.PhoneNumber, vm.City, vm.Street, vm.BuildingNumber, vm.ApartmentNumber, vm.PostalCode, vm.PESEL);
-            }
-            else
-            {
-                user.Update(vm.PhoneNumber, vm.City, vm.Street, vm.BuildingNumber, vm.ApartmentNumber, vm.PostalCode);
-            }
+            var volunteer = LoggedUser as Volunteer;
+            volunteer.Update(vm.PhoneNumber, vm.City, vm.Street, vm.BuildingNumber, vm.ApartmentNumber, vm.PostalCode, vm.PESEL);
+            
 
-            _db.AppUsers.Update(user);
+            _db.AppUsers.Update(volunteer);
             _db.SaveChanges();
 
             return RedirectToAction();
