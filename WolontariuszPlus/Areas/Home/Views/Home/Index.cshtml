@@ -1,4 +1,6 @@
-﻿@{
+﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventsViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -92,3 +94,24 @@
         </ul>
     </div>
 </div>
+<h2>Najnowsze wydarzenia</h2>
+
+
+@foreach (var item in Model.EventViewModels)
+{
+    <div class="card text-center">
+        <div class="card-header">
+            @Html.DisplayNameFor(model => model.DefaultEvent.Name) : @Html.DisplayFor(modelItem => item.Name)
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayNameFor(model => model.DefaultEvent.Description) : @Html.DisplayFor(modelItem => item.Description)</h5>
+            <p class="card-text">@Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName) : @Html.DisplayFor(modelItem => item.OrganizerName) </p>
+            <a href="#" class="btn btn-primary">Zapisz się!</a>
+        </div>
+        <div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
+            @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints) : @Html.DisplayFor(modelItem => item.RequiredPoints)
+
+        </div>
+    </div>
+    <br>
+}
