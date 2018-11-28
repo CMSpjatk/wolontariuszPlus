@@ -53,12 +53,13 @@
                 <td>
                     @if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
                     {
-                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventsManagement", new { eventId = item.EventId }) @:|
+                    @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventsManagement", new { eventId = item.EventId }) @:|
                     }
                     else
                     {
-                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventsManagement", new { eventId = item.EventId }) @:|
+                    @Html.ActionLink("Szczegóły", "PastEventDetails", "EventsManagement", new { eventId = item.EventId }) @:|
                     }
+                    @Html.ActionLink("Edytuj", "UpdateEvent", "EventsManagement", new { eventId = item.EventId }) |
                     @Html.ActionLink("Usuń", "DeleteEvent", "EventsManagement", new { eventId = item.EventId })
                 </td>
             </tr>

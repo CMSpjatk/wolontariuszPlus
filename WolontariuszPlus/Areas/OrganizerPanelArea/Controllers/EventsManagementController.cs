@@ -28,7 +28,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
 
         [HttpPost]
-        public IActionResult CreateEvent(AddEventViewModel vm)
+        public IActionResult CreateEvent(EventViewModel vm)
         {
             if (!ModelState.IsValid)
             {
@@ -51,16 +51,12 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 a.ApartmentNumber == address.ApartmentNumber &&
                 a.PostalCode == address.PostalCode
             );
-
-            if (existingAddress != null)
-            {
-                address.AddressId = existingAddress.AddressId;
-            }
+            
 
             var eventToAdd = new Event
             (
                 vm.Name,
-                DateTime.Now,
+                vm.Date,
                 vm.Description,
                 vm.RequiredPoints,
                 vm.Tags,
@@ -74,6 +70,68 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return RedirectToAction("EventsList", "OrganizerPanel");
         }
 
+        public IActionResult UpdateEvent(int eventId)
+        {
+            var eventToEdit = _db.Events.Find(eventId);
+            return View(new EventViewModel
+            {
+                EventId = eventId,
+                Name = eventToEdit.Name,
+                Date = eventToEdit.Date,
+                Description = eventToEdit.Description,
+                RequiredPoints = eventToEdit.RequiredPoints,
+                Tags = eventToEdit.Tags,
+                City = eventToEdit.Address.City,
+                Street = eventToEdit.Address.Street,
+                BuildingNumber = eventToEdit.Address.BuildingNumber,
+                ApartmentNumber = eventToEdit.Address.ApartmentNumber,
+                PostalCode = eventToEdit.Address.PostalCode
+            });
+        }
+
+        [HttpPost]
+        public IActionResult UpdateEvent(EventViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            var eventToUpdate = _db.Events.Find(vm.EventId);
+
+            Address address = eventToUpdate.Address;
+
+            if (!(eventToUpdate.Address.City == vm.City && eventToUpdate.Address.Street == vm.Street && eventToUpdate.Address.BuildingNumber == vm.BuildingNumber && eventToUpdate.Address.ApartmentNumber == vm.ApartmentNumber && eventToUpdate.Address.PostalCode == vm.PostalCode))
+            {
+                address = new Address
+                (
+                    vm.City,
+                    vm.Street,
+                    vm.BuildingNumber,
+                    vm.ApartmentNumber,
+                    vm.PostalCode
+                );
+
+                var existingAddress = _db.Addresses.FirstOrDefault(a =>
+                    a.City == address.City &&
+                    a.Street == address.Street &&
+                    a.BuildingNumber == address.BuildingNumber &&
+                    a.ApartmentNumber == address.ApartmentNumber &&
+                    a.PostalCode == address.PostalCode
+                );
+
+                if (existingAddress != null)
+                {
+                    address.AddressId = existingAddress.AddressId;
+                }
+            }
+
+            eventToUpdate.UpdateEvent(vm.Name, vm.Date, vm.Description, vm.RequiredPoints, vm.Tags, address);
+            _db.Events.Update(eventToUpdate);
+            _db.SaveChanges();
+
+            return RedirectToAction("EventsList", "OrganizerPanel");
+        }
 
         public IActionResult DeleteEvent(int eventId)
         {
