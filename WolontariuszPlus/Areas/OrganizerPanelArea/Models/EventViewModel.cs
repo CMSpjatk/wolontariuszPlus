@@ -7,7 +7,7 @@ using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 {
-    public class AddEventViewModel
+    public class EventViewModel
     {
         public int EventId { get; set; }
 
@@ -51,7 +51,5 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         public string PostalCode { get; set; }
 
         public ICollection<string> Tags { get; set; }
-
-        public Organizer Organizer { get; set; }
     }
 }

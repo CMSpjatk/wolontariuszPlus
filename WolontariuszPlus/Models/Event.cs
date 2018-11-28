@@ -81,5 +81,19 @@ namespace WolontariuszPlus.Models
                 address.AddEventToAddress(this);
             }
         }
+
+        public void UpdateEvent(string name, DateTime date, string description, int requiredPoints, ICollection<string> tags, Address address)
+        {
+            if(string.IsNullOrEmpty(name) || date < DateTime.Now || string.IsNullOrEmpty(description))
+            {
+                throw new ArgumentException("Error in update method of Event");
+            }
+            Name = name;
+            Date = date;
+            Description = description;
+            RequiredPoints = requiredPoints;
+            Tags = tags;
+            UpdateAddress(address);
+        }
     }
 }
