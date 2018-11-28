@@ -9,6 +9,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
     {
         public IEnumerable<EventViewModel> EventViewModels { get; set; }
         public VolunteerPanelViewType ViewType { get; set; }
+        public EventViewModel DefaultEvent => new EventViewModel();
     }
     public enum VolunteerPanelViewType
     {
