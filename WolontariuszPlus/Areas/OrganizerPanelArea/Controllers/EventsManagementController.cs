@@ -51,7 +51,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 a.ApartmentNumber == address.ApartmentNumber &&
                 a.PostalCode == address.PostalCode
             );
-            
+
+            if (existingAddress != null)
+            {
+                address.AddressId = existingAddress.AddressId;
+            }
 
             var eventToAdd = new Event
             (
