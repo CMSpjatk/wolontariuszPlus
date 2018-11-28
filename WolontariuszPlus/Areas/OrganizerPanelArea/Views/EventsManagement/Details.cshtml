@@ -1,0 +1,62 @@
+﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsViewModel
+
+<div>
+    <h4>Szczegóły wydarzenia "@Html.DisplayFor(model => model.Name)"</h4>
+    <h5>@Html.DisplayNameFor(model => model.Date): @Html.DisplayFor(model => model.Date)</h5>
+    <h5>@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h5>
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.PhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.CollectedMoney)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.Points)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Volunteers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CollectedMoney)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Points)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Dodaj ocenę", "RateVolunteer", "EventsManagement", new { volunteerOnEventId = item.VolunteerOnEventId }) |
+                        @Html.ActionLink("Dodaj zebraną kwotę", "AddMoney", "EventsManagement", new { volunteerOnEventId = item.VolunteerOnEventId }) |
+                        @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventsManagement", new { volunteerOnEventId = item.VolunteerOnEventId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-controller="OrganizerPanel" asp-action="EventsList">Wróć do listy wydarzeń</a>
+</div>

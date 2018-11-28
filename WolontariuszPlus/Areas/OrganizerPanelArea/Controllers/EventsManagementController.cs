@@ -91,5 +91,65 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             return RedirectToAction("EventsList", "OrganizerPanel");
         }
+
+
+        public IActionResult PlannedEventDetails(int eventId)
+        {
+            var ev = _db.Events.Find(eventId);
+
+            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
+            
+            var volunteers = voes.Select(voe =>
+                new VolunteerViewModel
+                {
+                    Name = $"{voe.Volunteer.FirstName} {voe.Volunteer.LastName}",
+                    Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
+                    PhoneNumber = voe.Volunteer.PhoneNumber,
+                    Points = voe.PointsReceived,
+                    CollectedMoney = voe.AmountOfMoneyCollected
+                }
+            ).ToList();
+
+            var vm = new EventDetailsViewModel
+            {
+                EventId = eventId,
+                Date = ev.Date,
+                Name = ev.Name,
+                CollectedMoneySum = ev.CollectedMoney,
+                Volunteers = volunteers
+            };
+
+            return View("Details", vm);
+        }
+
+
+        public IActionResult PastEventDetails(int eventId)
+        {
+            var ev = _db.Events.Find(eventId);
+
+            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
+
+            var volunteers = voes.Select(voe =>
+                new VolunteerViewModel
+                {
+                    Name = $"{voe.Volunteer.FirstName} {voe.Volunteer.LastName}",
+                    Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
+                    PhoneNumber = voe.Volunteer.PhoneNumber,
+                    Points = voe.PointsReceived,
+                    CollectedMoney = voe.AmountOfMoneyCollected
+                }
+            ).ToList();
+
+            var vm = new EventDetailsViewModel
+            {
+                EventId = eventId,
+                Date = ev.Date,
+                Name = ev.Name,
+                CollectedMoneySum = ev.CollectedMoney,
+                Volunteers = volunteers
+            };
+
+            return View(vm);
+        }
     }
 }

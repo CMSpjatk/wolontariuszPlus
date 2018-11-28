@@ -51,8 +51,15 @@
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    @Html.ActionLink("Szczegóły", "Details", "EventsManagement", new { eventId = item.EventId }) |
-                    @Html.ActionLink("Usuń", "DeleteEvent", "EventsManagement", new { eventId = item.EventId }) |
+                    @if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
+                    {
+                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventsManagement", new { eventId = item.EventId }) @:|
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventsManagement", new { eventId = item.EventId }) @:|
+                    }
+                    @Html.ActionLink("Usuń", "DeleteEvent", "EventsManagement", new { eventId = item.EventId })
                 </td>
             </tr>
         }

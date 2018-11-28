@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -34,6 +35,10 @@ namespace WolontariuszPlus.Models
 
         public virtual ICollection<VolunteerOnEvent> VolunteersOnEvent { get; private set; }
 
+        [NotMapped]
+        public double CollectedMoney => VolunteersOnEvent.Sum(ve => ve.AmountOfMoneyCollected);
+        [NotMapped]
+        public ICollection<Volunteer> Volunteers => VolunteersOnEvent.Select(voe => voe.Volunteer).ToList();
 
         protected Event()
         {
