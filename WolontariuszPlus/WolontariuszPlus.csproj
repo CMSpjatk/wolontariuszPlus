@@ -40,7 +40,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Home\Models\" />
-    <Folder Include="Areas\OrganizerPanelArea\Controllers\" />
   </ItemGroup>
 
   <ItemGroup>

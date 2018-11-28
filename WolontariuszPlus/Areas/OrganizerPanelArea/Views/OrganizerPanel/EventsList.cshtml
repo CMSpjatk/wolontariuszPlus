@@ -1,6 +1,9 @@
 ﻿@model EventsViewModel
 
-<a asp-action="CreateEvent">Create</a>
+@if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
+{
+    <a asp-controller="EventsManagement" asp-action="CreateEvent">Dodaj nowe wydarzenie</a>
+}
 <table class="table">
     <thead>
         <tr>
@@ -48,8 +51,8 @@
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    @Html.ActionLink("Szczegóły", "Details", new { eventId = item.EventId }) |
-                    @Html.ActionLink("Usuń", "DeleteEvent", new { eventId = item.EventId }) |
+                    @Html.ActionLink("Szczegóły", "Details", "EventsManagement", new { eventId = item.EventId }) |
+                    @Html.ActionLink("Usuń", "DeleteEvent", "EventsManagement", new { eventId = item.EventId }) |
                 </td>
             </tr>
         }
