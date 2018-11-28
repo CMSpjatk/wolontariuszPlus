@@ -1,8 +1,10 @@
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @inject WolontariuszPlus.Data.CMSDbContext _db
+
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
