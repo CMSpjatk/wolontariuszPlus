@@ -25,7 +25,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId 
                                                         == User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-        ActionResult PersonalData()
+        public IActionResult PersonalData()
         {
             var user = LoggedUser as Organizer;
             var vm = new UserViewModel
