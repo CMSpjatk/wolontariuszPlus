@@ -71,7 +71,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             _db.Events.Add(eventToAdd);
             _db.SaveChanges();
 
-            return RedirectToAction("EventsList");
+            return RedirectToAction("EventsList", "OrganizerPanel");
         }
 
 
@@ -89,7 +89,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             _db.Events.Remove(eventToDelete);
             _db.SaveChanges();
 
-            return RedirectToAction("EventsList");
+            return RedirectToAction("EventsList", "OrganizerPanel");
         }
     }
 }
