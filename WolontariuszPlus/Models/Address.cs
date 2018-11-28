@@ -8,7 +8,7 @@ namespace WolontariuszPlus.Models
 {
     public class Address
     {
-        public int AddressId { get; private set; }
+        public int AddressId { get; set; }
 
         [Required]
         [MaxLength(50)]
@@ -21,7 +21,7 @@ namespace WolontariuszPlus.Models
         [Required]
         public int BuildingNumber { get; private set; }
         
-        public int ApartmentNumber { get; private set; }
+        public int? ApartmentNumber { get; private set; }
 
         [Required]
         [RegularExpression("\\d{2}[-]\\d{3}")]
@@ -37,7 +37,7 @@ namespace WolontariuszPlus.Models
             Events = new List<Event>();
         }
 
-        public Address(string city, string street, int buildingNumber, int apartmentNumber, string postalCode) : this()
+        public Address(string city, string street, int buildingNumber, int? apartmentNumber, string postalCode) : this()
         {
             City = city;
             Street = street;
@@ -74,7 +74,7 @@ namespace WolontariuszPlus.Models
             Events.Remove(newEvent);
         }
 
-        public void Update(string city, string street, int buildingNumber, int apartmentNumber, string postalCode)
+        public void Update(string city, string street, int buildingNumber, int? apartmentNumber, string postalCode)
         {
             if (string.IsNullOrEmpty(city) || string.IsNullOrEmpty(street) || string.IsNullOrEmpty(postalCode) || buildingNumber <= 0)
             {

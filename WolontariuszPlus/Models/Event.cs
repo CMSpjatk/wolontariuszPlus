@@ -12,7 +12,7 @@ namespace WolontariuszPlus.Models
 
         [Required]
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         [Required]
         public DateTime Date { get; private set; }
@@ -40,8 +40,10 @@ namespace WolontariuszPlus.Models
             VolunteersOnEvent = new List<VolunteerOnEvent>();
         }
 
-        public Event(DateTime date, string description, int requiredPoints, ICollection<string> tags, Organizer organizer, Address address) : this()
+        public Event(string name, DateTime date, string description, int requiredPoints, ICollection<string> tags, Organizer organizer, Address address) 
+            : this()
         {
+            Name = name;
             Date = date;
             Description = description;
             RequiredPoints = requiredPoints;

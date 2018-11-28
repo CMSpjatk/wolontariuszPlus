@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Areas.VolunteerPanelArea.Models;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
+using WolontariuszPlus.ViewModels;
 
 namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
 {

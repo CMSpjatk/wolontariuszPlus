@@ -1,0 +1,10 @@
+﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.DeleteEventViewModel
+
+<h3>Czy na pewno chcesz usunąć wydarzenie o nazwie @Html.DisplayFor(model => model.Name)</h3>
+<div>
+    <form asp-action="DeleteEvent" method="post">
+        <input type="hidden" asp-for="EventId">
+        <input type="submit" class="btn btn-default" value="Usuń" /> |
+        <a asp-action="EventsList">Back to List</a>
+    </form>
+</div>

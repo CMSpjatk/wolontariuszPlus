@@ -57,7 +57,7 @@ namespace WolontariuszPlus.Models
             }
         }
         
-        public void Update(string phoneNumber, string city, string street, int buildingNumber, int apartmentNumber, string postalCode)
+        public void Update(string phoneNumber, string city, string street, int buildingNumber, int? apartmentNumber, string postalCode)
         {
             PhoneNumber = phoneNumber;
             Address.Update(city, street, buildingNumber, apartmentNumber, postalCode);

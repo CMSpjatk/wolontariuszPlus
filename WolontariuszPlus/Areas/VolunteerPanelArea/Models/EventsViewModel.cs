@@ -11,6 +11,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
         public VolunteerPanelViewType ViewType { get; set; }
         public EventViewModel DefaultEvent => new EventViewModel();
     }
+
     public enum VolunteerPanelViewType
     {
         UPCOMING_EVENTS, ARCHIVED_EVENTS, EVENTS_WITHOUT_OPINION

@@ -41,11 +41,13 @@
   <ItemGroup>
     <Folder Include="Areas\Home\Models\" />
     <Folder Include="Areas\OrganizerPanelArea\Controllers\" />
-    <Folder Include="Areas\OrganizerPanelArea\Models\" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="Areas\Home\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\OrganizerPanelArea\Views\OrganizerPanel\EventsList.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\OrganizerPanelArea\Views\Shared\_Layout.cshtml">

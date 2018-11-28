@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
+namespace WolontariuszPlus.ViewModels
 {
     public class UserViewModel
     {
@@ -38,7 +38,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
         public int BuildingNumber { get; set; }
 
         [Display(Name = "Numer mieszkania")]
-        public int ApartmentNumber { get; set; }
+        public int? ApartmentNumber { get; set; }
 
         [Required]
         [RegularExpression("\\d{2}[-]\\d{3}")]
