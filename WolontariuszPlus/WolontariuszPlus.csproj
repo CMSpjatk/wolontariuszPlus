@@ -40,15 +40,21 @@
 
   <ItemGroup>
     <Folder Include="Areas\Home\Models\" />
-    <Folder Include="Areas\OrganizerPanelArea\" />
     <Folder Include="Areas\OrganizerPanelArea\Controllers\" />
     <Folder Include="Areas\OrganizerPanelArea\Models\" />
-    <Folder Include="Areas\OrganizerPanelArea\Views\" />
-    <Folder Include="Areas\OrganizerPanelArea\Views\OrganizerPanel\" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="Areas\Home\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\OrganizerPanelArea\Views\Shared\_Layout.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\OrganizerPanelArea\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\OrganizerPanelArea\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\VolunteerPanelArea\Views\_ViewImports.cshtml">
