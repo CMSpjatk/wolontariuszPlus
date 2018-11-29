@@ -14,6 +14,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         public string Name { get; set; }
 
         [Display(Name = "Data")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         public DateTime Date { get; set; }
 
         [Display(Name = "Opis")]

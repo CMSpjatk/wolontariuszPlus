@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -27,6 +28,9 @@ namespace WolontariuszPlus.Models
 
         public int AddressId { get; private set; }
         public virtual Address Address { get; private set; }
+
+        [NotMapped]
+        public string FullName => $"{FirstName} {LastName}";
 
 
         protected AppUser()

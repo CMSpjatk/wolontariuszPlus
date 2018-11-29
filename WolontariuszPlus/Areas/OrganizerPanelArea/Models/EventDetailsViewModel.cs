@@ -12,6 +12,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         public string Name { get; set; }
 
         [Display(Name = "Data")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:d MMMM yyyy} o godzinie {0:HH:mm}")]
         public DateTime Date { get; set; }
 
         [Display(Name = "Ilość zebranych pieniędzy")]
@@ -19,5 +21,6 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 
         public ICollection<VolunteerViewModel> Volunteers { get; set; }
         public VolunteerViewModel DefaultVolunteer => new VolunteerViewModel();
+        public VolunteerPanelViewType ViewType { get; set; }
     }
 }

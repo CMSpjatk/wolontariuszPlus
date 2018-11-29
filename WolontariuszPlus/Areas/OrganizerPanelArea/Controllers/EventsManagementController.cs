@@ -74,24 +74,32 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return RedirectToAction("EventsList", "OrganizerPanel");
         }
 
+
         public IActionResult UpdateEvent(int eventId)
         {
-            var eventToEdit = _db.Events.Find(eventId);
+            var eventToUpdate = _db.Events.Find(eventId);
+
+            if (eventToUpdate.Date < DateTime.Now.AddMinutes(1))
+            {
+                return BadRequest();
+            }
+
             return View(new EventViewModel
             {
                 EventId = eventId,
-                Name = eventToEdit.Name,
-                Date = eventToEdit.Date,
-                Description = eventToEdit.Description,
-                RequiredPoints = eventToEdit.RequiredPoints,
-                Tags = eventToEdit.Tags,
-                City = eventToEdit.Address.City,
-                Street = eventToEdit.Address.Street,
-                BuildingNumber = eventToEdit.Address.BuildingNumber,
-                ApartmentNumber = eventToEdit.Address.ApartmentNumber,
-                PostalCode = eventToEdit.Address.PostalCode
+                Name = eventToUpdate.Name,
+                Date = eventToUpdate.Date,
+                Description = eventToUpdate.Description,
+                RequiredPoints = eventToUpdate.RequiredPoints,
+                Tags = eventToUpdate.Tags,
+                City = eventToUpdate.Address.City,
+                Street = eventToUpdate.Address.Street,
+                BuildingNumber = eventToUpdate.Address.BuildingNumber,
+                ApartmentNumber = eventToUpdate.Address.ApartmentNumber,
+                PostalCode = eventToUpdate.Address.PostalCode
             });
         }
+
 
         [HttpPost]
         public IActionResult UpdateEvent(EventViewModel vm)
@@ -102,6 +110,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             }
 
             var eventToUpdate = _db.Events.Find(vm.EventId);
+
+            if (eventToUpdate.Date < DateTime.Now.AddMinutes(1))
+            {
+                return BadRequest();
+            }
 
             Address address = eventToUpdate.Address;
 
@@ -137,9 +150,21 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return RedirectToAction("EventsList", "OrganizerPanel");
         }
 
+
         public IActionResult DeleteEvent(int eventId)
         {
+            if (eventId <= 0)
+            {
+                return BadRequest();
+            }
+
             var eventToDelete = _db.Events.Find(eventId);
+
+            if (eventToDelete == null || eventToDelete.Date < DateTime.Now.AddMinutes(1))
+            {
+                return BadRequest();
+            }
+
             return View(new DeleteEventViewModel { EventId = eventId, Name = eventToDelete.Name });
         }
 
@@ -147,71 +172,18 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         [HttpPost]
         public IActionResult DeleteEvent(DeleteEventViewModel vm)
         {
+            if (!ModelState.IsValid) return View(vm);
+
             var eventToDelete = _db.Events.Find(vm.EventId);
+
+            if (eventToDelete.Date < DateTime.Now.AddMinutes(1)){
+                return BadRequest();
+            }
+
             _db.Events.Remove(eventToDelete);
             _db.SaveChanges();
 
             return RedirectToAction("EventsList", "OrganizerPanel");
-        }
-
-
-        public IActionResult PlannedEventDetails(int eventId)
-        {
-            var ev = _db.Events.Find(eventId);
-
-            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
-            
-            var volunteers = voes.Select(voe =>
-                new VolunteerViewModel
-                {
-                    Name = $"{voe.Volunteer.FirstName} {voe.Volunteer.LastName}",
-                    Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
-                    PhoneNumber = voe.Volunteer.PhoneNumber,
-                    Points = voe.PointsReceived,
-                    CollectedMoney = voe.AmountOfMoneyCollected
-                }
-            ).ToList();
-
-            var vm = new EventDetailsViewModel
-            {
-                EventId = eventId,
-                Date = ev.Date,
-                Name = ev.Name,
-                CollectedMoneySum = ev.CollectedMoney,
-                Volunteers = volunteers
-            };
-
-            return View("Details", vm);
-        }
-
-
-        public IActionResult PastEventDetails(int eventId)
-        {
-            var ev = _db.Events.Find(eventId);
-
-            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
-
-            var volunteers = voes.Select(voe =>
-                new VolunteerViewModel
-                {
-                    Name = $"{voe.Volunteer.FirstName} {voe.Volunteer.LastName}",
-                    Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
-                    PhoneNumber = voe.Volunteer.PhoneNumber,
-                    Points = voe.PointsReceived,
-                    CollectedMoney = voe.AmountOfMoneyCollected
-                }
-            ).ToList();
-
-            var vm = new EventDetailsViewModel
-            {
-                EventId = eventId,
-                Date = ev.Date,
-                Name = ev.Name,
-                CollectedMoneySum = ev.CollectedMoney,
-                Volunteers = volunteers
-            };
-
-            return View(vm);
         }
     }
 }
