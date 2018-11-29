@@ -20,7 +20,7 @@ namespace WolontariuszPlus.Models
 
         [Required]
         public int BuildingNumber { get; private set; }
-        
+
         public int? ApartmentNumber { get; private set; }
 
         [Required]

@@ -21,7 +21,7 @@ else
                 @Html.DisplayNameFor(model => model.DefaultEvent.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Description)
+                @Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
@@ -43,7 +43,7 @@ else
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.ShortenedDescription)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RequiredPoints)

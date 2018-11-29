@@ -101,7 +101,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
         private DisplayEventViewModel CreateEventViewModelForDisplaying(Event e)
         {
-            var n = (e.Address.ApartmentNumber <= 0) ? " " : ("/" + e.Address.ApartmentNumber.ToString());
+            var n = (e.Address.ApartmentNumber == null) ? "" : ("/" + e.Address.ApartmentNumber.ToString());
 
             return new DisplayEventViewModel
             {
@@ -109,7 +109,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Name = e.Name,
                 Date = e.Date,
                 Address = $"ul. {e.Address.Street} {e.Address.BuildingNumber}{n}, {e.Address.PostalCode} {e.Address.City}",
-                Description = e.Description,
+                ShortenedDescription = e.Description.Length > 100 ? e.Description.Substring(0, 100) + "[...]" : e.Description,
                 OrganizerName = e.Organizer.FullName,
                 RequiredPoints = e.RequiredPoints
             };

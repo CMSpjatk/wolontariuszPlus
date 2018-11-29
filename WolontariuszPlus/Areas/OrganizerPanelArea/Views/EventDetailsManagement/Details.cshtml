@@ -4,6 +4,7 @@
     <h4>Szczegóły wydarzenia "@Html.DisplayFor(model => model.Name)"</h4>
     <h5>@Html.DisplayNameFor(model => model.Date): @Html.DisplayFor(model => model.Date)</h5>
     <h5>@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h5>
+    <h5>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h5>
     <hr />
 
     <table class="table">
@@ -63,12 +64,12 @@
                         {
                             @Html.ActionLink("Wystaw opinię", "RateVolunteer", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) @:|
                         }
-                        
-                        @Html.ActionLink("Dodaj zebraną kwotę", "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) |
-                        
+
+                        @Html.ActionLink("Dodaj zebraną kwotę", "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
+
                         @if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
                         {
-                            @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
+                            @:| @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
                         }
                     </td>
                 </tr>

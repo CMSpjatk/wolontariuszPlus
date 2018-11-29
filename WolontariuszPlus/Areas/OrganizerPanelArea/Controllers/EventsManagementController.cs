@@ -116,7 +116,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 return BadRequest();
             }
 
-            Address address = eventToUpdate.Address;
+            Address address = null;
 
             if (!(eventToUpdate.Address.City == vm.City && eventToUpdate.Address.Street == vm.Street && eventToUpdate.Address.BuildingNumber == vm.BuildingNumber && eventToUpdate.Address.ApartmentNumber == vm.ApartmentNumber && eventToUpdate.Address.PostalCode == vm.PostalCode))
             {
@@ -139,7 +139,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
                 if (existingAddress != null)
                 {
-                    address.AddressId = existingAddress.AddressId;
+                    address = existingAddress;
                 }
             }
 
