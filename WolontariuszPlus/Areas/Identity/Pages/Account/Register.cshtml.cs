@@ -145,6 +145,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                             address,
                             Input.PESEL
                         );
+                        await _userManager.AddToRoleAsync(user, Roles.VolunteerRole);
                     }
                     else
                     {
@@ -156,6 +157,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                             Input.PhoneNumber,
                             address
                         );
+                        await _userManager.AddToRoleAsync(user, Roles.OrganizerRole);
                     }
 
                     _db.AppUsers.Add(appUser);

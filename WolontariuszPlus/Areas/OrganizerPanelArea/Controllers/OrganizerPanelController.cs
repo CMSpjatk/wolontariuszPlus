@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 using WolontariuszPlus.Data;
@@ -13,6 +14,7 @@ using WolontariuszPlus.ViewModels;
 
 namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 {
+    [Authorize(Roles = Roles.OrganizerRole)]
     [Area("OrganizerPanelArea")]
     public class OrganizerPanelController : Controller
     {
