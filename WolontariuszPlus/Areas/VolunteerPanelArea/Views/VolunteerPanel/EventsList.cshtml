@@ -1,5 +1,22 @@
 ﻿@model EventsViewModel
 
+@if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
+{
+    <h4>Zakończone wydarzenia</h4>
+
+    <a asp-controller="VolunteerPanel" asp-action="EventsWithoutOpinion">Wydarzenia bez opinii</a>
+}
+else if (Model.ViewType == VolunteerPanelViewType.EVENTS_WITHOUT_OPINION)
+{
+    <h4>Wydarzenia bez opinii</h4>
+
+    <a asp-controller="VolunteerPanel" asp-action="ArchivedEvents">Pokaż wszystkie zakończone wydarzenia</a>
+}
+else
+{
+    <h4>Grafik</h4>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -30,43 +47,43 @@
     <tbody>
         @foreach (var item in Model.EventViewModels)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrganizerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequiredPoints)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceivedPoints)
-            </td>
-            <td>
-                @switch (Model.ViewType)
-                {
-                    case VolunteerPanelViewType.UPCOMING_EVENTS:
-                    @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:|
-                    break;
-                    case VolunteerPanelViewType.ARCHIVED_EVENTS:
-                    @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:|
-                    break;
-                    case VolunteerPanelViewType.EVENTS_WITHOUT_OPINION:
-                    @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:|
-                    break;
-                }
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrganizerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequiredPoints)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedPoints)
+                </td>
+                <td>
+                    @switch (Model.ViewType)
+                    {
+                        case VolunteerPanelViewType.UPCOMING_EVENTS:
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:
+                            break;
+                        case VolunteerPanelViewType.ARCHIVED_EVENTS:
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:
+                            break;
+                        case VolunteerPanelViewType.EVENTS_WITHOUT_OPINION:
+                            @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:
+                            break;
+                    }
+                </td>
+            </tr>
         }
     </tbody>
 </table>
