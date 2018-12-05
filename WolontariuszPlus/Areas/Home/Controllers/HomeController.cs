@@ -17,10 +17,8 @@ namespace WolontariuszPlus.Areas.Home.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        CMSDbContext _db;
-
-        public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId
-                                                       == User.FindFirstValue(ClaimTypes.NameIdentifier));
+        private readonly CMSDbContext _db;
+        private AppUser LoggedUser => _db.AppUsers.FirstOrDefault(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public HomeController(CMSDbContext db)
         {
@@ -39,7 +37,7 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                        .Select(e => CreateEventViewModelForDisplaying(e)),
             };
 
-            return View("Index", vm);
+            return View(vm);
         }
 
         private DisplayEventViewModel CreateEventViewModelForDisplaying(Event e)
@@ -55,7 +53,7 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 ShortenedDescription = e.Description,
                 OrganizerName = $"{e.Organizer.FirstName} {e.Organizer.LastName}",
                 RequiredPoints = e.RequiredPoints,
-                IsOnEvent = IsVolunteerOnEvent(e)
+                IsOnEvent = LoggedUser != null ? IsVolunteerOnEvent(e) : false
             };
         }
 
@@ -75,16 +73,13 @@ namespace WolontariuszPlus.Areas.Home.Controllers
         [Authorize(Roles = Roles.VolunteerRole)]
         public IActionResult AddVolunteerToEvent(int eventId)
         {
-
             var choosenEvent = _db.Events.Find(eventId);
 
             if (choosenEvent.Date <= DateTime.Today)
             {
-                return BadRequest("Nie można zapisać się do wydarzenia które już sięodbyło.");
+                return BadRequest("Nie można zapisać się na wydarzenie, które już się odbyło.");
             }
-
-
-
+            
             var volunteerToAdd = LoggedUser as Volunteer;
 
             choosenEvent.AddVolunteerToEvent(volunteerToAdd);
