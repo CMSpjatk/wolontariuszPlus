@@ -38,9 +38,12 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.Address)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.ReceivedPoints)
-            </th>
+            @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultEvent.ReceivedPoints)
+                </th>
+            }
             <th></th>
         </tr>
     </thead>
@@ -66,21 +69,21 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
+                @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReceivedPoints)
+                    </td>
+                }
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReceivedPoints)
-                </td>
-                <td>
-                    @switch (Model.ViewType)
+                    @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS || Model.ViewType == VolunteerPanelViewType.EVENTS_WITHOUT_OPINION)
                     {
-                        case VolunteerPanelViewType.UPCOMING_EVENTS:
-                            @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:
-                            break;
-                        case VolunteerPanelViewType.ARCHIVED_EVENTS:
-                            @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:
-                            break;
-                        case VolunteerPanelViewType.EVENTS_WITHOUT_OPINION:
-                            @Html.ActionLink("Szczegóły", "Details", new { id = item.EventId }) @:
-                            break;
+                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { area = "OrganizerPanelArea", eventId = item.EventId }) @:|
+                        @Html.ActionLink("Oceń", "RateEvent", new { eventId = item.EventId })
+                    }
+                    else if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
+                    {
+                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { area = "OrganizerPanelArea", eventId = item.EventId })
                     }
                 </td>
             </tr>
