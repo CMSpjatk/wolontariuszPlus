@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 {
@@ -31,5 +32,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 
         [Display(Name = "Adres")]
         public string Address { get; set; }
+
+        public bool IsOnEvent { get; set; }
     }
 }
