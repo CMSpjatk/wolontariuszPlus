@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement;
@@ -11,6 +12,7 @@ using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 {
+    [Authorize(Roles = Roles.OrganizerRole)]
     [Area("OrganizerPanelArea")]
     public class EventDetailsManagementController : Controller
     {
@@ -25,6 +27,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         }
 
 
+        [Authorize(Roles = Roles.VolunteerRole + ", " + Roles.OrganizerRole)]
         public IActionResult PlannedEventDetails(int eventId)
         {
             var ev = _db.Events.Find(eventId);
@@ -37,7 +40,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                     Name = voe.Volunteer.FullName,
                     Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
                     PhoneNumber = voe.Volunteer.PhoneNumber,
-                    Points = voe.PointsReceived,
+                    ReceivedPoints = voe.PointsReceived,
                     CollectedMoney = voe.AmountOfMoneyCollected,
                     VolunteerOnEventId = voe.VolunteerOnEventId
                 }
@@ -49,7 +52,6 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Date = ev.Date,
                 Name = ev.Name,
                 Description = ev.Description,
-                CollectedMoneySum = ev.CollectedMoney,
                 Volunteers = volunteers,
                 ViewType = VolunteerPanelViewType.UPCOMING_EVENTS
             };
@@ -58,6 +60,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         }
 
 
+        [Authorize(Roles = Roles.VolunteerRole + ", " + Roles.OrganizerRole)]
         public IActionResult PastEventDetails(int eventId)
         {
             var ev = _db.Events.Find(eventId);
@@ -70,7 +73,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                     Name = voe.Volunteer.FullName,
                     Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
                     PhoneNumber = voe.Volunteer.PhoneNumber,
-                    Points = voe.PointsReceived,
+                    ReceivedPoints = voe.PointsReceived,
                     CollectedMoney = voe.AmountOfMoneyCollected,
                     VolunteerOnEventId = voe.VolunteerOnEventId,
                     IsRated = !string.IsNullOrEmpty(voe.OpinionAboutVolunteer)
@@ -82,9 +85,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 EventId = eventId,
                 Date = ev.Date,
                 Name = ev.Name,
+                Description = ev.Description,
                 CollectedMoneySum = ev.CollectedMoney,
                 Volunteers = volunteers,
-                ViewType = VolunteerPanelViewType.ARCHIVED_EVENTS
+                ViewType = VolunteerPanelViewType.ARCHIVED_EVENTS,
+                CanModify = ev.CanModify()
             };
 
             return View("Details", vm);
@@ -94,6 +99,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public IActionResult RateVolunteer(int volunteerOnEventId)
         {
             var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
+
+            if (!voe.Event.CanModify())
+            {
+                return BadRequest();
+            }
 
             var vm = new RateVolunteerViewModel
             {
@@ -117,6 +127,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             var voe = _db.VolunteersOnEvent.Find(vm.VolunteerOnEventId);
 
+            if (!voe.Event.CanModify())
+            {
+                return BadRequest();
+            }
+
             voe.OpinionAboutVolunteer = vm.RateContent;
 
             _db.VolunteersOnEvent.Update(voe);
@@ -126,17 +141,22 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         }
 
 
-        public IActionResult AddMoney(int volunteerOnEventId, VolunteerPanelViewType viewType)
+        public IActionResult AddMoney(int volunteerOnEventId, double collectedMoney)
         {
             var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
+
+            if (!voe.Event.CanModify())
+            {
+                return BadRequest();
+            }
 
             var vm = new AddMoneyViewModel
             {
                 VolunteerOnEventId = voe.VolunteerOnEventId,
                 EventId = voe.EventId,
                 VolunteerName = voe.Volunteer.FullName,
-                EventName = voe.Event.Name,
-                ViewType = viewType
+                CollectedMoney = collectedMoney,
+                EventName = voe.Event.Name
             };
 
             return View(vm);
@@ -150,19 +170,17 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             var voe = _db.VolunteersOnEvent.Find(vm.VolunteerOnEventId);
 
+            if (!voe.Event.CanModify())
+            {
+                return BadRequest();
+            }
+
             voe.AmountOfMoneyCollected = vm.CollectedMoney;
 
             _db.VolunteersOnEvent.Update(voe);
             _db.SaveChanges();
-
-            if (vm.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
-            {
-                return RedirectToAction("PlannedEventDetails", new { eventId = voe.EventId });
-            }
-            else
-            {
-                return RedirectToAction("PastEventDetails", new { eventId = voe.EventId });
-            }
+            
+            return RedirectToAction("PastEventDetails", new { eventId = voe.EventId });
         }
         
 

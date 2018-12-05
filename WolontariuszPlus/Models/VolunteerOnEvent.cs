@@ -12,7 +12,7 @@ namespace WolontariuszPlus.Models
 
         public double AmountOfMoneyCollected { get; set; }
         
-        public int PointsReceived => (int)(AmountOfMoneyCollected * 100); //wyliczalny
+        public int PointsReceived => (int)(AmountOfMoneyCollected/2); //wyliczalny
 
         [MaxLength(500)]
         public string OpinionAboutVolunteer { get; set; }

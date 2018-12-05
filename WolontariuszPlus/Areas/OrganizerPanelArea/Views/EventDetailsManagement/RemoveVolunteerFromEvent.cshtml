@@ -1,0 +1,10 @@
+﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement.RemoveVolunteerViewModel
+
+<h3>Czy na pewno chcesz usunąć wolontariusza @Html.DisplayFor(m => m.VolunteerName) z wydarzenia o nazwie @Html.DisplayFor(m => m.EventName)</h3>
+<div>
+    <form asp-action="RemoveVolunteerFromEvent" method="post">
+        <input type="hidden" asp-for="VolunteerOnEventId">
+        <input type="submit" class="btn btn-default" value="Usuń" /> |
+        <a asp-action="PastEventDetails" asp-route-eventId="@Model.EventId">Wróć do szczegółów wydarzenia</a>
+    </form>
+</div>

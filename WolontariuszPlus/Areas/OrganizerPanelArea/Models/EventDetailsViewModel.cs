@@ -22,6 +22,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         [Display(Name = "Ilość zebranych pieniędzy")]
         public double CollectedMoneySum { get; set; }
 
+        public bool CanModify { get; set; }
+
         public ICollection<VolunteerViewModel> Volunteers { get; set; }
         public VolunteerViewModel DefaultVolunteer => new VolunteerViewModel();
         public VolunteerPanelViewType ViewType { get; set; }

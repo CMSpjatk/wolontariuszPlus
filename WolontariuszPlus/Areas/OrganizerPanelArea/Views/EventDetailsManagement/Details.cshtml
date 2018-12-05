@@ -3,7 +3,10 @@
 <div>
     <h4>Szczegóły wydarzenia "@Html.DisplayFor(model => model.Name)"</h4>
     <h5>@Html.DisplayNameFor(model => model.Date): @Html.DisplayFor(model => model.Date)</h5>
-    <h5>@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h5>
+    @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
+    {
+        <h5>@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h5>
+    }
     <h5>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h5>
     <hr />
 
@@ -19,14 +22,14 @@
                 <th>
                     @Html.DisplayNameFor(model => model.DefaultVolunteer.PhoneNumber)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultVolunteer.CollectedMoney)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultVolunteer.Points)
-                </th>
                 @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
                 {
+                    <th>
+                        @Html.DisplayNameFor(model => model.DefaultVolunteer.CollectedMoney)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DefaultVolunteer.ReceivedPoints)
+                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.DefaultVolunteer.IsRated)
                     </th>
@@ -47,29 +50,30 @@
                     <td>
                         @Html.DisplayFor(modelItem => v.PhoneNumber)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.CollectedMoney)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => v.Points)
-                    </td>
                     @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
                     {
+                        <td>
+                            @Html.DisplayFor(modelItem => v.CollectedMoney)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.ReceivedPoints)
+                        </td>
                         <td>
                             @(v.IsRated ? "Tak" : "Nie")
                         </td>
                     }
                     <td>
-                        @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
+                        @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS && Model.CanModify)
                         {
-                            @Html.ActionLink("Wystaw opinię", "RateVolunteer", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) @:|
+                            var opinionText = v.IsRated ? "Aktualizuj opinię" : "Wystaw opinię";
+                            var moneyText = v.CollectedMoney == 0 ? "Dodaj zebraną kwotę" : "Aktualizuj zebraną kwotę";
+
+                            @Html.ActionLink(opinionText, "RateVolunteer", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) @:|
+                            @Html.ActionLink(moneyText, "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId, collectedMoney = v.CollectedMoney })
                         }
-
-                        @Html.ActionLink("Dodaj zebraną kwotę", "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
-
-                        @if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
+                        else if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
                         {
-                            @:| @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
+                            @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
                         }
                     </td>
                 </tr>

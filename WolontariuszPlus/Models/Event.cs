@@ -100,5 +100,10 @@ namespace WolontariuszPlus.Models
             Tags = tags;
             UpdateAddress(address);
         }
+
+        public bool CanModify()
+        {
+            return Date > DateTime.Now || Date.AddDays(14) > DateTime.Now;
+        }
     }
 }
