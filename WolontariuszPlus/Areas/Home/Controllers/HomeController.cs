@@ -49,7 +49,7 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 Name = e.Name,
                 Date = e.Date,
                 Address = $"ul. {e.Address.Street} {e.Address.BuildingNumber}{n}, {e.Address.PostalCode} {e.Address.City}",
-                Description = e.Description,
+                ShortenedDescription = e.Description,
                 OrganizerName = $"{e.Organizer.FirstName} {e.Organizer.LastName}",
                 RequiredPoints = e.RequiredPoints
             };
