@@ -1,22 +1,25 @@
 @using Microsoft.AspNetCore.Identity
-@using System.Security.Claims
+@using WolontariuszPlus.Models
 
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-@inject WolontariuszPlus.Data.CMSDbContext _db
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
 
-@if (SignInManager.IsSignedIn(User))
+@if (signInManager.IsSignedIn(User))
 {
+    var currentUser = await userManager.GetUserAsync(User);
+
+    var isVolunteer = currentUser != null && await userManager.IsInRoleAsync(currentUser, Roles.VolunteerRole);
+
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @if (_db.Volunteers.Any(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                @if (isVolunteer)
                 {
-                    <a asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="PersonalData">Panel</a>
+                <a asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="PersonalData">Panel</a>
                 }
                 else
                 {
-                    <a asp-area="OrganizerPanelArea" asp-controller="OrganizerPanel" asp-action="PersonalData">Panel</a>
+                <a asp-area="OrganizerPanelArea" asp-controller="OrganizerPanel" asp-action="PersonalData">Panel</a>
                 }
             </li>
             <li>
