@@ -1,0 +1,35 @@
+﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement.RateVolunteerViewModel
+
+<h4>Oceń wolontariusza</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <h5>Wystaw opinię wolontariuszowi @Html.DisplayFor(m => m.VolunteerName) za wydarzenie @Html.DisplayFor(m => m.EventName).</h5>
+        <h5>Wolontariusz zgromadził @Html.DisplayFor(m => m.Points) punktów na tym wydarzeniu.</h5>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="RateVolunteer">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="VolunteerOnEventId" />
+            <div class="form-group">
+                <label asp-for="RateContent" class="control-label"></label>
+                <textarea asp-for="RateContent" class="form-control" rows="7"></textarea>
+                <span asp-validation-for="RateContent" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Wystaw opinię" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="PastEventDetails" asp-route-eventId="@Model.EventId">Wróć do szczegółów wydarzenia</a>
+</div>

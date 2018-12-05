@@ -14,10 +14,12 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         public string Name { get; set; }
 
         [Display(Name = "Data")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
         public DateTime Date { get; set; }
 
-        [Display(Name = "Opis")]
-        public string Description { get; set; }
+        [Display(Name = "Skrócony opis")]
+        public string ShortenedDescription { get; set; }
 
         [Display(Name = "Wymagane punkty")]
         public int RequiredPoints { get; set; }

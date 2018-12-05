@@ -1,6 +1,16 @@
 ﻿@model EventsViewModel
 
-<a asp-action="CreateEvent">Create</a>
+@if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
+{
+    <h4>Zaplanowane wydarzenia</h4>
+    
+    <a asp-controller="EventsManagement" asp-action="CreateEvent">Dodaj nowe wydarzenie</a>
+}
+else
+{
+    <h4>Zakończone wydarzenia</h4>
+}
+
 <table class="table">
     <thead>
         <tr>
@@ -8,13 +18,10 @@
                 @Html.DisplayNameFor(model => model.DefaultEvent.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Description)
+                @Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
@@ -33,13 +40,10 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OrganizerName)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @Html.DisplayFor(modelItem => item.ShortenedDescription)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RequiredPoints)
@@ -48,8 +52,16 @@
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    @Html.ActionLink("Szczegóły", "Details", new { eventId = item.EventId }) |
-                    @Html.ActionLink("Usuń", "DeleteEvent", new { eventId = item.EventId }) |
+                    @if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
+                    {
+                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { eventId = item.EventId }) @:|
+                        @Html.ActionLink("Edytuj", "UpdateEvent", "EventsManagement", new { eventId = item.EventId }) @:|
+                        @Html.ActionLink("Usuń", "DeleteEvent", "EventsManagement", new { eventId = item.EventId })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })
+                    }
                 </td>
             </tr>
         }

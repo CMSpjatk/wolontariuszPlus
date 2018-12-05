@@ -21,7 +21,7 @@ namespace WolontariuszPlus.Models
         public string OpinionAboutEvent { get; set; }
 
         [RegularExpression("[+-]")]
-        public char EventRate { get; set; }
+        public char? EventRate { get; set; }
 
         public int EventId { get; set; }
         public virtual Event Event { get; set; }

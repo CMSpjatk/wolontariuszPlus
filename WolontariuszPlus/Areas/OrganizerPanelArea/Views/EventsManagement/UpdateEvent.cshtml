@@ -1,10 +1,10 @@
-﻿@model AddEventViewModel
+﻿@model EventViewModel
 
-<h4>AddEventViewModel</h4>
+<h4>Edytuj wydarzenie</h4>
 <hr />
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="CreateEvent">
+        <form asp-action="UpdateEvent">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -52,14 +52,14 @@
                 <input asp-for="PostalCode" class="form-control" />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
-            
+            <input type="hidden" asp-for="EventId" />
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Zapisz" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="EventsList">Back to List</a>
+    <a asp-controller="OrganizerPanel" asp-action="EventsList">Wróć do listy wydarzeń</a>
 </div>
