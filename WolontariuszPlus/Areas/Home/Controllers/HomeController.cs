@@ -17,9 +17,6 @@ namespace WolontariuszPlus.Areas.Home.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId
-                                                             == User.FindFirstValue(ClaimTypes.NameIdentifier));
-
         CMSDbContext _db;
 
         public HomeController(CMSDbContext db)
@@ -29,47 +26,17 @@ namespace WolontariuszPlus.Areas.Home.Controllers
 
         public IActionResult Index()
         {
-            var user = LoggedUser;
-
-
             var vm = new EventsViewModel
             {
                 EventViewModels =
                     _db.Events
-                       .Where(e => e.Date >= DateTime.Now && e.Organizer == user)
+                       .Where(e => e.Date >= DateTime.Now)
                        .OrderByDescending(e => e.Date)
-                       .Take(5)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
-                ViewType = VolunteerPanelViewType.UPCOMING_EVENTS
             };
 
             return View("Index", vm);
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
         private DisplayEventViewModel CreateEventViewModelForDisplaying(Event e)
