@@ -100,5 +100,19 @@ namespace WolontariuszPlus.Models
             Tags = tags;
             UpdateAddress(address);
         }
+
+        public void AddVolunteerToEvent(Volunteer volunteer)
+        {
+            if (!(VolunteersOnEvent.Any(x => x.Volunteer == volunteer && x.Event == this)))
+            {
+                VolunteerOnEvent voe = new VolunteerOnEvent
+                {
+                    Event = this,
+                    Volunteer = volunteer
+                };
+
+                VolunteersOnEvent.Add(voe);
+            }
+        }
     }
 }

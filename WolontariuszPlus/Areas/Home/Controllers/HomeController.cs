@@ -19,6 +19,9 @@ namespace WolontariuszPlus.Areas.Home.Controllers
     {
         CMSDbContext _db;
 
+        public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId
+                                                       == User.FindFirstValue(ClaimTypes.NameIdentifier));
+
         public HomeController(CMSDbContext db)
         {
             _db = db;
@@ -51,8 +54,45 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 Address = $"ul. {e.Address.Street} {e.Address.BuildingNumber}{n}, {e.Address.PostalCode} {e.Address.City}",
                 ShortenedDescription = e.Description,
                 OrganizerName = $"{e.Organizer.FirstName} {e.Organizer.LastName}",
-                RequiredPoints = e.RequiredPoints
+                RequiredPoints = e.RequiredPoints,
+                IsOnEvent = IsVolunteerOnEvent(e)
             };
+        }
+
+        private bool IsVolunteerOnEvent(Event e)
+        {
+            bool isOnEvent = false;
+            var volunteer = LoggedUser as Volunteer;
+
+            if ((e.VolunteersOnEvent.Any(x => x.Volunteer == volunteer && x.Event == e)))
+            {
+                isOnEvent = true;
+            }
+
+            return isOnEvent;
+        }
+
+        [Authorize(Roles = Roles.VolunteerRole)]
+        public IActionResult AddVolunteerToEvent(int eventId)
+        {
+
+            var choosenEvent = _db.Events.Find(eventId);
+
+            if (choosenEvent.Date <= DateTime.Today)
+            {
+                return BadRequest("Nie można zapisać się do wydarzenia które już sięodbyło.");
+            }
+
+
+
+            var volunteerToAdd = LoggedUser as Volunteer;
+
+            choosenEvent.AddVolunteerToEvent(volunteerToAdd);
+
+            _db.Events.Update(choosenEvent);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }
