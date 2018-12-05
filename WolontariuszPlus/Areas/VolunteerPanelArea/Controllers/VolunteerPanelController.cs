@@ -72,6 +72,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                 EventViewModels = 
                     _db.VolunteersOnEvent
                        .Where(e => e.Event.Date >= DateTime.Now && e.Volunteer == user)
+                       .OrderByDescending(e => e.Event.Date)
                        .ToList()
                        .Select(e => CreateEventViewModel(e)),
                 ViewType = VolunteerPanelViewType.UPCOMING_EVENTS
@@ -90,6 +91,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                 EventViewModels =
                     _db.VolunteersOnEvent
                        .Where(e => e.Event.Date < DateTime.Now && e.Volunteer == user)
+                       .OrderByDescending(e => e.Event.Date)
                        .ToList()
                        .Select(e => CreateEventViewModel(e)),
                 ViewType = VolunteerPanelViewType.ARCHIVED_EVENTS

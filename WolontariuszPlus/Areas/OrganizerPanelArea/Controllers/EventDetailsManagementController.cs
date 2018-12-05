@@ -64,8 +64,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public IActionResult PastEventDetails(int eventId)
         {
             var ev = _db.Events.Find(eventId);
-
             var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
+            var isVolunteer = User.IsInRole(Roles.VolunteerRole);
 
             var volunteers = voes.Select(voe =>
                 new VolunteerViewModel
@@ -76,7 +76,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                     ReceivedPoints = voe.PointsReceived,
                     CollectedMoney = voe.AmountOfMoneyCollected,
                     VolunteerOnEventId = voe.VolunteerOnEventId,
-                    IsRated = !string.IsNullOrEmpty(voe.OpinionAboutVolunteer)
+                    IsRated = !string.IsNullOrEmpty(voe.OpinionAboutVolunteer),
+                    OpinionAboutVolunteer = isVolunteer ? voe.OpinionAboutVolunteer : null
                 }
             ).ToList();
 

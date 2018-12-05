@@ -30,11 +30,20 @@
                     <th>
                         @Html.DisplayNameFor(model => model.DefaultVolunteer.ReceivedPoints)
                     </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.DefaultVolunteer.IsRated)
-                    </th>
+                    @if (User.IsInRole(WolontariuszPlus.Models.Roles.OrganizerRole))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.DefaultVolunteer.IsRated)
+                        </th>
+                        <th></th>
+                    }
+                    else if (User.IsInRole(WolontariuszPlus.Models.Roles.VolunteerRole))
+                    {
+                        <th>
+                            Opinia
+                        </th>
+                    }
                 }
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -58,22 +67,34 @@
                         <td>
                             @Html.DisplayFor(modelItem => v.ReceivedPoints)
                         </td>
-                        <td>
-                            @(v.IsRated ? "Tak" : "Nie")
-                        </td>
+                        @if (User.IsInRole(WolontariuszPlus.Models.Roles.OrganizerRole))
+                        {
+                            <td>
+                                @(v.IsRated ? "Tak" : "Nie")
+                            </td>
+                        }
+                        else if (User.IsInRole(WolontariuszPlus.Models.Roles.VolunteerRole))
+                        {
+                            <td>
+                                @v.OpinionAboutVolunteer
+                            </td>
+                        }
                     }
                     <td>
-                        @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS && Model.CanModify)
+                        @if (User.IsInRole(WolontariuszPlus.Models.Roles.OrganizerRole))
                         {
-                            var opinionText = v.IsRated ? "Aktualizuj opinię" : "Wystaw opinię";
-                            var moneyText = v.CollectedMoney == 0 ? "Dodaj zebraną kwotę" : "Aktualizuj zebraną kwotę";
+                            if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS && Model.CanModify)
+                            {
+                                var opinionText = v.IsRated ? "Aktualizuj opinię" : "Wystaw opinię";
+                                var moneyText = v.CollectedMoney == 0 ? "Dodaj zebraną kwotę" : "Aktualizuj zebraną kwotę";
 
-                            @Html.ActionLink(opinionText, "RateVolunteer", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) @:|
-                            @Html.ActionLink(moneyText, "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId, collectedMoney = v.CollectedMoney })
-                        }
-                        else if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
-                        {
-                            @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
+                                @Html.ActionLink(opinionText, "RateVolunteer", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) @:|
+                                @Html.ActionLink(moneyText, "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId, collectedMoney = v.CollectedMoney })
+                            }
+                            else if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
+                            {
+                                @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
+                            }
                         }
                     </td>
                 </tr>
