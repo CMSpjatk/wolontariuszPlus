@@ -82,6 +82,11 @@ namespace WolontariuszPlus.Areas.Home.Controllers
             
             var volunteerToAdd = LoggedUser as Volunteer;
 
+            if (volunteerToAdd.Points < choosenEvent.RequiredPoints)
+            {
+                return BadRequest("Wolontariusz nie ma wystarczającej liczby punktów, aby zapisać się na to wydarzenie");
+            }
+
             choosenEvent.AddVolunteerToEvent(volunteerToAdd);
 
             _db.Events.Update(choosenEvent);
