@@ -20,7 +20,7 @@
             @Html.DisplayNameFor(model => model.DefaultEvent.Name): @Html.DisplayFor(modelItem => item.Name)
         </div>
         <div class="card-body">
-            <h5 class="card-title">@Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription): @Html.DisplayFor(modelItem => item.ShortenedDescription)</h5>
+            <h5 class="card-title">@Html.DisplayFor(modelItem => item.ShortenedDescription)</h5>
             <p class="card-text">@Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName): @Html.DisplayFor(modelItem => item.OrganizerName)</p>
 
             @{
