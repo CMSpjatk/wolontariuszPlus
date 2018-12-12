@@ -28,5 +28,16 @@ namespace WolontariuszPlus.Models
 
         public int? VolunteerId { get; set; }
         public virtual Volunteer Volunteer { get; set; }
+
+        public void AddOpinion(string opinion, char? rate)
+        {
+            if(rate == null)
+            {
+                throw new ArgumentException("Error in add opinion method of VolunteerOnEvent");
+            }
+
+            OpinionAboutEvent = opinion;
+            EventRate = rate;
+        }
     }
 }

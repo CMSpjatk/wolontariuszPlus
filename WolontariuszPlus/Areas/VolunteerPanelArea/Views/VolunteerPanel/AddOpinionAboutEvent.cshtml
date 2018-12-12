@@ -1,0 +1,23 @@
+﻿@model OpinionViewModel
+
+<h4>Oceń wydarzenie</h4>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOpinionAboutEvent">
+            <label asp-for="Opinion" class="control-label"></label>:
+            <textarea asp-for="Opinion" class="form-control"></textarea>
+            <span asp-validation-for="Opinion" class="text-danger"></span>
+
+            <label asp-for="Rate" class="control-label"></label>:
+            @Html.RadioButtonFor(r => Model.Rate, "+", new { @class = "radio" }) +<br />
+            @Html.RadioButtonFor(r => Model.Rate, "-", new { @class = "radio" }) -
+            @*<input asp-for="Rate" type="radio" name="decision" value="+" class="radio" /> +
+        <input asp-for="Rate" type="radio" name="decision" value="-" class="radio" /> -*@
+            <span asp-validation-for="Rate" class="text-danger"></span>
+            <input type="hidden" asp-for="EventId" />
+            <br />
+            <input type="submit" value="Dodaj opinie" class="btn btn-default" />
+        </form>
+    </div>
+</div>

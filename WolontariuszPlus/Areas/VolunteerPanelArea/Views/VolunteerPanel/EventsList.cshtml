@@ -73,7 +73,7 @@ else
                     @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS || Model.ViewType == VolunteerPanelViewType.EVENTS_WITHOUT_OPINION)
                     {
                         @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { area = "OrganizerPanelArea", eventId = item.EventId }) @:|
-                        @Html.ActionLink("Oceń", "RateEvent", new { eventId = item.EventId })
+                        @Html.ActionLink("Oceń", "AddOpinionAboutEvent", new { eventId = item.EventId })
                     }
                     else if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
                     {
