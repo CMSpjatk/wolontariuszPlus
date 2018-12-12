@@ -167,6 +167,35 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             };
         }
 
+        public IActionResult AddOpinionAboutEvent(int eventId)
+        {
+            var vm = new OpinionViewModel();
+            vm.EventId = eventId;
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AddOpinionAboutEvent(OpinionViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var currentUserId = LoggedUser.AppUserId;
+            var eventToRateId = vm.EventId;
+
+            var userInEvent = _db.VolunteersOnEvent.First(x => x.EventId == eventToRateId && x.VolunteerId == currentUserId);
+
+            userInEvent.AddOpinion(vm.Opinion, vm.Rate);
+
+            _db.VolunteersOnEvent.Update(userInEvent);
+            _db.SaveChanges();
+
+            return RedirectToAction("ArchivedEvents");
+        }
+
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 }
