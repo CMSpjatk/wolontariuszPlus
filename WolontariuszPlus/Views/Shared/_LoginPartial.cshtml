@@ -1,19 +1,12 @@
 @using Microsoft.AspNetCore.Identity
 @using WolontariuszPlus.Models
 
-@inject SignInManager<IdentityUser> signInManager
-@inject UserManager<IdentityUser> userManager
-
-@if (signInManager.IsSignedIn(User))
+@if (User.Identity.IsAuthenticated)
 {
-    var currentUser = await userManager.GetUserAsync(User);
-
-    var isVolunteer = currentUser != null && await userManager.IsInRoleAsync(currentUser, Roles.VolunteerRole);
-
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @if (isVolunteer)
+                @if (User.IsInRole(Roles.VolunteerRole))
                 {
                 <a asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="PersonalData">Panel</a>
                 }
