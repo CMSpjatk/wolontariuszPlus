@@ -76,7 +76,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                        .Where(e => e.Date >= DateTime.Now && e.Organizer == user)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
-                ViewType = VolunteerPanelViewType.UPCOMING_EVENTS
+                ViewType = PanelViewType.UPCOMING_EVENTS
             };
 
             return View("EventsList", vm);
@@ -95,7 +95,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                        .OrderByDescending(e => e.Date)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
-                ViewType = VolunteerPanelViewType.ARCHIVED_EVENTS
+                ViewType = PanelViewType.ARCHIVED_EVENTS
             };
 
             return View("EventsList", vm);
@@ -114,7 +114,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Address = $"ul. {e.Address.Street} {e.Address.BuildingNumber}{n}, {e.Address.PostalCode} {e.Address.City}",
                 ShortenedDescription = e.Description.Length > 100 ? e.Description.Substring(0, 100) + "[...]" : e.Description,
                 OrganizerName = e.Organizer.FullName,
-                RequiredPoints = e.RequiredPoints
+                RequiredPoints = e.RequiredPoints,
+                CollectedMoney = e.CollectedMoney
             };
         }
     }

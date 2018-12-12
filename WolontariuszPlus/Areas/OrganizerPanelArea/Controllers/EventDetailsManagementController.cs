@@ -53,7 +53,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Name = ev.Name,
                 Description = ev.Description,
                 Volunteers = volunteers,
-                ViewType = VolunteerPanelViewType.UPCOMING_EVENTS
+                ViewType = PanelViewType.UPCOMING_EVENTS
             };
 
             return View("Details", vm);
@@ -65,7 +65,6 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         {
             var ev = _db.Events.Find(eventId);
             var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
-            var isVolunteer = User.IsInRole(Roles.VolunteerRole);
 
             var volunteers = voes.Select(voe =>
                 new VolunteerViewModel
@@ -76,8 +75,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                     ReceivedPoints = voe.PointsReceived,
                     CollectedMoney = voe.AmountOfMoneyCollected,
                     VolunteerOnEventId = voe.VolunteerOnEventId,
-                    IsRated = !string.IsNullOrEmpty(voe.OpinionAboutVolunteer),
-                    OpinionAboutVolunteer = isVolunteer ? voe.OpinionAboutVolunteer : null
+                    IsRated = !string.IsNullOrEmpty(voe.OpinionAboutVolunteer)
                 }
             ).ToList();
 
@@ -89,7 +87,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Description = ev.Description,
                 CollectedMoneySum = ev.CollectedMoney,
                 Volunteers = volunteers,
-                ViewType = VolunteerPanelViewType.ARCHIVED_EVENTS,
+                ViewType = PanelViewType.ARCHIVED_EVENTS,
                 CanModify = ev.CanModify()
             };
 

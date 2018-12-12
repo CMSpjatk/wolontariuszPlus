@@ -23,7 +23,5 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 
         [Display(Name = "Oceniony?")]
         public bool IsRated { get; set; }
-
-        public string OpinionAboutVolunteer { get; set; }
     }
 }

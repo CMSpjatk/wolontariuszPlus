@@ -8,11 +8,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
     public class EventsViewModel
     {
         public IEnumerable<DisplayEventViewModel> EventViewModels { get; set; }
-        public VolunteerPanelViewType ViewType { get; set; }
+        public PanelViewType ViewType { get; set; }
         public DisplayEventViewModel DefaultEvent => new DisplayEventViewModel();
     }
 
-    public enum VolunteerPanelViewType
+    public enum PanelViewType
     {
         UPCOMING_EVENTS, ARCHIVED_EVENTS
     }
