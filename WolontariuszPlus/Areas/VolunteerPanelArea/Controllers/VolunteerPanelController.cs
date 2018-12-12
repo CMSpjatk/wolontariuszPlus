@@ -75,7 +75,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                        .OrderByDescending(e => e.Event.Date)
                        .ToList()
                        .Select(e => CreateEventViewModel(e)),
-                ViewType = VolunteerPanelViewType.UPCOMING_EVENTS
+                ViewType = PanelViewType.UPCOMING_EVENTS
             };
             
             return View("EventsList", vm);
@@ -94,7 +94,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                        .OrderByDescending(e => e.Event.Date)
                        .ToList()
                        .Select(e => CreateEventViewModel(e)),
-                ViewType = VolunteerPanelViewType.ARCHIVED_EVENTS
+                ViewType = PanelViewType.ARCHIVED_EVENTS
             };
 
             return View("EventsList", vm);
@@ -112,10 +112,42 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                     .Where(voe => voe.Event.Date < DateTime.Now && voe.Volunteer == user && string.IsNullOrEmpty(voe.OpinionAboutEvent))
                     .ToList()
                     .Select(e => CreateEventViewModel(e)),
-                ViewType = VolunteerPanelViewType.EVENTS_WITHOUT_OPINION
+                ViewType = PanelViewType.EVENTS_WITHOUT_OPINION
             };
 
             return View("EventsList", vm);
+        }
+
+        public IActionResult EventDetails(int eventId, PanelViewType panelViewType)
+        {
+            var ev = _db.Events.Find(eventId);
+            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
+
+            var volunteers = voes.Select(voe =>
+                new VolunteerViewModel
+                {
+                    Name = voe.Volunteer.FullName,
+                    Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
+                    PhoneNumber = voe.Volunteer.PhoneNumber,
+                    ReceivedPoints = voe.PointsReceived,
+                    CollectedMoney = voe.AmountOfMoneyCollected,
+                    VolunteerOnEventId = voe.VolunteerOnEventId,
+                    OpinionAboutVolunteer = voe.OpinionAboutVolunteer
+                }
+            ).ToList();
+
+            var vm = new EventDetailsViewModel
+            {
+                EventId = eventId,
+                Date = ev.Date,
+                Name = ev.Name,
+                Description = ev.Description,
+                CollectedMoneySum = ev.CollectedMoney,
+                Volunteers = volunteers,
+                ViewType = panelViewType
+            };
+
+            return View(vm);
         }
 
         private EventViewModel CreateEventViewModel(VolunteerOnEvent e)

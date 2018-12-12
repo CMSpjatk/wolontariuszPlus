@@ -1,0 +1,85 @@
+﻿@model WolontariuszPlus.Areas.VolunteerPanelArea.Models.EventDetailsViewModel
+
+<div>
+    <h4>Szczegóły wydarzenia "@Html.DisplayFor(model => model.Name)"</h4>
+    <h5>@Html.DisplayNameFor(model => model.Date): @Html.DisplayFor(model => model.Date)</h5>
+    @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+    {
+        <h5>@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h5>
+    }
+    <h5>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h5>
+    <hr />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.PhoneNumber)
+                </th>
+                @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.DefaultVolunteer.CollectedMoney)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DefaultVolunteer.ReceivedPoints)
+                    </th>
+                }
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultVolunteer.OpinionAboutVolunteer)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var v in Model.Volunteers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.PhoneNumber)
+                    </td>
+                    @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => v.CollectedMoney) zł
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => v.ReceivedPoints)
+                        </td>
+                    }
+                    <td>
+                        @if (string.IsNullOrEmpty(v.OpinionAboutVolunteer))
+                        {
+                            @:Brak
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => v.OpinionAboutVolunteer)
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+    {
+        <a asp-action="UpcomingEvents">Wróć do grafiku</a>
+    }
+    else
+    {
+        <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
+    }
+</div>

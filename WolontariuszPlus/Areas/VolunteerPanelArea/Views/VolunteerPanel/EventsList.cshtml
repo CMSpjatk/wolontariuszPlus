@@ -1,12 +1,12 @@
 ﻿@model EventsViewModel
 
-@if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
+@if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
 {
     <h4>Zakończone wydarzenia</h4>
 
     <a asp-controller="VolunteerPanel" asp-action="EventsWithoutOpinion">Wydarzenia bez opinii</a>
 }
-else if (Model.ViewType == VolunteerPanelViewType.EVENTS_WITHOUT_OPINION)
+else if (Model.ViewType == PanelViewType.EVENTS_WITHOUT_OPINION)
 {
     <h4>Wydarzenia bez opinii</h4>
 
@@ -17,7 +17,7 @@ else
     <h4>Grafik</h4>
 }
 
-<table class="table">
+<table id="volunteer-table" class="table">
     <thead>
         <tr>
             <th>
@@ -30,57 +30,49 @@ else
                 @Html.DisplayNameFor(model => model.DefaultEvent.Date)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.DefaultEvent.Address)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.Description)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Address)
+                @Html.DisplayNameFor(model => model.DefaultEvent.ReceivedPoints)
             </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.ReceivedPoints)
-                </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.EventViewModels)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrganizerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequiredPoints)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReceivedPoints)
-                    </td>
-                <td>
-                    @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS || Model.ViewType == VolunteerPanelViewType.EVENTS_WITHOUT_OPINION)
-                    {
-                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { area = "OrganizerPanelArea", eventId = item.EventId }) @:|
-                        @Html.ActionLink("Oceń", "RateEvent", new { eventId = item.EventId })
-                    }
-                    else if (Model.ViewType == VolunteerPanelViewType.UPCOMING_EVENTS)
-                    {
-                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { area = "OrganizerPanelArea", eventId = item.EventId })
-                    }
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrganizerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequiredPoints)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivedPoints)
+            </td>
+            <td>
+                @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
+            </td>
+        </tr>
         }
     </tbody>
 </table>
