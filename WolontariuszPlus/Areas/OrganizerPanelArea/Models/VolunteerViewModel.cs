@@ -13,7 +13,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         public double CollectedMoney { get; set; }
 
         [Display(Name = "Zdobyte punkty")]
-        public int Points { get; set; }
+        public int ReceivedPoints { get; set; }
 
         [Display(Name = "Numer telefonu")]
         public string PhoneNumber { get; set; }
@@ -23,5 +23,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 
         [Display(Name = "Oceniony?")]
         public bool IsRated { get; set; }
+
+        public string OpinionAboutVolunteer { get; set; }
     }
 }

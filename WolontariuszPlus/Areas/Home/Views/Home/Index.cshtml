@@ -1,4 +1,9 @@
 ﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventsViewModel
+@using Microsoft.AspNetCore.Identity
+@using WolontariuszPlus.Models
+
+@inject SignInManager<IdentityUser> signInManager
+@inject UserManager<IdentityUser> userManager
 
 @{
     ViewData["Title"] = "Home Page";
@@ -12,12 +17,28 @@
 {
     <div class="card text-center">
         <div class="card-header">
-            @Html.DisplayNameFor(model => model.DefaultEvent.Name): @Html.DisplayFor(modelItem => item.Name)
+            @Html.DisplayFor(modelItem => item.Name)
         </div>
         <div class="card-body">
-            <h5 class="card-title">@Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription): @Html.DisplayFor(modelItem => item.ShortenedDescription)</h5>
+            <h5 class="card-title">@Html.DisplayFor(modelItem => item.ShortenedDescription)</h5>
             <p class="card-text">@Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName): @Html.DisplayFor(modelItem => item.OrganizerName)</p>
-            <a href="#" class="btn btn-primary">Zapisz się!</a>
+
+            @{
+                var currentUser = await userManager.GetUserAsync(User);
+
+                var isVolunteer = currentUser != null && await userManager.IsInRoleAsync(currentUser, Roles.VolunteerRole);
+            }
+            @if (signInManager.IsSignedIn(User) && isVolunteer)
+            {
+                @if (item.IsOnEvent)
+                {
+                    <div href="" class="btn btn-primary" style="background-color: gray;">Już jesteś zapisany</div>
+                }
+                else
+                {
+                    <a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>
+                }
+            }
         </div>
         <div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
             @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)

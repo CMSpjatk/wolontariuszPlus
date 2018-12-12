@@ -92,6 +92,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 EventViewModels =
                     _db.Events
                        .Where(e => e.Date < DateTime.Now && e.Organizer == user)
+                       .OrderByDescending(e => e.Date)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
                 ViewType = VolunteerPanelViewType.ARCHIVED_EVENTS

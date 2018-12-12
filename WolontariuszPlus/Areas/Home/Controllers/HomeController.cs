@@ -17,7 +17,8 @@ namespace WolontariuszPlus.Areas.Home.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        CMSDbContext _db;
+        private readonly CMSDbContext _db;
+        private AppUser LoggedUser => _db.AppUsers.FirstOrDefault(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public HomeController(CMSDbContext db)
         {
@@ -36,7 +37,7 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                        .Select(e => CreateEventViewModelForDisplaying(e)),
             };
 
-            return View("Index", vm);
+            return View(vm);
         }
 
         private DisplayEventViewModel CreateEventViewModelForDisplaying(Event e)
@@ -51,8 +52,47 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 Address = $"ul. {e.Address.Street} {e.Address.BuildingNumber}{n}, {e.Address.PostalCode} {e.Address.City}",
                 ShortenedDescription = e.Description,
                 OrganizerName = $"{e.Organizer.FirstName} {e.Organizer.LastName}",
-                RequiredPoints = e.RequiredPoints
+                RequiredPoints = e.RequiredPoints,
+                IsOnEvent = LoggedUser != null ? IsVolunteerOnEvent(e) : false
             };
+        }
+
+        private bool IsVolunteerOnEvent(Event e)
+        {
+            bool isOnEvent = false;
+            var volunteer = LoggedUser as Volunteer;
+
+            if ((e.VolunteersOnEvent.Any(x => x.Volunteer == volunteer && x.Event == e)))
+            {
+                isOnEvent = true;
+            }
+
+            return isOnEvent;
+        }
+
+        [Authorize(Roles = Roles.VolunteerRole)]
+        public IActionResult AddVolunteerToEvent(int eventId)
+        {
+            var choosenEvent = _db.Events.Find(eventId);
+
+            if (choosenEvent.Date <= DateTime.Today)
+            {
+                return BadRequest("Nie można zapisać się na wydarzenie, które już się odbyło.");
+            }
+            
+            var volunteerToAdd = LoggedUser as Volunteer;
+
+            if (volunteerToAdd.Points < choosenEvent.RequiredPoints)
+            {
+                return BadRequest("Wolontariusz nie ma wystarczającej liczby punktów, aby zapisać się na to wydarzenie");
+            }
+
+            choosenEvent.AddVolunteerToEvent(volunteerToAdd);
+
+            _db.Events.Update(choosenEvent);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -19,7 +19,5 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagemen
 
         [Display(Name = "Nazwa wydarzenia")]
         public string EventName { get; set; }
-
-        public VolunteerPanelViewType ViewType { get; set; }
     }
 }
