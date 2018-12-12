@@ -38,12 +38,9 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.Address)
             </th>
-            @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
-            {
                 <th>
                     @Html.DisplayNameFor(model => model.DefaultEvent.ReceivedPoints)
                 </th>
-            }
             <th></th>
         </tr>
     </thead>
@@ -69,12 +66,9 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-                @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS)
-                {
                     <td>
                         @Html.DisplayFor(modelItem => item.ReceivedPoints)
                     </td>
-                }
                 <td>
                     @if (Model.ViewType == VolunteerPanelViewType.ARCHIVED_EVENTS || Model.ViewType == VolunteerPanelViewType.EVENTS_WITHOUT_OPINION)
                     {
