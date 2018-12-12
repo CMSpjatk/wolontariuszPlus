@@ -17,7 +17,7 @@ else
     <h4>Grafik</h4>
 }
 
-<table id="volunteer-table" class="table">
+<table id="@(Model.ViewType == PanelViewType.ARCHIVED_EVENTS ? "volunteer-table-archived" : "volunteer-table")" class="table">
     <thead>
         <tr>
             <th>
@@ -41,6 +41,12 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.DefaultEvent.ReceivedPoints)
             </th>
+            @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultEvent.IsRated)
+                </th>
+            }
             <th></th>
         </tr>
     </thead>
@@ -69,8 +75,27 @@ else
             <td>
                 @Html.DisplayFor(modelItem => item.ReceivedPoints)
             </td>
+            @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+            {
+                <td>
+                   @(item.IsRated ? "Tak" : "Nie")
+                </td>
+            }
             <td>
                 @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
+
+                @{
+                    var rateText = "Oceń";
+                    if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+                    {
+                        if (item.IsRated)
+                        {
+                            rateText = "Aktualizuj ocenę";
+                        }
+
+                        @:| @Html.ActionLink(rateText, "AddOpinionAboutEvent", new { eventId = item.EventId })
+                    }
+                }
             </td>
         </tr>
         }

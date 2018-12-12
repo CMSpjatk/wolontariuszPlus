@@ -163,7 +163,8 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                 Description = e.Event.Description,
                 OrganizerName = $"{e.Event.Organizer.FirstName} {e.Event.Organizer.LastName}",
                 RequiredPoints = e.Event.RequiredPoints,
-                ReceivedPoints = e.PointsReceived
+                ReceivedPoints = e.PointsReceived,
+                IsRated = !string.IsNullOrEmpty(e.OpinionAboutEvent) || e.EventRate.HasValue
             };
         }
 

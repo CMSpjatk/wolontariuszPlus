@@ -32,5 +32,8 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
 
         [Display(Name = "Otrzymane punkty")]
         public int ReceivedPoints { get; set; }
+
+        [Display(Name = "Ocenione?")]
+        public bool IsRated { get; set; }
     }
 }
