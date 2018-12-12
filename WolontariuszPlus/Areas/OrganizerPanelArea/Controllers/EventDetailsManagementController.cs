@@ -60,7 +60,6 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         }
 
 
-        [Authorize(Roles = Roles.VolunteerRole + ", " + Roles.OrganizerRole)]
         public IActionResult PastEventDetails(int eventId)
         {
             var ev = _db.Events.Find(eventId);
