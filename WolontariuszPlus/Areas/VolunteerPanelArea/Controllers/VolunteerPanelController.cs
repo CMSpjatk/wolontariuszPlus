@@ -170,8 +170,10 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
 
         public IActionResult AddOpinionAboutEvent(int eventId)
         {
-            var vm = new OpinionViewModel();
-            vm.EventId = eventId;
+            var vm = new OpinionViewModel
+            {
+                EventId = eventId
+            };
 
             return View(vm);
         }
@@ -195,6 +197,22 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             _db.SaveChanges();
 
             return RedirectToAction("ArchivedEvents");
+        }
+
+        public IActionResult UpdateOpinionAboutEvent(int eventId)
+        {
+            var currentUserId = LoggedUser.AppUserId;
+
+            var userInEvent = _db.VolunteersOnEvent.First(x => x.EventId == eventId && x.VolunteerId == currentUserId);
+
+            var vm = new OpinionViewModel
+            {
+                Opinion = userInEvent.OpinionAboutEvent,
+                Rate = userInEvent.EventRate,
+                EventId = eventId
+            };
+
+            return View("AddOpinionAboutEvent", vm);
         }
 
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
