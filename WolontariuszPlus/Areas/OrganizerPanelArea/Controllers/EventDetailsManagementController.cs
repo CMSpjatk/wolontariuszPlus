@@ -177,10 +177,23 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             _db.VolunteersOnEvent.Update(voe);
             _db.SaveChanges();
-            
+
             return RedirectToAction("PastEventDetails", new { eventId = voe.EventId });
         }
-        
+
+        public IActionResult ViewOpinion(int volunteerOnEventId)
+        {
+            var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
+
+            var opinion = new VolunteerPanelArea.Models.OpinionViewModel
+            {
+                EventId = voe.EventId,
+                Opinion = voe.OpinionAboutEvent,
+                Rate = voe.EventRate
+            };
+
+            return View(opinion);
+        }
 
         public IActionResult RemoveVolunteerFromEvent(int volunteerOnEventId)
         {
@@ -214,7 +227,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             {
                 return BadRequest();
             }
-            
+
             _db.VolunteersOnEvent.Remove(voe);
             _db.SaveChanges();
 
