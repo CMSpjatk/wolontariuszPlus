@@ -3,6 +3,9 @@
 
 .DS_store
 
+# wolontariuszPlus ignores
+_Uploads/
+
 # User-specific files
 *.suo
 *.user

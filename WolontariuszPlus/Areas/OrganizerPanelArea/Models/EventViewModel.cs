@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -54,6 +55,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
         [RegularExpression("\\d{2}[-]\\d{3}", ErrorMessage = "Wprowadzony kod pocztowy ma niepoprawny format.")]
         public string PostalCode { get; set; }
+
+        [Display(Name = "Zdjęcie tytułowe")]
+        public IFormFile FormFile { get; set; }
+        public string ImageRelativePath { get; set; }
+        
 
         public ICollection<string> Tags { get; set; }
     }

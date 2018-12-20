@@ -53,7 +53,8 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 ShortenedDescription = e.Description,
                 OrganizerName = $"{e.Organizer.FirstName} {e.Organizer.LastName}",
                 RequiredPoints = e.RequiredPoints,
-                IsOnEvent = LoggedUser != null ? IsVolunteerOnEvent(e) : false
+                IsOnEvent = LoggedUser != null ? IsVolunteerOnEvent(e) : false,
+                ImageRelativePath = e.ImageRelativePath
             };
         }
 

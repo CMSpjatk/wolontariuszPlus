@@ -52,7 +52,12 @@
                 <input asp-for="PostalCode" class="form-control" />
                 <span asp-validation-for="PostalCode" class="text-danger"></span>
             </div>
-            
+            <div class="form-group">
+                <label asp-for="FormFile"></label>
+                <input asp-for="FormFile" class="form-control-file" type="file" accept="image/*" />
+                <span asp-validation-for="FormFile" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Dodaj" class="btn btn-default" />
             </div>

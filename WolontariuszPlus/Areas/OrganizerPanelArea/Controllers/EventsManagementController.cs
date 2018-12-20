@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
+using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
 
@@ -14,13 +16,15 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
     public class EventsManagementController : Controller
     {
         private readonly CMSDbContext _db;
+        private readonly IFormFilesManagement _formFilesManagement;
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId
                                                        == User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 
-        public EventsManagementController(CMSDbContext db)
+        public EventsManagementController(CMSDbContext db, IFormFilesManagement formFilesManagement)
         {
             _db = db;
+            _formFilesManagement = formFilesManagement;
         }
 
 
@@ -69,6 +73,10 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             );
 
             _db.Events.Add(eventToAdd);
+            _db.SaveChanges();
+
+            string relativePath = _formFilesManagement.SaveFileToFileSystem(vm.FormFile, eventToAdd.EventId);
+            eventToAdd.ImageRelativePath = relativePath;
             _db.SaveChanges();
 
             return RedirectToAction("EventsList", "OrganizerPanel");
@@ -143,7 +151,14 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 }
             }
 
-            eventToUpdate.UpdateEvent(vm.Name, vm.Date, vm.Description, vm.RequiredPoints, vm.Tags, address);
+            string relativePath = eventToUpdate.ImageRelativePath;
+            if (vm.FormFile != null)
+            {
+                _formFilesManagement.DeleteWholeEventFolder(vm.EventId);
+                relativePath = _formFilesManagement.SaveFileToFileSystem(vm.FormFile, vm.EventId);
+            }
+
+            eventToUpdate.UpdateEvent(vm.Name, vm.Date, vm.Description, vm.RequiredPoints, vm.Tags, address, relativePath);
             _db.Events.Update(eventToUpdate);
             _db.SaveChanges();
 
@@ -182,6 +197,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             _db.Events.Remove(eventToDelete);
             _db.SaveChanges();
+
+            _formFilesManagement.DeleteWholeEventFolder(eventToDelete.EventId);
 
             return RedirectToAction("EventsList", "OrganizerPanel");
         }

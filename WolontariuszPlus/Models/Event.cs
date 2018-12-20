@@ -33,6 +33,9 @@ namespace WolontariuszPlus.Models
         public int AddressId { get; private set; }
         public virtual Address Address { get; private set; }
 
+        [Required]
+        public string ImageRelativePath { get; set; }
+
         public virtual ICollection<VolunteerOnEvent> VolunteersOnEvent { get; private set; }
 
         [NotMapped]
@@ -45,8 +48,8 @@ namespace WolontariuszPlus.Models
             VolunteersOnEvent = new List<VolunteerOnEvent>();
         }
 
-        public Event(string name, DateTime date, string description, int requiredPoints, ICollection<string> tags, Organizer organizer, Address address) 
-            : this()
+        public Event(string name, DateTime date, string description, int requiredPoints, 
+            ICollection<string> tags, Organizer organizer, Address address) : this()
         {
             Name = name;
             Date = date;
@@ -87,7 +90,7 @@ namespace WolontariuszPlus.Models
             }
         }
 
-        public void UpdateEvent(string name, DateTime date, string description, int requiredPoints, ICollection<string> tags, Address address)
+        public void UpdateEvent(string name, DateTime date, string description, int requiredPoints, ICollection<string> tags, Address address, string relativePath)
         {
             if(string.IsNullOrEmpty(name) || date < DateTime.Now || string.IsNullOrEmpty(description))
             {
@@ -98,6 +101,7 @@ namespace WolontariuszPlus.Models
             Description = description;
             RequiredPoints = requiredPoints;
             Tags = tags;
+            ImageRelativePath = relativePath;
             UpdateAddress(address);
         }
 
