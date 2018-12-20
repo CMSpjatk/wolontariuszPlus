@@ -1,0 +1,7 @@
+﻿@model  WolontariuszPlus.Areas.VolunteerPanelArea.Models.OpinionViewModel
+
+@Html.DisplayNameFor(m => m.Opinion): @Html.DisplayFor(m => m.Opinion) <br /><br />
+
+@Html.DisplayNameFor(m => m.Rate): @Html.DisplayFor(m => m.Rate) <br /><br />
+
+@Html.ActionLink("Wróć", "PastEventDetails", "EventDetailsManagement", new { eventId = Model.EventId })

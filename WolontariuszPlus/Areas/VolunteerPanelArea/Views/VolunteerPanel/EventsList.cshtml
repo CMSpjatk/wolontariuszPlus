@@ -53,51 +53,53 @@ else
     <tbody>
         @foreach (var item in Model.EventViewModels)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrganizerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequiredPoints)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReceivedPoints)
-            </td>
-            @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
-            {
+            <tr>
                 <td>
-                   @(item.IsRated ? "Tak" : "Nie")
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
-            }
-            <td>
-                @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
-
-                @{
-                    var rateText = "Oceń";
-                    if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
-                    {
-                        if (item.IsRated)
-                        {
-                            rateText = "Aktualizuj ocenę";
-                        }
-
-                        @:| @Html.ActionLink(rateText, "AddOpinionAboutEvent", new { eventId = item.EventId })
-                    }
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrganizerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequiredPoints)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedPoints)
+                </td>
+                @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+                {
+                    <td>
+                        @(item.IsRated ? "Tak" : "Nie")
+                    </td>
                 }
-            </td>
-        </tr>
+                    <td>
+                        @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
+
+                        @{
+                            if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+                            {
+                                if (item.IsRated)
+                                {
+                                    @:|@Html.ActionLink("Aktualizuj ocenę", "UpdateOpinionAboutEvent", new { eventId = item.EventId })
+                                }
+                                else
+                                {
+
+                                    @:| @Html.ActionLink("Oceń", "AddOpinionAboutEvent", new { eventId = item.EventId })
+                                }
+                            }
+                        }
+                    </td>
+            </tr>
         }
     </tbody>
 </table>

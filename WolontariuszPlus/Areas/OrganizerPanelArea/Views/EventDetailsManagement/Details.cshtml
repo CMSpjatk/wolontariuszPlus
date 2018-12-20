@@ -69,7 +69,8 @@
                             var moneyText = v.CollectedMoney == 0 ? "Dodaj zebraną kwotę" : "Aktualizuj zebraną kwotę";
 
                             @Html.ActionLink(opinionText, "RateVolunteer", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) @:|
-                            @Html.ActionLink(moneyText, "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId, collectedMoney = v.CollectedMoney })
+                            @Html.ActionLink(moneyText, "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId, collectedMoney = v.CollectedMoney }) @:|
+                            @Html.ActionLink("Zobacz opinie", "ViewOpinion", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
                         }
                         else if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
                         {
