@@ -14,5 +14,6 @@ namespace WolontariuszPlus.Common
         void DeleteWholeEventFolder(int eventId);
         string SaveFileToFileSystem(IFormFile formFile, int eventId);
         string GetUploadFolderAbsolutePath();
+        string GetPathToRandomStockImage();
     }
 }

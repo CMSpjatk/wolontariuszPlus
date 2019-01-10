@@ -32,8 +32,7 @@ namespace WolontariuszPlus.Models
 
         public int AddressId { get; private set; }
         public virtual Address Address { get; private set; }
-
-        [Required]
+        
         public string ImageRelativePath { get; set; }
 
         public virtual ICollection<VolunteerOnEvent> VolunteersOnEvent { get; private set; }

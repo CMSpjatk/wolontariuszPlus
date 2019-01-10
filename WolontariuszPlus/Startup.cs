@@ -15,14 +15,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using WolontariuszPlus.Common;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace WolontariuszPlus
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
         }
 
         public IConfiguration Configuration { get; }
@@ -75,10 +78,17 @@ namespace WolontariuszPlus
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
+            app.UseStaticFiles(); // For the wwwroot folder
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+                    Path.Combine(Directory.GetCurrentDirectory(), Properties.Resources.UploadsFolderName)),
+                RequestPath = "/" + Properties.Resources.UploadsFolderName
+            });
 
             app.UseMvc(routes =>
             {

@@ -27,6 +27,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="_Uploads\stock-event-images\1.png" />
+    <Content Include="_Uploads\stock-event-images\2.png" />
+    <Content Include="_Uploads\stock-event-images\3.gif" />
+    <Content Include="_Uploads\stock-event-images\4.jpg" />
+    <Content Include="_Uploads\stock-event-images\5.jpg" />
+    <Content Include="_Uploads\stock-event-images\6.webp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
@@ -42,7 +51,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Home\Models\" />
-    <Folder Include="_Uploads\" />
   </ItemGroup>
 
   <ItemGroup>

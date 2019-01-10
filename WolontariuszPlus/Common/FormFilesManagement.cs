@@ -11,10 +11,22 @@ namespace WolontariuszPlus.Common
     public class FormFilesManagement : IFormFilesManagement
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private static readonly Random rand = new Random();
 
         public FormFilesManagement(IHostingEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
+        }
+
+        public string GetPathToRandomStockImage()
+        {
+            var eventsImagesFolder = Path.Combine(GetUploadFolderAbsolutePath(), "stock-event-images");
+
+            var files = Directory.EnumerateFiles(eventsImagesFolder).ToList();
+            var relativePath = files[rand.Next(files.Count)];
+
+            relativePath = relativePath.Replace(GetUploadFolderAbsolutePath(), "");
+            return relativePath;
         }
 
         public void RemoveFileFromFileSystem(string relativePath)

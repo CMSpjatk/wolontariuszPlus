@@ -75,7 +75,17 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             _db.Events.Add(eventToAdd);
             _db.SaveChanges();
 
-            string relativePath = _formFilesManagement.SaveFileToFileSystem(vm.FormFile, eventToAdd.EventId);
+            string relativePath = string.Empty;
+
+            if (vm.FormFile == null)
+            {
+                relativePath = _formFilesManagement.GetPathToRandomStockImage();    
+            }
+            else
+            {
+                relativePath = _formFilesManagement.SaveFileToFileSystem(vm.FormFile, eventToAdd.EventId);
+            }
+
             eventToAdd.ImageRelativePath = relativePath;
             _db.SaveChanges();
 
@@ -154,7 +164,12 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             string relativePath = eventToUpdate.ImageRelativePath;
             if (vm.FormFile != null)
             {
-                _formFilesManagement.DeleteWholeEventFolder(vm.EventId);
+                try
+                {
+                    _formFilesManagement.DeleteWholeEventFolder(vm.EventId);
+                }
+                catch (DirectoryNotFoundException exc) {} // stock files
+
                 relativePath = _formFilesManagement.SaveFileToFileSystem(vm.FormFile, vm.EventId);
             }
 
