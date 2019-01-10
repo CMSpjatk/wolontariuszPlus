@@ -1,9 +1,9 @@
-﻿function deleteAlert(area, controller, action, parameter, e) {
+﻿function deleteAlert(area, controller, action, parameterName, parameterValue, whatToDelete, e) {
     e.preventDefault();
 
     Swal({
-        title: 'Czy na pewno chcesz usunąć to wydarzenie?',
-        text: "Nie będzie można go przywrócić!",
+        title: `Czy na pewno chcesz usunąć ${whatToDelete}?`,
+        text: "Tej operacji nie będzie można cofnąć!",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -14,13 +14,13 @@
         if (result.value) {
             Swal(
                 'Usunięto!',
-                'Wydarzenie zostało usunięte.',
+                'Operacja wykonana pomyślnie.',
                 'success'
-            )
-            
+            );
+
             let xhttp = new XMLHttpRequest();
             let formData = new FormData();
-            formData.append("EventId", parameter);
+            formData.append(parameterName, parameterValue);
 
             xhttp.onload = () => {
                 if (xhttp.readyState === 4 && xhttp.status === 200) {
@@ -34,5 +34,5 @@
             xhttp.open("POST", `/${area}/${controller}/${action}`);
             xhttp.send(formData);
         }
-    })
+    });
 }

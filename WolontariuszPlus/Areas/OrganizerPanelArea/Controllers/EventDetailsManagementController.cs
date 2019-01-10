@@ -231,7 +231,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             _db.VolunteersOnEvent.Remove(voe);
             _db.SaveChanges();
 
-            return $"/OrganizerPanelArea/PlannedEventDetails/{voe.EventId}";
+            return $"/OrganizerPanelArea/EventDetailsManagementController/PlannedEventDetails/{voe.EventId}";
         }
     }
 }

@@ -74,8 +74,17 @@
                         }
                         else if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
                         {
-                            // TODO przeslac jeszcze date w parameter
-                            <a href="#" onclick="deleteAlert('OrganizerPanelArea', 'EventDetailsManagement', 'RemoveVolunteerFromEvent', @v.VolunteerOnEventId, event)">Usuń</a>
+                            <a href="#" 
+                               onclick="deleteAlert(
+                                    'OrganizerPanelArea', 
+                                    'EventDetailsManagement', 
+                                    'RemoveVolunteerFromEvent', 
+                                    'VolunteerOnEventId', 
+                                    @v.VolunteerOnEventId, 
+                                    'wolontariusza @v.Name z wydarzenia',
+                                    event)">
+                                Usuń
+                            </a>
                         }
                     </td>
                 </tr>

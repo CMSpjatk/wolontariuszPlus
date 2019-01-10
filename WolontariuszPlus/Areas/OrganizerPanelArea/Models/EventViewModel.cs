@@ -28,7 +28,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 
         [Display(Name = "Wymagane punkty")]
         [Required(ErrorMessage = "Pole {0} jest wymagane")]
-        [Range(1, int.MaxValue, ErrorMessage = "Liczba wymaganych puktów musi być większa od 0")]
+        [Range(0, int.MaxValue, ErrorMessage = "Liczba wymaganych punktów musi być większa lub równa 0")]
         public int RequiredPoints { get; set; }
 
 
