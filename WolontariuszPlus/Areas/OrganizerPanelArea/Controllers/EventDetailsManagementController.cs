@@ -195,43 +195,43 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return View(opinion);
         }
 
-        public IActionResult RemoveVolunteerFromEvent(int volunteerOnEventId)
-        {
-            var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
+        //public IActionResult RemoveVolunteerFromEvent(int volunteerOnEventId)
+        //{
+        //    var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
 
-            if (voe.Event.Date < DateTime.Now.AddMinutes(1))
-            {
-                return BadRequest();
-            }
+        //    if (voe.Event.Date < DateTime.Now.AddMinutes(1))
+        //    {
+        //        return BadRequest();
+        //    }
 
-            var vm = new RemoveVolunteerViewModel
-            {
-                VolunteerOnEventId = voe.VolunteerOnEventId,
-                EventId = voe.EventId,
-                VolunteerName = voe.Volunteer.FullName,
-                EventName = voe.Event.Name
-            };
+        //    var vm = new RemoveVolunteerViewModel
+        //    {
+        //        VolunteerOnEventId = voe.VolunteerOnEventId,
+        //        EventId = voe.EventId,
+        //        VolunteerName = voe.Volunteer.FullName,
+        //        EventName = voe.Event.Name
+        //    };
 
-            return View(vm);
-        }
+        //    return View(vm);
+        //}
 
 
         [HttpPost]
-        public IActionResult RemoveVolunteerFromEvent(RemoveVolunteerViewModel vm)
+        public string RemoveVolunteerFromEvent(RemoveVolunteerViewModel vm)
         {
-            if (!ModelState.IsValid) return View(vm);
+            if (!ModelState.IsValid) return "Błąd";
 
             var voe = _db.VolunteersOnEvent.Find(vm.VolunteerOnEventId);
 
             if (voe.Event.Date < DateTime.Now.AddMinutes(1))
             {
-                return BadRequest();
+                return "Błąd";
             }
 
             _db.VolunteersOnEvent.Remove(voe);
             _db.SaveChanges();
 
-            return RedirectToAction("PlannedEventDetails", new { eventId = voe.EventId });
+            return $"/OrganizerPanelArea/PlannedEventDetails/{voe.EventId}";
         }
     }
 }

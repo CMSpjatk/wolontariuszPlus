@@ -74,7 +74,8 @@
                         }
                         else if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
                         {
-                            @Html.ActionLink("Usuń z wydarzenia", "RemoveVolunteerFromEvent", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
+                            // TODO przeslac jeszcze date w parameter
+                            <a href="#" onclick="deleteAlert('OrganizerPanelArea', 'EventDetailsManagement', 'RemoveVolunteerFromEvent', @v.VolunteerOnEventId, event)">Usuń</a>
                         }
                     </td>
                 </tr>

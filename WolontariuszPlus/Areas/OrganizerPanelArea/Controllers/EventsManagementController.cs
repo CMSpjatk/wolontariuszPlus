@@ -180,42 +180,44 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return RedirectToAction("EventsList", "OrganizerPanel");
         }
 
+        //public IActionResult DeleteEvent(int eventId)
+        //{
+        //    if (eventId <= 0)
+        //    {
+        //        return BadRequest();
+        //    }
 
-        public IActionResult DeleteEvent(int eventId)
-        {
-            if (eventId <= 0)
-            {
-                return BadRequest();
-            }
+        //    var eventToDelete = _db.Events.Find(eventId);
 
-            var eventToDelete = _db.Events.Find(eventId);
+        //    if (eventToDelete == null || eventToDelete.Date < DateTime.Now.AddMinutes(1))
+        //    {
+        //        return BadRequest();
+        //    }
 
-            if (eventToDelete == null || eventToDelete.Date < DateTime.Now.AddMinutes(1))
-            {
-                return BadRequest();
-            }
-
-            return View(new DeleteEventViewModel { EventId = eventId, Name = eventToDelete.Name });
-        }
-
+        //    return View(new DeleteEventViewModel { EventId = eventId });
+        //}
 
         [HttpPost]
-        public IActionResult DeleteEvent(DeleteEventViewModel vm)
+        public string DeleteEvent(DeleteEventViewModel vm)
         {
-            if (!ModelState.IsValid) return View(vm);
+            if (!ModelState.IsValid) return "Błąd";
 
             var eventToDelete = _db.Events.Find(vm.EventId);
 
             if (eventToDelete.Date < DateTime.Now.AddMinutes(1)){
-                return BadRequest();
+                return "Błąd";
             }
 
             _db.Events.Remove(eventToDelete);
             _db.SaveChanges();
 
-            _formFilesManagement.DeleteWholeEventFolder(eventToDelete.EventId);
+            try
+            {
+                _formFilesManagement.DeleteWholeEventFolder(eventToDelete.EventId);
+            }
+            catch (DirectoryNotFoundException exc) { } // stock files
 
-            return RedirectToAction("EventsList", "OrganizerPanel");
+            return "/OrganizerPanelArea/OrganizerPanel/EventsList";
         }
     }
 }
