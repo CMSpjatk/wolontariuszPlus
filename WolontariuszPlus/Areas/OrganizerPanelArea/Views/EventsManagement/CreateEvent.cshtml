@@ -1,6 +1,6 @@
 ﻿@model EventViewModel
 
-<h4>Dodaj nowe wydarzenie</h4>
+@*<h4>Dodaj nowe wydarzenie</h4>
 <hr />
 <div class="row">
     <div class="col-md-12">
@@ -67,4 +67,84 @@
 
 <div>
     <a asp-controller="OrganizerPanel" asp-action="EventsList">Wróć do listy wydarzeń</a>
+</div>*@
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Dodaj nowe wydarzenie</h4>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="CreateEvent">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="Date" class="control-label"></label>
+                            <input asp-for="Date" class="form-control" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label asp-for="RequiredPoints" class="control-label"></label>
+                            <input asp-for="RequiredPoints" class="form-control" />
+                            <span asp-validation-for="RequiredPoints" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="FormFile"></label>
+                            <input asp-for="FormFile" class="form-control-file" type="file" accept="image/*" />
+                            <span asp-validation-for="FormFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" class="form-control event-description" rows="15"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label asp-for="Street" class="control-label"></label>
+                            <input asp-for="Street" class="form-control" />
+                            <span asp-validation-for="Street" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="BuildingNumber" class="control-label"></label>
+                            <input asp-for="BuildingNumber" class="form-control" />
+                            <span asp-validation-for="BuildingNumber" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="ApartmentNumber" class="control-label"></label>
+                            <input asp-for="ApartmentNumber" class="form-control" />
+                            <span asp-validation-for="ApartmentNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col form-group">
+                            <label asp-for="City" class="control-label"></label>
+                            <input asp-for="City" class="form-control" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="col form-group">
+                            <label asp-for="PostalCode" class="control-label"></label>
+                            <input asp-for="PostalCode" class="form-control" />
+                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group" align="center">
+                        <input type="submit" value="Dodaj" class="btn btn-primary" />
+                        <button type="button" class="btn btn-secondary">Anuluj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

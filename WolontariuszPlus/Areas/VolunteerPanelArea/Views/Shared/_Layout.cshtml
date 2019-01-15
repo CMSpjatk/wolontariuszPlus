@@ -6,18 +6,38 @@
     <link rel="stylesheet" href="~/css/volunteer-panel/personal-data.css" />
 }
 
-<h2>Panel wolontariusza</h2>
+@*<h2>Panel wolontariusza</h2>
 
-<div>
-    <hr />
+    <div>
+        <hr />
+        <div class="row">
+            <div class="col-md-3">
+                <ul class="nav nav-pills nav-stacked">
+                    <li><a asp-action="PersonalData">Dane osobowe</a></li>
+                    <li><a asp-action="UpcomingEvents">Grafik</a></li>
+                    <li><a asp-action="ArchivedEvents">Zakończone wydarzenia</a></li>
+                    @*<li><a asp-action="EventsWithoutOpinion">Wydarzenia bez opinii</a></li>*@
+@*</ul>
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>*@
+
+<div class="container">
+    <h1>Panel wolontariusza</h1>
+    <hr>
+</div>
+
+<div class="container">
     <div class="row">
-        <div class="col-md-3">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a asp-action="PersonalData">Dane osobowe</a></li>
-                <li><a asp-action="UpcomingEvents">Grafik</a></li>
-                <li><a asp-action="ArchivedEvents">Zakończone wydarzenia</a></li>
-                @*<li><a asp-action="EventsWithoutOpinion">Wydarzenia bez opinii</a></li>*@
-            </ul>
+        <div class="col-md-3 mb-4">
+            <div class="list-group">
+                <a asp-action="UpcomingEvents" class="list-group-item list-group-item-action">Wydarzenia nadchodzące</a>
+                <a asp-action="ArchivedEvents" class="list-group-item list-group-item-action">Wydarzenia zakończone</a>
+                <a asp-action="PersonalData" class="list-group-item list-group-item-action">Dane osobowe</a>
+            </div>
         </div>
         <div class="col-md-9">
             @RenderBody()

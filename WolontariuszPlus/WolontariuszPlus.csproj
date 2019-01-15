@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="_Uploads\**" />
+    <Content Remove="_Uploads\**" />
+    <EmbeddedResource Remove="_Uploads\**" />
+    <None Remove="_Uploads\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Data\Migrations\20181114165612_AddedApplicationUser.cs" />
     <Compile Remove="Data\Migrations\20181114165612_AddedApplicationUser.Designer.cs" />
     <Compile Remove="Data\Migrations\20181114165830_AddedUsers.cs" />
@@ -24,15 +31,6 @@
     <Compile Remove="Data\Migrations\20181121175753_RemovedRequiredConstraintFromApartmentNumber.Designer.cs" />
     <Compile Remove="Data\Migrations\20181129134916_AddedPossibleRangeToRequiredPoints.cs" />
     <Compile Remove="Data\Migrations\20181129134916_AddedPossibleRangeToRequiredPoints.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="_Uploads\stock-event-images\1.png" />
-    <Content Include="_Uploads\stock-event-images\2.png" />
-    <Content Include="_Uploads\stock-event-images\3.gif" />
-    <Content Include="_Uploads\stock-event-images\4.jpg" />
-    <Content Include="_Uploads\stock-event-images\5.jpg" />
-    <Content Include="_Uploads\stock-event-images\6.webp" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,3 +35,29 @@ body {
         display: none;
     }
 }
+
+.flex-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-bottom {
+    margin-top: auto;
+}
+
+.m-jumbo {
+    background-color: #d1f3fd;
+}
+
+.flex-con {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-kama {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
