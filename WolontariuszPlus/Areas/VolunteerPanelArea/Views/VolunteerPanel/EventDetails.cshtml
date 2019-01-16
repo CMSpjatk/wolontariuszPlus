@@ -1,14 +1,32 @@
 ﻿@model WolontariuszPlus.Areas.VolunteerPanelArea.Models.EventDetailsViewModel
 
 <div>
-    <h4>Szczegóły wydarzenia "@Html.DisplayFor(model => model.Name)"</h4>
-    <h5>@Html.DisplayNameFor(model => model.Date): @Html.DisplayFor(model => model.Date)</h5>
+    <h2>Szczegóły wydarzenia</h2>
+    <!--KAMA POCZATEK-->
+    <div class="card m-4" style="min-width:20rem">
+        <div class="card-body flex-body">
+            <h3>@Html.DisplayFor(model => model.Name)</h3>
+            <h6>@Html.DisplayFor(model => model.Date)</h6>
+            @*<h5>@Html.DisplayNameFor(model => model.): @Html.DisplayFor(modelItem => item.OrganizerName)</h5>*@
+        </div>
+        <hr />
+        <div class="card-body flex-body">
+            <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+        </div>
+        @*<div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
+                @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)
+            </div>*@
+    </div>
+    <!--KAMA KONIEC-->
+
     @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
     {
         <h5>@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h5>
     }
-    <h5>@Html.DisplayNameFor(model => model.Description): @Html.DisplayFor(model => model.Description)</h5>
-    <hr />
+
+    <br /><br />
+
+    <h6>Uczestnicy wydarzenia:</h6>
 
     <table class="table">
         <thead>
@@ -73,13 +91,13 @@
         </tbody>
     </table>
 </div>
-<div>
-    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-    {
-        <a asp-action="UpcomingEvents">Wróć do grafiku</a>
-    }
-    else
-    {
-        <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
-    }
-</div>
+    <div>
+        @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+        {
+            @*<a asp-action="UpcomingEvents">Wróć do grafiku</a>*@
+        }
+        else
+        {
+            <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
+        }
+    </div>
