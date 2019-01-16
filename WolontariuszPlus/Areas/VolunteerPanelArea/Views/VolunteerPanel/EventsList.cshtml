@@ -2,20 +2,25 @@
 
 @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
 {
-    <h4>Zakończone wydarzenia</h4>
+    <h3>Wydarzenia zakończone</h3>
 
-    <a asp-controller="VolunteerPanel" asp-action="EventsWithoutOpinion">Wydarzenia bez opinii</a>
+    <a class="btn btn-outline-dark" asp-controller="VolunteerPanel" asp-action="EventsWithoutOpinion">Wydarzenia bez opinii</a>
+    <br />
 }
 else if (Model.ViewType == PanelViewType.EVENTS_WITHOUT_OPINION)
 {
-    <h4>Wydarzenia bez opinii</h4>
 
-    <a asp-controller="VolunteerPanel" asp-action="ArchivedEvents">Pokaż wszystkie zakończone wydarzenia</a>
+    <h3>Wydarzenia bez opinii</h3>
+
+    @*<a class="btn btn-outline-dark" asp-controller="VolunteerPanel" asp-action="ArchivedEvents">Wszystkie zakończone wydarzenia</a>
+    <br />*@
 }
 else
 {
-    <h4>Grafik</h4>
+    <h3>Wydarzenia nadchodzące</h3>
 }
+
+<br />
 
 <table id="@(Model.ViewType == PanelViewType.ARCHIVED_EVENTS ? "volunteer-table-archived" : "volunteer-table")" class="table">
     <thead>
@@ -81,24 +86,24 @@ else
                         @(item.IsRated ? "Tak" : "Nie")
                     </td>
                 }
-                    <td>
-                        @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
+                <td>
+                    @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
 
-                        @{
-                            if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+                    @{
+                        if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
+                        {
+                            if (item.IsRated)
                             {
-                                if (item.IsRated)
-                                {
-                                    @:|@Html.ActionLink("Aktualizuj ocenę", "UpdateOpinionAboutEvent", new { eventId = item.EventId })
-                                }
-                                else
-                                {
+                                @:|@Html.ActionLink("Aktualizuj ocenę", "UpdateOpinionAboutEvent", new { eventId = item.EventId })
+                            }
+                            else
+                            {
 
-                                    @:| @Html.ActionLink("Oceń", "AddOpinionAboutEvent", new { eventId = item.EventId })
-                                }
+                                @:| @Html.ActionLink("Oceń", "AddOpinionAboutEvent", new { eventId = item.EventId })
                             }
                         }
-                    </td>
+                    }
+                </td>
             </tr>
         }
     </tbody>

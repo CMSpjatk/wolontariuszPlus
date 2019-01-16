@@ -92,19 +92,32 @@
                         {
                             @if (item.IsOnEvent)
                             {
-                                <div href="" class="btn btn-primary" style="background-color: gray;">Już jesteś zapisany</div>
+
+                                <div class="row button-bottom">
+                                    <div class="col">
+                                        <a href="#" class="btn button btn-outline-primary">Szczegóły</a>
+                                        <div href="" class="btn disabled" style="background-color: gray;">Jesteś zapisany!</div>
+                                    </div>
+                                </div>
                             }
                             else
                             {
-                                <a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>
-                            }
-                        }
-                        <div class="row button-bottom">
-                            <div class="col">
-                                <a href="#" class="btn button btn-outline-primary">Szczegóły</a>
+                                <div class="row button-bottom">
+                                    <div class="col">
+                                        @*@Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })*@
+                                        <a class="btn button btn-outline-primary">Szczegóły</a>
+                                        <a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>
+                                    </div>
+                                </div>
+                                <!--<a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>-->
+                                    }
+                                }
+                                <!--<div class="row button-bottom">
+                <div class="col">
+                    <a href="#" class="btn button btn-outline-primary">Szczegóły</a>
+                </div>
+            </div>-->
                             </div>
-                        </div>
-                    </div>
                     <div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
                         @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)
                     </div>
