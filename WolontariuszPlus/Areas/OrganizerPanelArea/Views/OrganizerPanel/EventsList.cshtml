@@ -185,7 +185,17 @@ else
                     {
                         @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { eventId = item.EventId }) @:|
                         @Html.ActionLink("Edytuj", "UpdateEvent", "EventsManagement", new { eventId = item.EventId }) @:|
-                        @Html.ActionLink("Usuń", "DeleteEvent", "EventsManagement", new { eventId = item.EventId })
+                        <a href="#"
+                           onclick="deleteAlert(
+                                    'OrganizerPanelArea',
+                                    'EventsManagement',
+                                    'DeleteEvent',
+                                    'EventId',
+                                    @item.EventId,
+                                    'wydarzenie &quot;@item.Name&quot;',
+                                    event)">
+                            Usuń
+                        </a>
                     }
                     else
                     {
