@@ -104,7 +104,8 @@
                             {
                                 <div class="row button-bottom">
                                     <div class="col">
-                                        <a href="#" class="btn button btn-outline-primary">Szczegóły</a>
+                                        @*@Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })*@
+                                        <a class="btn button btn-outline-primary">Szczegóły</a>
                                         <a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>
                                     </div>
                                 </div>
