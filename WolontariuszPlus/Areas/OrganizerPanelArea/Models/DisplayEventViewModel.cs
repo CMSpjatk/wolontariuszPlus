@@ -34,6 +34,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         public string Address { get; set; }
 
         public bool IsOnEvent { get; set; }
+
+        [Display(Name = "Zebrane pieniądze")]
         public double CollectedMoney { get; set; }
 
         public string ImageRelativePath { get; set; }

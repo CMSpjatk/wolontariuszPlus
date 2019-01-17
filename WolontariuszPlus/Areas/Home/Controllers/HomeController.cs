@@ -32,7 +32,7 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 EventViewModels =
                     _db.Events
                        .Where(e => e.Date >= DateTime.Now)
-                       .OrderByDescending(e => e.Date)
+                       .OrderBy(e => e.Date)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
             };
