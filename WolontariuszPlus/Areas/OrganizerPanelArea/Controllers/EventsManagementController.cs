@@ -114,7 +114,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Street = eventToUpdate.Address.Street,
                 BuildingNumber = eventToUpdate.Address.BuildingNumber,
                 ApartmentNumber = eventToUpdate.Address.ApartmentNumber,
-                PostalCode = eventToUpdate.Address.PostalCode
+                PostalCode = eventToUpdate.Address.PostalCode,
+                ImageRelativePath = eventToUpdate.ImageRelativePath
             });
         }
 

@@ -2,8 +2,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section VolunteerPanelCSS {
-    <link rel="stylesheet" href="~/css/volunteer-panel/personal-data.css" />
+@section Styles {
+    <link rel="stylesheet" href="~/css/personal-data.css" />
+    <link rel="stylesheet" href="~/css/organizer-panel/organizer-panel.css" />
+}
+
+@section Scripts {
+    @RenderSection("Scripts", false)
 }
 
 @*<h2>Panel organizatora</h2>*@
@@ -59,9 +64,26 @@
     <div class="row">
         <div class="col-md-3 mb-4">
             <div class="list-group">
-                <a asp-controller="OrganizerPanel" asp-action="EventsList" class="list-group-item list-group-item-action">Wydarzenia zaplanowane</a>
-                <a asp-controller="OrganizerPanel" asp-action="PastEvents" class="list-group-item list-group-item-action">Wydarzenia zakończone</a>
-                <a asp-controller="OrganizerPanel" asp-action="PersonalData" class="list-group-item list-group-item-action">Dane osobowe</a>
+                @{
+                    var actionName = ViewContext.RouteData.Values["Action"].ToString();
+                }
+
+                <a asp-controller="OrganizerPanel"
+                   asp-action="EventsList"
+                   class="list-group-item list-group-item-action 
+                   @(actionName == "EventsList" || actionName == "PlannedEventDetails" || actionName == "UpdateEvent" ? "active" : "")">
+                    Wydarzenia zaplanowane
+                </a>
+                <a asp-controller="OrganizerPanel"
+                   asp-action="PastEvents"
+                   class="list-group-item list-group-item-action @(actionName.Contains("PastEvent") ? "active" : "")">
+                    Wydarzenia zakończone
+                </a>
+                <a asp-controller="OrganizerPanel"
+                   asp-action="PersonalData"
+                   class="list-group-item list-group-item-action @(actionName == "PersonalData" ? "active" : "")">
+                    Dane osobowe
+                </a>
             </div>
         </div>
         <div class="col-md-9">

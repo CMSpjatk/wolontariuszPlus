@@ -42,11 +42,3 @@ $(document).ready(function () {
         }
     });
 });
-
-
-window.addEventListener('load', () => {
-    let files = document.getElementById('fajl').files;
-    let file = files.item(i);
-    '<img src="${URL.createObjectURL(file)}" alt="${fileName}" />'
-
-})
