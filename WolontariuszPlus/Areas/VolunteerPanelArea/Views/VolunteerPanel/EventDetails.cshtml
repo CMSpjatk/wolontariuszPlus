@@ -21,17 +21,17 @@
 
     @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
     {
-        <h5>@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h5>
+        <h3 style="text-align: center">@Html.DisplayNameFor(model => model.CollectedMoneySum): @Html.DisplayFor(model => model.CollectedMoneySum) zł</h3>
     }
 
     <br /><br />
 
-    <h6>Uczestnicy wydarzenia:</h6>
+    <h4>Uczestnicy wydarzenia:</h4>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>
+                <th scope="col">
                     @Html.DisplayNameFor(model => model.DefaultVolunteer.Name)
                 </th>
                 <th>
@@ -42,14 +42,14 @@
                 </th>
                 @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
                 {
-                    <th>
+                    <th scope="col">
                         @Html.DisplayNameFor(model => model.DefaultVolunteer.CollectedMoney)
                     </th>
-                    <th>
+                    <th scope="col">
                         @Html.DisplayNameFor(model => model.DefaultVolunteer.ReceivedPoints)
                     </th>
                 }
-                <th>
+                <th scope="col">
                     @Html.DisplayNameFor(model => model.DefaultVolunteer.OpinionAboutVolunteer)
                 </th>
             </tr>
@@ -91,13 +91,13 @@
         </tbody>
     </table>
 </div>
-    <div>
-        @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-        {
-            @*<a asp-action="UpcomingEvents">Wróć do grafiku</a>*@
-        }
-        else
-        {
-            <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
-        }
-    </div>
+@*<div>
+    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+    {
+        <a asp-action="UpcomingEvents">Wróć do grafiku</a>
+    }
+    else
+    {
+        <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
+    }
+</div>*@

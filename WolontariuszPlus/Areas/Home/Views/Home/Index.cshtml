@@ -83,7 +83,6 @@
                     <div class="card-body flex-body">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.ShortenedDescription)</p>
-                        <!--<p class="card-text">@Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName): @Html.DisplayFor(modelItem => item.OrganizerName)</p>-->
                         @{
                             var currentUser = await userManager.GetUserAsync(User);
                             var isVolunteer = currentUser != null && await userManager.IsInRoleAsync(currentUser, Roles.VolunteerRole);
@@ -95,6 +94,7 @@
 
                                 <div class="row button-bottom">
                                     <div class="col">
+                                        @*@Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })*@
                                         <a href="#" class="btn button btn-outline-primary">Szczegóły</a>
                                         <div href="" class="btn disabled" style="background-color: gray;">Jesteś zapisany!</div>
                                     </div>
@@ -106,21 +106,28 @@
                                     <div class="col">
                                         @*@Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })*@
                                         <a class="btn button btn-outline-primary">Szczegóły</a>
+                                        <!--<a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>-->
                                         <a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>
                                     </div>
                                 </div>
-                                <!--<a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>-->
-                                    }
-                                }
-                                <!--<div class="row button-bottom">
-                <div class="col">
-                    <a href="#" class="btn button btn-outline-primary">Szczegóły</a>
-                </div>
-            </div>-->
+                            }
+                        }
+                        else
+                        {
+                            <div class="row button-bottom">
+                                <div class="col">
+                                    @*@Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })*@
+                                    <a class="btn button btn-outline-primary">Szczegóły</a>
+                                </div>
                             </div>
+                        }
+
+                    </div>
                     <div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
+                        @Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName): @Html.DisplayFor(modelItem => item.OrganizerName)
+                        <br />
                         @Html.DisplayNameFor(model => model.DefaultEvent.Date): @Html.DisplayFor(modelItem => item.Date)
-                        <br>
+                        <br />
                         @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)
                     </div>
                 </div>

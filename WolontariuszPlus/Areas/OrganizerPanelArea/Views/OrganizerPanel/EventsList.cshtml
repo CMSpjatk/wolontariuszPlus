@@ -129,7 +129,96 @@ else
 }
 <br/>
 
-<table id="organizer-table" class="table">
+<table id="organizer-table" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.Name)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.Date)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription)
+            </th>
+            @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+            {
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
+                </th>
+            }
+            else
+            {
+                <th scope="col">
+                    @Html.DisplayNameFor(model => model.DefaultEvent.CollectedMoney)
+                </th>
+            }
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.Address)
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EventViewModels)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortenedDescription)
+                </td>
+                @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequiredPoints)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CollectedMoney)
+                    </td>
+                }
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+                    {
+                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { eventId = item.EventId }) @:|
+                        @Html.ActionLink("Edytuj", "UpdateEvent", "EventsManagement", new { eventId = item.EventId }) @:|
+                        <a href="#"
+                           onclick="deleteAlert(
+                                    'OrganizerPanelArea',
+                                    'EventsManagement',
+                                    'DeleteEvent',
+                                    'EventId',
+                                    @item.EventId,
+                                    'wydarzenie &quot;@item.Name&quot;',
+                                    event)">
+                            Usuń
+                        </a>
+                    }
+                    else
+                    { 
+                        @*<button type="button" class="btn btn-success">
+                            <i class="far fa-list-alt">@Html.ActionLink("", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })</i>
+                        </button>*@
+                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!--DAWNA TABELA-->
+@*<table id="organizer-table" class="table">
     <thead>
         <tr>
             <th>
@@ -212,4 +301,4 @@ else
             </tr>
         }
     </tbody>
-</table>
+</table>*@
