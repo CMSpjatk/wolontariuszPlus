@@ -138,9 +138,6 @@ else
             <th scope="col">
                 @Html.DisplayNameFor(model => model.DefaultEvent.Date)
             </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription)
-            </th>
             @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
             {
                 <th scope="col">
@@ -168,9 +165,6 @@ else
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShortenedDescription)
                 </td>
                 @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
                 {
@@ -206,10 +200,10 @@ else
                     }
                     else
                     { 
-                        @*<button type="button" class="btn btn-success">
-                            <i class="far fa-list-alt">@Html.ActionLink("", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })</i>
-                        </button>*@
-                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })
+                        <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PastEventDetails" asp-route-eventId="@item.EventId">
+                            <i class="far fa-list-alt"></i>
+                        </a>
+                        @*@Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })*@
                     }
                 </td>
             </tr>

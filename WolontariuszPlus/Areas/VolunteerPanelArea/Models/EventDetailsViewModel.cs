@@ -25,5 +25,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
         public ICollection<VolunteerViewModel> Volunteers { get; set; }
         public VolunteerViewModel DefaultVolunteer => new VolunteerViewModel();
         public PanelViewType ViewType { get; set; }
+
+        public string ImageRelativePath { get; set; }
     }
 }

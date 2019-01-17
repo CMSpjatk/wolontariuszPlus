@@ -50,7 +50,7 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 Name = e.Name,
                 Date = e.Date,
                 Address = $"ul. {e.Address.Street} {e.Address.BuildingNumber}{n}, {e.Address.PostalCode} {e.Address.City}",
-                ShortenedDescription = e.Description,
+                ShortenedDescription = e.Description.Length > 100 ? e.Description.Substring(0, 100) + "[...]" : e.Description,
                 OrganizerName = $"{e.Organizer.FirstName} {e.Organizer.LastName}",
                 RequiredPoints = e.RequiredPoints,
                 IsOnEvent = LoggedUser != null ? IsVolunteerOnEvent(e) : false,
@@ -94,6 +94,11 @@ namespace WolontariuszPlus.Areas.Home.Controllers
             _db.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult EventDetails(int eventId)
+        {
+            return View(_db.Events.Find(eventId));
         }
     }
 }

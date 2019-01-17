@@ -144,7 +144,8 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                 Description = ev.Description,
                 CollectedMoneySum = ev.CollectedMoney,
                 Volunteers = volunteers,
-                ViewType = panelViewType
+                ViewType = panelViewType,
+                ImageRelativePath = ev.ImageRelativePath
             };
 
             return View(vm);

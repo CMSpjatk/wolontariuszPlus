@@ -53,7 +53,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Name = ev.Name,
                 Description = ev.Description,
                 Volunteers = volunteers,
-                ViewType = PanelViewType.UPCOMING_EVENTS
+                ViewType = PanelViewType.UPCOMING_EVENTS,
+                ImageRelativePath = ev.ImageRelativePath
             };
 
             return View("Details", vm);

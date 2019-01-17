@@ -8,7 +8,7 @@ $(document).ready(function () {
         "info": false,
         "order": [[1, 'asc']],
         "columnDefs": [
-            { "orderable": false, "targets": 5 }
+            { "orderable": false, "targets": 4 }
         ],
         "language": {
             "search": "Szukaj",
@@ -42,3 +42,11 @@ $(document).ready(function () {
         }
     });
 });
+
+
+window.addEventListener('load', () => {
+    let files = document.getElementById('fajl').files;
+    let file = files.item(i);
+    '<img src="${URL.createObjectURL(file)}" alt="${fileName}" />'
+
+})
