@@ -254,6 +254,8 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             return View("AddOpinionAboutEvent", vm);
         }
 
+       
+
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 }

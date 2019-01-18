@@ -11,6 +11,7 @@ using WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement;
 using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
+using WolontariuszPlus.ViewModels;
 
 namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 {
@@ -266,6 +267,36 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             _db.SaveChanges();
 
             return $"/OrganizerPanelArea/EventDetailsManagementController/PlannedEventDetails/{voe.EventId}";
+        }
+
+        public IActionResult VolunteerProfile(int userId)
+        {
+            var voes = _db.VolunteersOnEvent
+               .Include(voe => voe.Volunteer)
+               .Where(voe => voe.VolunteerOnEventId == userId)
+               .Select(x => new UserViewModel
+               {
+                   FirstName = x.Volunteer.FirstName,
+                   LastName = x.Volunteer.LastName,
+                   PhoneNumber = x.Volunteer.PhoneNumber,
+                   City = x.Volunteer.Address.City,
+                   Street = x.Volunteer.Address.Street,
+                   BuildingNumber = x.Volunteer.Address.BuildingNumber,
+                   ApartmentNumber = x.Volunteer.Address.ApartmentNumber,
+                   PostalCode = x.Volunteer.Address.PostalCode,
+                   PESEL = x.Volunteer.PESEL,
+                   //TODO poprawić coś z lazyloading jesli chodzi o punkty
+                   //Points = x.Volunteer.Points,
+                   IsVolunteer = true
+               }).ToList();
+
+            var model = new UserViewModel
+            {
+                UserViewModelList = voes
+            };
+
+           
+            return View(model);
         }
     }
 }

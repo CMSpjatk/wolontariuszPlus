@@ -17,8 +17,8 @@
             <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
         </div>
         @*<div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
-            @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)
-        </div>*@
+                @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)
+            </div>*@
     </div>
 
     @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
@@ -73,7 +73,9 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => v.Name)
+                        <a asp-controller="EventDetailsManagement" asp-action="VolunteerProfile" asp-route-userId="@Html.Raw(v.VolunteerOnEventId)" a>
+                            @Html.DisplayFor(modelItem => v.Name)
+                        </a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => v.Email)
@@ -124,12 +126,12 @@
     </table>
 </div>
 @*<div>
-    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-    {
-        <a asp-controller="OrganizerPanel" asp-action="EventsList">Wróć do listy planowanych wydarzeń</a>
-    }
-    else
-    {
-        <a asp-controller="OrganizerPanel" asp-action="PastEvents">Wróć do listy zakończonych wydarzeń</a>
-    }
-</div>*@
+        @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+        {
+            <a asp-controller="OrganizerPanel" asp-action="EventsList">Wróć do listy planowanych wydarzeń</a>
+        }
+        else
+        {
+            <a asp-controller="OrganizerPanel" asp-action="PastEvents">Wróć do listy zakończonych wydarzeń</a>
+        }
+    </div>*@

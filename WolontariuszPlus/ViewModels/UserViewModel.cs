@@ -61,5 +61,8 @@ namespace WolontariuszPlus.ViewModels
        
         // Helper prop
         public bool IsVolunteer { get; set; }
+
+        // List for volunteer profile
+        public List<UserViewModel> UserViewModelList { get; set; }
     }
 }
