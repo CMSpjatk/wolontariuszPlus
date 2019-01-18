@@ -8,6 +8,8 @@ namespace WolontariuszPlus.ViewModels
 {
     public class UserViewModel
     {
+        public int VolunteerId { get; set; }
+
         [Required]
         [MaxLength(50)]
         [Display(Name = "Imię")]

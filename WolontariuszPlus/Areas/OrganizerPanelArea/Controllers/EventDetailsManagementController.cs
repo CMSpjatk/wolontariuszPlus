@@ -269,13 +269,16 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return $"/OrganizerPanelArea/EventDetailsManagementController/PlannedEventDetails/{voe.EventId}";
         }
 
-        public IActionResult VolunteerProfile(int userId)
+        public IActionResult VolunteerProfile(int id)
         {
-            var voes = _db.VolunteersOnEvent
+            var vms = _db.VolunteersOnEvent
                .Include(voe => voe.Volunteer)
-               .Where(voe => voe.VolunteerOnEventId == userId)
+                .Include(voe => voe.Event)
+                    .ThenInclude(e => e.Address)
+               .Where(voe => voe.VolunteerOnEventId == id)
                .Select(x => new UserViewModel
                {
+                   VolunteerId = x.VolunteerId.Value,
                    FirstName = x.Volunteer.FirstName,
                    LastName = x.Volunteer.LastName,
                    PhoneNumber = x.Volunteer.PhoneNumber,
@@ -285,14 +288,21 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                    ApartmentNumber = x.Volunteer.Address.ApartmentNumber,
                    PostalCode = x.Volunteer.Address.PostalCode,
                    PESEL = x.Volunteer.PESEL,
-                   //TODO poprawić coś z lazyloading jesli chodzi o punkty
-                   //Points = x.Volunteer.Points,
                    IsVolunteer = true
                }).ToList();
 
+            var usersPoints = _db.VolunteersOnEvent
+                .GroupBy(voe => voe.VolunteerId)
+                .Select(group => new { VolunteerId = group.Key, Points = group.Sum(voe => voe.PointsReceived)})
+                .ToDictionary(k => k.VolunteerId, v => v.Points);
+
+            vms.ForEach(dvm =>
+                dvm.Points = usersPoints.ContainsKey(dvm.VolunteerId) ? usersPoints[dvm.VolunteerId] : 0
+            );
+
             var model = new UserViewModel
             {
-                UserViewModelList = voes
+                UserViewModelList = vms
             };
 
            
