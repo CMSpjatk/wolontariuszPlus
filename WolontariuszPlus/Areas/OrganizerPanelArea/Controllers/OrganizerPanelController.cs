@@ -78,7 +78,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                     _db.Events
                        .Include(e => e.Address)
                        .Include(e => e.Organizer)
-                       //.AsNoTracking()
+                       .AsNoTracking()
                        .Where(e => e.Date >= DateTime.Now && e.Organizer == user)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
@@ -92,17 +92,30 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public IActionResult PastEvents()
         {
             var user = LoggedUser;
+
+            var displayEventVms = _db.Events
+                .Include(e => e.Address)
+                .Include(e => e.Organizer)
+                .AsNoTracking()
+                .Where(e => e.Date < DateTime.Now && e.Organizer == user)
+                .OrderByDescending(e => e.Date)
+                .Select(e => CreateEventViewModelForDisplaying(e))
+                .ToList();
+
+            var moneyCollectedOnEvent = _db.VolunteersOnEvent
+                .GroupBy(voe => voe.EventId)
+                .Select(group => new {
+                    EventId = group.Key,
+                    MoneyCollected = group.Sum(g => g.AmountOfMoneyCollected)
+                }).ToDictionary(k => k.EventId, v => v.MoneyCollected);
+
+            displayEventVms.ForEach(dvm =>
+                dvm.CollectedMoney = moneyCollectedOnEvent.ContainsKey(dvm.EventId) ? moneyCollectedOnEvent[dvm.EventId] : 0
+            );
+            
             var vm = new EventsViewModel
             {
-                EventViewModels =
-                    _db.Events
-                       .Include(e => e.Address)
-                       .Include(e => e.Organizer)
-                       //.AsNoTracking()
-                       .Where(e => e.Date < DateTime.Now && e.Organizer == user)
-                       .OrderByDescending(e => e.Date)
-                       .ToList()
-                       .Select(e => CreateEventViewModelForDisplaying(e)),
+                EventViewModels = displayEventVms,
                 ViewType = PanelViewType.ARCHIVED_EVENTS
             };
 
@@ -122,8 +135,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Address = $"ul. {e.Address.Street} {e.Address.BuildingNumber}{n}, {e.Address.PostalCode} {e.Address.City}",
                 ShortenedDescription = e.Description.Length > 100 ? e.Description.Substring(0, 100) + "[...]" : e.Description,
                 OrganizerName = e.Organizer.FullName,
-                RequiredPoints = e.RequiredPoints,
-                CollectedMoney = e.CollectedMoney
+                RequiredPoints = e.RequiredPoints
             };
         }
     }

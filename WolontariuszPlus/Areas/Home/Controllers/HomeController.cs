@@ -36,7 +36,6 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 .Where(e => e.Date >= DateTime.Now)
                 .OrderBy(e => e.Date)
                 .Select(e => CreateEventViewModelForDisplaying(e))
-                .AsNoTracking()
                 .ToList();
 
             if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
