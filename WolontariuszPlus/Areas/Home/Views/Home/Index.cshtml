@@ -2,9 +2,6 @@
 @using Microsoft.AspNetCore.Identity
 @using WolontariuszPlus.Models
 
-@inject SignInManager<IdentityUser> signInManager
-@inject UserManager<IdentityUser> userManager
-
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -31,7 +28,7 @@
                             <div class="col">
                                 <a asp-action="EventDetails" class="btn button btn-outline-primary" asp-route-eventId="@item.EventId">Szczegóły</a>
 
-                                @if (signInManager.IsSignedIn(User) && User.IsInRole(Roles.VolunteerRole))
+                                @if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
                                 {
                                     @if (item.IsOnEvent)
                                     {

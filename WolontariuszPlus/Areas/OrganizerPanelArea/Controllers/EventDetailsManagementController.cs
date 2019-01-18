@@ -5,8 +5,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement;
+using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
 
@@ -31,8 +33,15 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public IActionResult PlannedEventDetails(int eventId)
         {
             var ev = _db.Events.Find(eventId);
+            if (ev == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
 
-            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
+            var voes = _db.VolunteersOnEvent
+                .Include(voe => voe.Volunteer)
+                .Where(voe => voe.EventId == eventId)
+                .ToList();
 
             var volunteers = voes.Select(voe =>
                 new VolunteerViewModel
@@ -64,7 +73,15 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public IActionResult PastEventDetails(int eventId)
         {
             var ev = _db.Events.Find(eventId);
-            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
+            if (ev == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
+
+            var voes = _db.VolunteersOnEvent
+                .Include(voe => voe.Volunteer)
+                .Where(voe => voe.EventId == eventId)
+                .ToList();
 
             var volunteers = voes.Select(voe =>
                 new VolunteerViewModel
@@ -97,7 +114,15 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
         public IActionResult RateVolunteer(int volunteerOnEventId)
         {
-            var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
+            var voe = _db.VolunteersOnEvent
+                .Include(ve => ve.Volunteer)
+                .Include(ve => ve.Event)
+                .FirstOrDefault(ve => ve.VolunteerOnEventId == volunteerOnEventId);
+
+            if (voe == null)
+            {
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerOnEventNotExists);
+            }
 
             if (!voe.Event.CanModify())
             {
@@ -124,7 +149,14 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         {
             if (!ModelState.IsValid) return View(vm);
 
-            var voe = _db.VolunteersOnEvent.Find(vm.VolunteerOnEventId);
+            var voe = _db.VolunteersOnEvent
+                .Include(ve => ve.Event)
+                .FirstOrDefault(ve => ve.VolunteerOnEventId == vm.VolunteerOnEventId);
+
+            if (voe == null)
+            {
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerOnEventNotExists);
+            }
 
             if (!voe.Event.CanModify())
             {
@@ -142,7 +174,15 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
         public IActionResult AddMoney(int volunteerOnEventId, double collectedMoney)
         {
-            var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
+            var voe = _db.VolunteersOnEvent
+                .Include(ve => ve.Volunteer)
+                .Include(ve => ve.Event)
+                .FirstOrDefault(ve => ve.VolunteerOnEventId == volunteerOnEventId);
+
+            if (voe == null)
+            {
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerOnEventNotExists);
+            }
 
             if (!voe.Event.CanModify())
             {
@@ -168,6 +208,10 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             if (!ModelState.IsValid) return View(vm);
 
             var voe = _db.VolunteersOnEvent.Find(vm.VolunteerOnEventId);
+            if (voe == null)
+            {
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerOnEventNotExists);
+            }
 
             if (!voe.Event.CanModify())
             {
@@ -182,9 +226,14 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return RedirectToAction("PastEventDetails", new { eventId = voe.EventId });
         }
 
+
         public IActionResult ViewOpinion(int volunteerOnEventId)
         {
             var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
+            if (voe == null)
+            {
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerOnEventNotExists);
+            }
 
             var opinion = new VolunteerPanelArea.Models.OpinionViewModel
             {
@@ -196,26 +245,6 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return View(opinion);
         }
 
-        //public IActionResult RemoveVolunteerFromEvent(int volunteerOnEventId)
-        //{
-        //    var voe = _db.VolunteersOnEvent.Find(volunteerOnEventId);
-
-        //    if (voe.Event.Date < DateTime.Now.AddMinutes(1))
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var vm = new RemoveVolunteerViewModel
-        //    {
-        //        VolunteerOnEventId = voe.VolunteerOnEventId,
-        //        EventId = voe.EventId,
-        //        VolunteerName = voe.Volunteer.FullName,
-        //        EventName = voe.Event.Name
-        //    };
-
-        //    return View(vm);
-        //}
-
 
         [HttpPost]
         public string RemoveVolunteerFromEvent(RemoveVolunteerViewModel vm)
@@ -223,6 +252,10 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             if (!ModelState.IsValid) return "Błąd";
 
             var voe = _db.VolunteersOnEvent.Find(vm.VolunteerOnEventId);
+            if (voe == null)
+            {
+                return "Błąd";
+            }
 
             if (voe.Event.Date < DateTime.Now.AddMinutes(1))
             {

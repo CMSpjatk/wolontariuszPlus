@@ -5,7 +5,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WolontariuszPlus.Areas.VolunteerPanelArea.Models;
+using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
 using WolontariuszPlus.ViewModels;
@@ -25,7 +27,10 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
 
         public IActionResult PersonalData()
         {
-            var volunteer = LoggedUser as Volunteer;
+            var volunteer = _db.AppUsers
+                .Include(u => u.Address)
+                .First(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)) as Volunteer;
+
             var vm = new UserViewModel
             {
                 FirstName = volunteer.FirstName,
@@ -56,12 +61,12 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             var volunteer = LoggedUser as Volunteer;
             volunteer.Update(vm.PhoneNumber, vm.City, vm.Street, vm.BuildingNumber, vm.ApartmentNumber, vm.PostalCode, vm.PESEL);
             
-
             _db.AppUsers.Update(volunteer);
             _db.SaveChanges();
 
             return RedirectToAction();
         }
+
 
         public IActionResult UpcomingEvents()
         {
@@ -71,10 +76,16 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             {
                 EventViewModels = 
                     _db.VolunteersOnEvent
-                       .Where(e => e.Event.Date >= DateTime.Now && e.Volunteer == user)
-                       .OrderByDescending(e => e.Event.Date)
+                       .Include(voe => voe.Event)
+                            .ThenInclude(e => e.Address)
+                       .Include(voe => voe.Event)
+                            .ThenInclude(e => e.Organizer)
+                       .Include(voe => voe.Volunteer)
+                       .AsNoTracking()
+                       .Where(voe => voe.Event.Date >= DateTime.Now && voe.Volunteer == user)
+                       .OrderByDescending(voe => voe.Event.Date)
                        .ToList()
-                       .Select(e => CreateEventViewModel(e)),
+                       .Select(voe => CreateEventViewModel(voe)),
                 ViewType = PanelViewType.UPCOMING_EVENTS
             };
             
@@ -90,6 +101,12 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             {
                 EventViewModels =
                     _db.VolunteersOnEvent
+                       .Include(voe => voe.Event)
+                            .ThenInclude(e => e.Address)
+                       .Include(voe => voe.Event)
+                            .ThenInclude(e => e.Organizer)
+                       .Include(voe => voe.Volunteer)
+                       .AsNoTracking()
                        .Where(e => e.Event.Date < DateTime.Now && e.Volunteer == user)
                        .OrderByDescending(e => e.Event.Date)
                        .ToList()
@@ -109,9 +126,15 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             {
                 EventViewModels =
                     _db.VolunteersOnEvent
-                    .Where(voe => voe.Event.Date < DateTime.Now && voe.Volunteer == user && string.IsNullOrEmpty(voe.OpinionAboutEvent))
-                    .ToList()
-                    .Select(e => CreateEventViewModel(e)),
+                       .Include(voe => voe.Event)
+                            .ThenInclude(e => e.Address)
+                       .Include(voe => voe.Event)
+                            .ThenInclude(e => e.Organizer)
+                       .Include(voe => voe.Volunteer)
+                       .AsNoTracking()
+                       .Where(voe => voe.Event.Date < DateTime.Now && voe.Volunteer == user && string.IsNullOrEmpty(voe.OpinionAboutEvent))
+                       .ToList()
+                       .Select(e => CreateEventViewModel(e)),
                 ViewType = PanelViewType.EVENTS_WITHOUT_OPINION
             };
 
@@ -121,7 +144,14 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
         public IActionResult EventDetails(int eventId, PanelViewType panelViewType)
         {
             var ev = _db.Events.Find(eventId);
-            var voes = _db.VolunteersOnEvent.Where(voe => voe.EventId == eventId).ToList();
+            if (ev == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
+
+            var voes = _db.VolunteersOnEvent
+                .Include(voe => voe.Volunteer)
+                .Where(voe => voe.EventId == eventId).ToList();
 
             var volunteers = voes.Select(voe =>
                 new VolunteerViewModel
@@ -190,7 +220,11 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             var currentUserId = LoggedUser.AppUserId;
             var eventToRateId = vm.EventId;
 
-            var userInEvent = _db.VolunteersOnEvent.First(x => x.EventId == eventToRateId && x.VolunteerId == currentUserId);
+            var userInEvent = _db.VolunteersOnEvent.FirstOrDefault(x => x.EventId == eventToRateId && x.VolunteerId == currentUserId);
+            if (userInEvent == null)
+            {
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerIsNotOnThisEvent);
+            }
 
             userInEvent.AddOpinion(vm.Opinion, vm.Rate);
 
@@ -205,6 +239,10 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             var currentUserId = LoggedUser.AppUserId;
 
             var userInEvent = _db.VolunteersOnEvent.First(x => x.EventId == eventId && x.VolunteerId == currentUserId);
+            if (userInEvent == null)
+            {
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerIsNotOnThisEvent);
+            }
 
             var vm = new OpinionViewModel
             {

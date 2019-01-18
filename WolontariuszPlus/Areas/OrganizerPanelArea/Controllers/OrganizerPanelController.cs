@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
@@ -28,7 +29,10 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
         public IActionResult PersonalData()
         {
-            var user = LoggedUser as Organizer;
+            var user = _db.AppUsers
+                .Include(u => u.Address)
+                .First(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier)) as Organizer;
+
             var vm = new UserViewModel
             {
                 FirstName = user.FirstName,
@@ -55,7 +59,6 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             }
 
             var organizer = LoggedUser;
-
             organizer.Update(vm.PhoneNumber, vm.City, vm.Street, vm.BuildingNumber, vm.ApartmentNumber, vm.PostalCode);
 
             _db.AppUsers.Update(organizer);
@@ -73,6 +76,9 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             {
                 EventViewModels =
                     _db.Events
+                       .Include(e => e.Address)
+                       .Include(e => e.Organizer)
+                       //.AsNoTracking()
                        .Where(e => e.Date >= DateTime.Now && e.Organizer == user)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
@@ -86,11 +92,13 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         public IActionResult PastEvents()
         {
             var user = LoggedUser;
-
             var vm = new EventsViewModel
             {
                 EventViewModels =
                     _db.Events
+                       .Include(e => e.Address)
+                       .Include(e => e.Organizer)
+                       //.AsNoTracking()
                        .Where(e => e.Date < DateTime.Now && e.Organizer == user)
                        .OrderByDescending(e => e.Date)
                        .ToList()

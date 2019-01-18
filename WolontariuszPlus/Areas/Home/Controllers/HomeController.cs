@@ -15,6 +15,7 @@ using WolontariuszPlus.ViewModels;
 
 namespace WolontariuszPlus.Areas.Home.Controllers
 {
+    [AllowAnonymous]
     [Area("Home")]
     public class HomeController : Controller
     {

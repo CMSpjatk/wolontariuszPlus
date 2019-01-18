@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
@@ -12,6 +14,7 @@ using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 {
+    [Authorize(Roles = Roles.OrganizerRole)]
     [Area("OrganizerPanelArea")]
     public class EventsManagementController : Controller
     {
@@ -95,7 +98,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
         public IActionResult UpdateEvent(int eventId)
         {
-            var eventToUpdate = _db.Events.Find(eventId);
+            var eventToUpdate = _db.Events.Include(e => e.Address).FirstOrDefault(e => e.EventId == eventId);
+            if (eventToUpdate == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
 
             if (eventToUpdate.Date < DateTime.Now.AddMinutes(1))
             {
@@ -128,7 +135,11 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 return View(vm);
             }
 
-            var eventToUpdate = _db.Events.Find(vm.EventId);
+            var eventToUpdate = _db.Events.Include(e => e.Address).FirstOrDefault(e => e.EventId == vm.EventId);
+            if (eventToUpdate == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
 
             if (eventToUpdate.Date < DateTime.Now.AddMinutes(1))
             {
@@ -169,7 +180,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 {
                     _formFilesManagement.DeleteWholeEventFolder(vm.EventId);
                 }
-                catch (DirectoryNotFoundException exc) {} // stock files
+                catch (DirectoryNotFoundException) {} // stock files
 
                 relativePath = _formFilesManagement.SaveFileToFileSystem(vm.FormFile, vm.EventId);
             }
@@ -181,29 +192,16 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return RedirectToAction("EventsList", "OrganizerPanel");
         }
 
-        //public IActionResult DeleteEvent(int eventId)
-        //{
-        //    if (eventId <= 0)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    var eventToDelete = _db.Events.Find(eventId);
-
-        //    if (eventToDelete == null || eventToDelete.Date < DateTime.Now.AddMinutes(1))
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    return View(new DeleteEventViewModel { EventId = eventId });
-        //}
-
         [HttpPost]
         public string DeleteEvent(DeleteEventViewModel vm)
         {
             if (!ModelState.IsValid) return "Błąd";
 
             var eventToDelete = _db.Events.Find(vm.EventId);
+            if (eventToDelete == null)
+            {
+                return "Błąd";
+            }
 
             if (eventToDelete.Date < DateTime.Now.AddMinutes(1)){
                 return "Błąd";
@@ -216,7 +214,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             {
                 _formFilesManagement.DeleteWholeEventFolder(eventToDelete.EventId);
             }
-            catch (DirectoryNotFoundException exc) { } // stock files
+            catch (DirectoryNotFoundException) { } // stock files
 
             return "/OrganizerPanelArea/OrganizerPanel/EventsList";
         }
