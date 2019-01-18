@@ -26,25 +26,24 @@
                     <div class="card-body flex-body">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.ShortenedDescription)</p>
-                        @{
-                            var currentUser = await userManager.GetUserAsync(User);
-                            var isVolunteer = currentUser != null && await userManager.IsInRoleAsync(currentUser, Roles.VolunteerRole);
-                        }
 
                         <div class="row button-bottom">
                             <div class="col">
                                 <a asp-action="EventDetails" class="btn button btn-outline-primary" asp-route-eventId="@item.EventId">Szczegóły</a>
 
-                                @if (signInManager.IsSignedIn(User) && isVolunteer)
+                                @if (signInManager.IsSignedIn(User) && User.IsInRole(Roles.VolunteerRole))
                                 {
-
                                     @if (item.IsOnEvent)
                                     {
                                         <div class="btn disabled" style="background-color: gray;">Jesteś zapisany!</div>
                                     }
-                                    else
+                                    else if (ViewBag.VolunteerPoints >= item.RequiredPoints)
                                     {
                                         <a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>
+                                    }
+                                    else
+                                    {
+                                        <div class="btn disabled" style="background-color: gray;">Za mało punktów!</div>
                                     }
                                 }
                             </div>

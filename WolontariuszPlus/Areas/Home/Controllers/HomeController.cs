@@ -6,7 +6,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
+using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
 using WolontariuszPlus.Models;
 using WolontariuszPlus.ViewModels;
@@ -14,7 +16,6 @@ using WolontariuszPlus.ViewModels;
 namespace WolontariuszPlus.Areas.Home.Controllers
 {
     [Area("Home")]
-    [AllowAnonymous]
     public class HomeController : Controller
     {
         private readonly CMSDbContext _db;
@@ -27,16 +28,39 @@ namespace WolontariuszPlus.Areas.Home.Controllers
 
         public IActionResult Index()
         {
+            var displayEventVms = _db.Events
+                .Include(e => e.Address)
+                .Include(e => e.Organizer)
+                .AsNoTracking()
+                .Where(e => e.Date >= DateTime.Now)
+                .OrderBy(e => e.Date)
+                .Select(e => CreateEventViewModelForDisplaying(e))
+                .AsNoTracking()
+                .ToList();
+
+            if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
+            {
+                AppUser loggedUser = LoggedUser;
+                ViewBag.VolunteerPoints = ((Volunteer)loggedUser).Points;
+
+                var eventsInWhichThisVolunteerTakesPart = _db.VolunteersOnEvent
+                    .Include(voe => voe.Volunteer)
+                    .Include(voe => voe.Event)
+                    .Where(voe => voe.Volunteer.IdentityUserId == loggedUser.IdentityUserId)
+                    .Select(voe => voe.Event)
+                    .AsNoTracking()
+                    .ToList();
+
+                displayEventVms.ForEach(dvm =>
+                    dvm.IsOnEvent = eventsInWhichThisVolunteerTakesPart.Any(cc => cc.EventId == dvm.EventId)
+                );
+            }
+
             var vm = new EventsViewModel
             {
-                EventViewModels =
-                    _db.Events
-                       .Where(e => e.Date >= DateTime.Now)
-                       .OrderBy(e => e.Date)
-                       .ToList()
-                       .Select(e => CreateEventViewModelForDisplaying(e)),
+                EventViewModels = displayEventVms
             };
-
+            
             return View(vm);
         }
 
@@ -53,39 +77,35 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 ShortenedDescription = e.Description.Length > 100 ? e.Description.Substring(0, 100) + "[...]" : e.Description,
                 OrganizerName = $"{e.Organizer.FirstName} {e.Organizer.LastName}",
                 RequiredPoints = e.RequiredPoints,
-                IsOnEvent = LoggedUser != null ? IsVolunteerOnEvent(e) : false,
+                IsOnEvent = false,
                 ImageRelativePath = e.ImageRelativePath
             };
-        }
-
-        private bool IsVolunteerOnEvent(Event e)
-        {
-            bool isOnEvent = false;
-            var volunteer = LoggedUser as Volunteer;
-
-            if ((e.VolunteersOnEvent.Any(x => x.Volunteer == volunteer && x.Event == e)))
-            {
-                isOnEvent = true;
-            }
-
-            return isOnEvent;
         }
 
         [Authorize(Roles = Roles.VolunteerRole)]
         public IActionResult AddVolunteerToEvent(int eventId)
         {
             var choosenEvent = _db.Events.Find(eventId);
+            if (choosenEvent == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
+            
+            if (!User.IsInRole(Roles.VolunteerRole))
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.OnlyVolunteerCanTakePartInEvent);
+            }
 
             if (choosenEvent.Date <= DateTime.Today)
             {
-                return BadRequest("Nie można zapisać się na wydarzenie, które już się odbyło.");
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventDatePassed);
             }
             
             var volunteerToAdd = LoggedUser as Volunteer;
 
             if (volunteerToAdd.Points < choosenEvent.RequiredPoints)
             {
-                return BadRequest("Wolontariusz nie ma wystarczającej liczby punktów, aby zapisać się na to wydarzenie");
+                return BadRequest(ErrorMessagesProvider.EventErrors.NotEnoughPoints);
             }
 
             choosenEvent.AddVolunteerToEvent(volunteerToAdd);
@@ -98,7 +118,13 @@ namespace WolontariuszPlus.Areas.Home.Controllers
 
         public IActionResult EventDetails(int eventId)
         {
-            return View(_db.Events.Find(eventId));
+            var @event = _db.Events.Find(eventId);
+            if (@event == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
+
+            return View(@event);
         }
     }
 }
