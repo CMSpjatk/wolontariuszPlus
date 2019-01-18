@@ -34,9 +34,23 @@
     <div class="row">
         <div class="col-md-3 mb-4">
             <div class="list-group">
-                <a asp-action="UpcomingEvents" class="list-group-item list-group-item-action">Wydarzenia nadchodzące</a>
-                <a asp-action="ArchivedEvents" class="list-group-item list-group-item-action">Wydarzenia zakończone</a>
-                <a asp-action="PersonalData" class="list-group-item list-group-item-action">Dane osobowe</a>
+                @{
+                    var actionName = ViewContext.RouteData.Values["Action"].ToString();
+                }
+
+                <a asp-action="UpcomingEvents"
+                   class="list-group-item list-group-item-action
+                   @(actionName == "UpcomingEvents" || actionName == "EventDetails" ? "active" : "")">
+                    Wydarzenia nadchodzące
+                </a>
+                <a asp-action="ArchivedEvents"
+                   class="list-group-item list-group-item-action @(actionName == "ArchivedEvents" || actionName == "EventsWithoutOpinion" || actionName == "AddOpinionAboutEvent" || actionName == "UpdateOpinionAboutEvent" ? "active" : "")">
+                    Wydarzenia zakończone
+                </a>
+                <a asp-action="PersonalData"
+                   class="list-group-item list-group-item-action @(actionName == "PersonalData" ? "active" : "")">
+                    Dane osobowe
+                </a>
             </div>
         </div>
         <div class="col-md-9">
