@@ -1,133 +1,15 @@
 ﻿@model EventsViewModel
-<!--Dawne rozwiazanie-->
-@*@if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-    {
-        <h4>Zaplanowane wydarzenia</h4>
 
-        <a asp-controller="EventsManagement" asp-action="CreateEvent">Dodaj nowe wydarzenie</a>
-    }
-    else
-    {
-        <h4>Zakończone wydarzenia</h4>
-    }
-
-    <table id="organizer-table" class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription)
-                </th>
-                @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-                {
-                    <th>
-                        @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
-                    </th>
-                }
-                else
-                {
-                    <th>
-                        @Html.DisplayNameFor(model => model.DefaultEvent.CollectedMoney)
-                    </th>
-                }
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.Address)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.EventViewModels)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ShortenedDescription)
-                    </td>
-                    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RequiredPoints)
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CollectedMoney)
-                        </td>
-                    }
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Address)
-                    </td>
-                    <td>
-                        @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-                        {
-                            @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { eventId = item.EventId }) @:|
-                            @Html.ActionLink("Edytuj", "UpdateEvent", "EventsManagement", new { eventId = item.EventId }) @:|
-                            <a href="#"
-                                onclick="deleteAlert(
-                                    'OrganizerPanelArea',
-                                    'EventsManagement',
-                                    'DeleteEvent',
-                                    'EventId',
-                                    @item.EventId,
-                                    'wydarzenie &quot;@item.Name&quot;',
-                                    event)">
-                                Usuń
-                            </a>
-                        }
-                        else
-                        {
-                            @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>*@
-<!--Dawne rozwiazanie-->
 
 @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
 {
-
     <h3>Wydarzenia zaplanowane</h3>
-
-    @*<div class="flex-kama">
-            <div><h4>Zaplanowane wydarzenia</h4></div>
-            <div>
-                <span style="font-size: 16px; color: Dodgerblue; float:right">
-                    <h1><a asp-controller="EventsManagement" asp-action="CreateEvent"><i class="fas fa-plus-square fa-32x"></i></a></h1>
-                </span>
-            </div>
-        </div>*@
-
-    @*<a asp-controller="EventsManagement" asp-action="CreateEvent">Dodaj nowe wydarzenie</a>*@
-
-
 }
 else
 {
     <h3>Wydarzenia zakończone</h3>
-    @*<div class="flex-kama">
-            <div><h4>Zakończone wydarzenia</h4></div>
-            <div>
-                <span style="font-size: 16px; color: Dodgerblue; float:right">
-                    <h1><a asp-controller="EventsManagement" asp-action="CreateEvent"><i class="fas fa-plus-square fa-32x"></i></a></h1>
-                </span>
-            </div>
-        </div>*@
 }
-<br/>
+<br />
 
 <table id="organizer-table" class="table table-striped">
     <thead>
@@ -184,10 +66,16 @@ else
                 <td>
                     @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
                     {
-                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { eventId = item.EventId }) @:|
-                        @Html.ActionLink("Edytuj", "UpdateEvent", "EventsManagement", new { eventId = item.EventId }) @:|
-                        <a href="#"
-                           onclick="deleteAlert(
+
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PlannedEventDetails" asp-route-eventId="@item.EventId">
+                                <i class="far fa-list-alt"></i>
+                            </a>
+                            <a class="btn btn-primary" asp-controller="EventsManagement" asp-action="UpdateEvent" asp-route-eventId="@item.EventId">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger" href="#"
+                               onclick="deleteAlert(
                                     'OrganizerPanelArea',
                                     'EventsManagement',
                                     'DeleteEvent',
@@ -195,104 +83,18 @@ else
                                     @item.EventId,
                                     'wydarzenie &quot;@item.Name&quot;',
                                     event)">
-                            Usuń
-                        </a>
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </div>
                     }
                     else
-                    { 
+                    {
                         <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PastEventDetails" asp-route-eventId="@item.EventId">
                             <i class="far fa-list-alt"></i>
                         </a>
-                        @*@Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })*@
                     }
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<!--DAWNA TABELA-->
-@*<table id="organizer-table" class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.ShortenedDescription)
-            </th>
-            @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
-                </th>
-            }
-            else
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.CollectedMoney)
-                </th>
-            }
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Address)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.EventViewModels)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShortenedDescription)
-                </td>
-                @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequiredPoints)
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CollectedMoney)
-                    </td>
-                }
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-                    {
-                        @Html.ActionLink("Szczegóły", "PlannedEventDetails", "EventDetailsManagement", new { eventId = item.EventId }) @:|
-                        @Html.ActionLink("Edytuj", "UpdateEvent", "EventsManagement", new { eventId = item.EventId }) @:|
-                        <a href="#"
-                           onclick="deleteAlert(
-                                    'OrganizerPanelArea',
-                                    'EventsManagement',
-                                    'DeleteEvent',
-                                    'EventId',
-                                    @item.EventId,
-                                    'wydarzenie &quot;@item.Name&quot;',
-                                    event)">
-                            Usuń
-                        </a>
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Szczegóły", "PastEventDetails", "EventDetailsManagement", new { eventId = item.EventId })
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>*@

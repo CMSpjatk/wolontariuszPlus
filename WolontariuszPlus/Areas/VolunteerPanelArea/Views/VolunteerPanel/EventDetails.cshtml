@@ -1,24 +1,27 @@
 ﻿@model WolontariuszPlus.Areas.VolunteerPanelArea.Models.EventDetailsViewModel
 
 <div>
-    <h2>Szczegóły wydarzenia</h2>
-    <!--KAMA POCZATEK-->
+    <h2 style="text-align:center">Szczegóły wydarzenia</h2>
+
     <div class="card m-4" style="min-width:20rem">
         <img class="card-img-top" src="~/@WolontariuszPlus.Properties.Resources.UploadsFolderName/@Model.ImageRelativePath" alt="zdjecie-tytulowe-wydarzenia">
-        <div class="card-body flex-body">
-            <h3>@Html.DisplayFor(model => model.Name)</h3>
+        <div class="card-body flex-body" style="text-align:center">
+            <h3>
+                @Html.DisplayFor(model => model.Name)
+            </h3>
+            <h6>ADRES@*@Html.DisplayFor(model => model.Address)*@</h6> <!-- ADRES TUTAJ W DOBRYM FORMACIE-->
             <h6>@Html.DisplayFor(model => model.Date)</h6>
-            @*<h5>@Html.DisplayNameFor(model => model.): @Html.DisplayFor(modelItem => item.OrganizerName)</h5>*@
         </div>
         <hr />
-        <div class="card-body flex-body">
+        <div class="card-body flex-body" style="text-align:center">
             <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
         </div>
-        @*<div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
-            @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)
-        </div>*@
+        <div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
+            @*Organizator: @Html.DisplayFor(model => Model.Organizer.FullName)
+                <br />
+                Wymagane punkty: @Html.DisplayFor(modelItem => Model.RequiredPoints)*@
+        </div>
     </div>
-    <!--KAMA KONIEC-->
 
     @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
     {
@@ -93,12 +96,12 @@
     </table>
 </div>
 @*<div>
-    @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-    {
-        <a asp-action="UpcomingEvents">Wróć do grafiku</a>
-    }
-    else
-    {
-        <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
-    }
-</div>*@
+        @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+        {
+            <a asp-action="UpcomingEvents">Wróć do grafiku</a>
+        }
+        else
+        {
+            <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
+        }
+    </div>*@

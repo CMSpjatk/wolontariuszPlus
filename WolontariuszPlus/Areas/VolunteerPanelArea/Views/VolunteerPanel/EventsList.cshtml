@@ -11,9 +11,8 @@ else if (Model.ViewType == PanelViewType.EVENTS_WITHOUT_OPINION)
 {
 
     <h3>Wydarzenia bez opinii</h3>
-
-    @*<a class="btn btn-outline-dark" asp-controller="VolunteerPanel" asp-action="ArchivedEvents">Wszystkie zakończone wydarzenia</a>
-    <br />*@
+    <a class="btn btn-outline-dark" asp-controller="VolunteerPanel" asp-action="ArchivedEvents">Wydarzenia zakończone</a>
+    <br />
 }
 else
 {
@@ -36,9 +35,6 @@ else
             </th>
             <th scope="col">
                 @Html.DisplayNameFor(model => model.DefaultEvent.Address)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.DefaultEvent.Description)
             </th>
             <th scope="col">
                 @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
@@ -72,100 +68,6 @@ else
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequiredPoints)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReceivedPoints)
-                </td>
-                @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
-                {
-                    <td>
-                        @(item.IsRated ? "Tak" : "Nie")
-                    </td>
-                }
-                    <td>
-                        @*<button type="button" class="btn btn-success">
-                            <i class="far fa-list-alt">@Html.ActionLink("", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })</i>
-                        </button>*@
-                        @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
-
-                        @{
-                            if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
-                            {
-                                if (item.IsRated)
-                                {
-                                    @:|@Html.ActionLink("Aktualizuj ocenę", "UpdateOpinionAboutEvent", new { eventId = item.EventId })
-                                }
-                                else
-                                {
-
-                                    @:| @Html.ActionLink("Oceń", "AddOpinionAboutEvent", new { eventId = item.EventId })
-                                }
-                            }
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-</table>
-
-<!--Dawne rozwiazanie-->
-@*<table id="@(Model.ViewType == PanelViewType.ARCHIVED_EVENTS ? "volunteer-table-archived" : "volunteer-table")" class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DefaultEvent.ReceivedPoints)
-            </th>
-            @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
-            {
-                <th>
-                    @Html.DisplayNameFor(model => model.DefaultEvent.IsRated)
-                </th>
-            }
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.EventViewModels)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrganizerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.RequiredPoints)
                 </td>
                 <td>
@@ -178,7 +80,10 @@ else
                     </td>
                 }
                 <td>
-                    @Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })
+                    <a class="btn btn-success" asp-action="EventDetails" asp-route-eventId="@item.EventId">
+                        <i class="far fa-list-alt"></i>
+                    </a>
+                    @*@Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })*@
 
                     @{
                         if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
@@ -198,4 +103,4 @@ else
             </tr>
         }
     </tbody>
-</table>*@
+</table>
