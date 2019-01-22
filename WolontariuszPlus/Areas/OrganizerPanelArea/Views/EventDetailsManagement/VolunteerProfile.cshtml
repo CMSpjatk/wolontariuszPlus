@@ -1,19 +1,104 @@
 ﻿@model UserViewModel
-
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-10">
-                    <h4>Dane osobowe użytkownika: @foreach (var item in Model.UserViewModelList)
-                    {
-                        @Html.DisplayFor(model => item.FirstName)
-                    }
+                    <h4>
+                        Dane osobowe użytkownika @foreach (var item in Model.UserViewModelList)
+                        {@*@Html.DisplayFor(model => item.FirstName)*@}
                     </h4>
                     <hr>
                 </div>
             </div>
+
+            @*<div class="row">
+                                <div class="col-md-12">
+                                    @foreach (var m in Model.UserViewModelList)
+                    {
+                                <div class="form-row">
+                                    <div class="col form-group">
+                                        @Html.DisplayNameFor(model => model.FirstName):
+                                        @Html.DisplayFor(modelItem => m.FirstName)
+                                    </div>
+                                    <div class="col form-group">
+                                        @Html.DisplayNameFor(model => model.LastName):
+                                        @Html.DisplayFor(modelItem => m.LastName)
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col form-group">
+                                        @Html.DisplayNameFor(model => model.PhoneNumber):
+                                        @Html.DisplayFor(modelItem => m.PhoneNumber)
+                                    </div>
+                                    <div class="col form-group">
+                                        @Html.DisplayNameFor(model => model.City):
+                                        @Html.DisplayFor(modelItem => m.City)
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        @Html.DisplayNameFor(model => model.Points):
+                                        @Html.DisplayFor(modelItem => m.Points)
+                                    </div>
+                                </div>
+                }
+                                </div>
+                            </div>*@
+
+
+
             <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.City)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Points)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model.UserViewModelList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.FirstName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.LastName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.PhoneNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.City)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Points)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+@*<table class="table">
                 <thead>
                     <tr>
                         <th>
@@ -50,42 +135,42 @@
                 </thead>
                 <tbody>
                     @foreach (var v in Model.UserViewModelList)
-                    {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.FirstName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.LastName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.PhoneNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.City)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.Street)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.BuildingNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.ApartmentNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.PostalCode)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.PESEL)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => v.Points)
-                        </td>
-                    </tr>
-                    }
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Street)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.BuildingNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.ApartmentNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.PostalCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.PESEL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => v.Points)
+                    </td>
+                </tr>
+    }
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
+            </div>
+        </div>*@

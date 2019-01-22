@@ -1,18 +1,15 @@
 ﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventsViewModel
 @using Microsoft.AspNetCore.Identity
 @using WolontariuszPlus.Models
-
 @{
     ViewData["Title"] = "Home Page";
 }
-
 <div class="jumbotron m-jumbo text-center">
     <h1 class="display-3 text-center">Platforma Wolontariusz+</h1>
     <p class="lead">Aplikacja łącząca wolontariuszy z organiztorami.</p>
 </div>
 <br />
 <h2 style="text-align:center">Nadchodzące wydarzenia</h2>
-
 <div class="container">
     <div class="card-deck-wrapper">
         <div class="card-deck text-center">
@@ -23,16 +20,14 @@
                     <div class="card-body flex-body">
                         <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.ShortenedDescription)</p>
-
                         <div class="row button-bottom">
                             <div class="col">
                                 <a asp-action="EventDetails" class="btn button btn-outline-primary" asp-route-eventId="@item.EventId">Szczegóły</a>
-
                                 @if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
                                 {
                                     @if (item.IsOnEvent)
                                     {
-                                        <div class="btn disabled" style="background-color: gray;">Jesteś zapisany!</div>
+                                        <div class="btn disabled btn-success">Jesteś zapisany!</div>
                                     }
                                     else if (ViewBag.VolunteerPoints >= item.RequiredPoints)
                                     {
@@ -40,7 +35,7 @@
                                     }
                                     else
                                     {
-                                        <div class="btn disabled" style="background-color: gray;">Za mało punktów!</div>
+                                        <div class="btn disabled btn-outline-secondary">Za mało punktów!</div>
                                     }
                                 }
                             </div>
