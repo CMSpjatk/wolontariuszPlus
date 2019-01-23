@@ -1,4 +1,7 @@
 ﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsViewModel
+@{
+    ViewData["Title"] = "Szczegóły wydarzenia";
+}
 <div>
     <h2 style="text-align: center">Szczegóły wydarzenia</h2>
     <div class="card m-4" style="min-width: 20rem">
@@ -6,7 +9,7 @@
         <div class="card-body flex-body" style="        text-align: center">
             <h3>@Html.DisplayFor(model => model.Name)</h3>
             <h6>
-                @{string apartmentNumber = (Model.Address.ApartmentNumber != null ?  ("/" + Model.Address.ApartmentNumber.ToString()) : ""); }
+                @{string apartmentNumber = (Model.Address.ApartmentNumber != null ? ("/" + Model.Address.ApartmentNumber.ToString()) : ""); }
                 Adres:<br />
                 @Model.Address.Street @Model.Address.BuildingNumber@apartmentNumber<br />
                 @Model.Address.PostalCode @Model.Address.City
