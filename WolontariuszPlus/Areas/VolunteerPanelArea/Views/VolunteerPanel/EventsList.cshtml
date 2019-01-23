@@ -2,6 +2,8 @@
 
 @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
 {
+    ViewData["Title"] = "Wydarzenia zakończone";
+
     <h3>Wydarzenia zakończone</h3>
 
     <a class="btn btn-outline-dark" asp-controller="VolunteerPanel" asp-action="EventsWithoutOpinion">Wydarzenia bez opinii</a>
@@ -16,6 +18,8 @@ else if (Model.ViewType == PanelViewType.EVENTS_WITHOUT_OPINION)
 }
 else
 {
+    ViewData["Title"] = "Wydarzenia nadchodzące";
+
     <h3>Wydarzenia nadchodzące</h3>
 }
 

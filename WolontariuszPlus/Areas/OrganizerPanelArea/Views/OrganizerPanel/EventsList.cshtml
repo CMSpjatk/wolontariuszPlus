@@ -3,10 +3,16 @@
 @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
 {
     <h3>Wydarzenia zaplanowane</h3>
+
+    ViewData["Title"] = "Wydarzenia zaplanowane";
+
 }
 else
 {
     <h3>Wydarzenia zakończone</h3>
+
+    ViewData["Title"] = "Wydarzenia zakończone";
+
 }
 <br />
 <table id="organizer-table" class="table table-striped">
