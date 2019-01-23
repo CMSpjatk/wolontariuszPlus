@@ -80,7 +80,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                        .Include(e => e.Address)
                        .Include(e => e.Organizer)
                        .AsNoTracking()
-                       .Where(e => e.Date >= DateTime.Now && e.Organizer == user)
+                       .Where(e => e.Date >= DateTime.Now.AddHours(8) && e.Organizer == user)
                        .ToList()
                        .Select(e => CreateEventViewModelForDisplaying(e)),
                 ViewType = PanelViewType.UPCOMING_EVENTS
@@ -98,7 +98,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 .Include(e => e.Address)
                 .Include(e => e.Organizer)
                 .AsNoTracking()
-                .Where(e => e.Date < DateTime.Now && e.Organizer == user)
+                .Where(e => e.Date < DateTime.Now.AddHours(8) && e.Organizer == user)
                 .OrderByDescending(e => e.Date)
                 .Select(e => CreateEventViewModelForDisplaying(e))
                 .ToList();

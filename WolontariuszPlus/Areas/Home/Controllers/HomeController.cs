@@ -33,7 +33,7 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 .Include(e => e.Address)
                 .Include(e => e.Organizer)
                 .AsNoTracking()
-                .Where(e => e.Date >= DateTime.Now)
+                .Where(e => e.Date >= DateTime.Now.AddHours(8))
                 .OrderBy(e => e.Date)
                 .Select(e => CreateEventViewModelForDisplaying(e))
                 .ToList();
