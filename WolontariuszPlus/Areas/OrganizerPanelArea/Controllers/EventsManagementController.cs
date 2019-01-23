@@ -42,6 +42,12 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 return View(vm);
             }
 
+            if (vm.Date < DateTime.Now)
+            {
+                ModelState.AddModelError("Date", "Data wydarzenia musi być przyszła");
+                return View(vm);
+            }
+
             var address = new Address
             (
                 vm.City,
@@ -132,6 +138,12 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
         {
             if (!ModelState.IsValid)
             {
+                return View(vm);
+            }
+
+            if (vm.Date < DateTime.Now)
+            {
+                ModelState.AddModelError("Date", "Data wydarzenia musi być przyszła");
                 return View(vm);
             }
 
