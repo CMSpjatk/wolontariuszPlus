@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement;
 using WolontariuszPlus.Areas.VolunteerPanelArea.Models;
 using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
@@ -255,7 +256,30 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             return View("AddOpinionAboutEvent", vm);
         }
 
-       
+        [HttpPost]
+        public string RemoveVolunteerFromEvent(RemoveVolunteerViewModel vm)
+        {
+            if (!ModelState.IsValid) return "Błąd";
+
+            var currentUserId = LoggedUser.AppUserId;
+
+            var userInEvent = _db.VolunteersOnEvent.First(x => x.EventId == vm.EventId && x.VolunteerId == currentUserId);
+
+            if (userInEvent == null)
+            {
+                return "Błąd";
+            }
+
+            if (userInEvent.Event.Date < DateTime.Now.AddMinutes(1))
+            {
+                return "Błąd";
+            }
+
+            _db.VolunteersOnEvent.Remove(userInEvent);
+            _db.SaveChanges();
+
+            return $"/VolunteerPanelArea/VolunteerPanelController/PlannedEventDetails/{userInEvent.EventId}";
+        }
 
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
