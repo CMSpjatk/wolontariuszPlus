@@ -1,4 +1,6 @@
 ﻿@model WolontariuszPlus.Models.Event
+@using WolontariuszPlus.Models
+
 <div>
     <h2 style="text-align:center">Szczegóły wydarzenia</h2>
     <div class="card m-4" style="min-width:20rem">
@@ -12,30 +14,25 @@
         <div class="card-body flex-body" style="text-align: center">
             <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
 
-
-
-            @*<div class="row button-bottom">
-                    <div class="col">
-                        @if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
+            <div class="row button-bottom">
+                <div class="col">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
+                    {
+                        @if (ViewBag.IsOnEvent)
                         {
-                            @if (item.IsOnEvent)
-                            {
-                                <div class="btn disabled btn-success">Jesteś zapisany!</div>
-                            }
-                            else if (ViewBag.VolunteerPoints >= item.RequiredPoints)
-                            {
-                                <a href="@Url.Action("AddVolunteerToEvent", new { eventId = item.EventId })" class="btn btn-primary">Zapisz się!</a>
-                            }
-                            else
-                            {
-                                <div class="btn disabled btn-outline-secondary">Za mało punktów!</div>
-                            }
+                            <div class="btn disabled btn-success">Jesteś zapisany!</div>
                         }
-                    </div>
-                </div>*@
-
-
-
+                        else if (ViewBag.VolunteerPoints >= Model.RequiredPoints)
+                        {
+                            <a href="@Url.Action("AddVolunteerToEvent", new { eventId = Model.EventId })" class="btn btn-primary">Zapisz się!</a>
+                        }
+                        else
+                        {
+                            <div class="btn disabled btn-outline-secondary">Za mało punktów!</div>
+                        }
+                    }
+                </div>
+            </div>
         </div>
         <div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03); text-align: center">
             Organizator: @Html.DisplayFor(modelItem => Model.Organizer.FullName)
