@@ -271,42 +271,50 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
         public IActionResult VolunteerProfile(int id)
         {
-            var vms = _db.VolunteersOnEvent
+            var volunteerOnEvent = _db.VolunteersOnEvent
                .Include(voe => voe.Volunteer)
-                .Include(voe => voe.Event)
-                    .ThenInclude(e => e.Address)
-               .Where(voe => voe.VolunteerOnEventId == id)
-               .Select(x => new UserViewModel
-               {
-                   VolunteerId = x.VolunteerId.Value,
-                   FirstName = x.Volunteer.FirstName,
-                   LastName = x.Volunteer.LastName,
-                   PhoneNumber = x.Volunteer.PhoneNumber,
-                   City = x.Volunteer.Address.City,
-                   Street = x.Volunteer.Address.Street,
-                   BuildingNumber = x.Volunteer.Address.BuildingNumber,
-                   ApartmentNumber = x.Volunteer.Address.ApartmentNumber,
-                   PostalCode = x.Volunteer.Address.PostalCode,
-                   PESEL = x.Volunteer.PESEL,
-                   IsVolunteer = true
-               }).ToList();
+               .ThenInclude(v => v.Address)
+               .FirstOrDefault(voe => voe.VolunteerOnEventId == id);
 
-            var usersPoints = _db.VolunteersOnEvent
-                .GroupBy(voe => voe.VolunteerId)
-                .Select(group => new { VolunteerId = group.Key, Points = group.Sum(voe => voe.PointsReceived)})
-                .ToDictionary(k => k.VolunteerId, v => v.Points);
-
-            vms.ForEach(dvm =>
-                dvm.Points = usersPoints.ContainsKey(dvm.VolunteerId) ? usersPoints[dvm.VolunteerId] : 0
-            );
-
-            var model = new UserViewModel
+            if (volunteerOnEvent == null)
             {
-                UserViewModelList = vms
-            };
+                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerOnEventNotExists);
+            }
 
-           
-            return View(model);
+            var volunteer = volunteerOnEvent.Volunteer;
+
+            var pastEvents = _db.VolunteersOnEvent
+                       .Include(voe => voe.Event)
+                            .ThenInclude(e => e.Organizer)
+                       .Include(voe => voe.Volunteer)
+                       .AsNoTracking()
+                       .Where(voe => voe.Event.Date < DateTime.Now && voe.Volunteer == volunteer)
+                       .OrderByDescending(voe => voe.Event.Date)
+                       .Select(voe => new PastEventsViewModel
+                       {
+                           Name = voe.Event.Name,
+                           OrganizerName = voe.Event.Organizer.FullName,
+                           Rating = voe.OpinionAboutVolunteer
+                       }).ToList();
+
+              var vm = new UserViewModel 
+              {
+                  VolunteerId = volunteer.AppUserId,
+                  FirstName = volunteer.FirstName,
+                  LastName = volunteer.LastName,
+                  PhoneNumber = volunteer.PhoneNumber,
+                  City = volunteer.Address.City,
+                  Street = volunteer.Address.Street,
+                  BuildingNumber = volunteer.Address.BuildingNumber,
+                  ApartmentNumber = volunteer.Address.ApartmentNumber,
+                  PostalCode = volunteer.Address.PostalCode,
+                  PESEL = volunteer.PESEL,
+                  IsVolunteer = true,
+                  PastEventViewModelList = pastEvents,
+                  Points = volunteer.Points
+              };
+
+            return View(vm);
         }
     }
 }

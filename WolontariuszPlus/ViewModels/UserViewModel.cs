@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 
 namespace WolontariuszPlus.ViewModels
 {
@@ -67,6 +68,7 @@ namespace WolontariuszPlus.ViewModels
         public bool IsVolunteer { get; set; }
 
         // List for volunteer profile
-        public List<UserViewModel> UserViewModelList { get; set; }
+
+        public List<PastEventsViewModel> PastEventViewModelList { get; set; }
     }
 }
