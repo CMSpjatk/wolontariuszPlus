@@ -84,8 +84,10 @@ else
                         <a class="btn btn-success" asp-action="EventDetails" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Szczegóły wydarzenia">
                             <i class="far fa-list-alt"></i>
                         </a>
-                        <a class="btn btn-danger" href="#"
-                           onclick="deleteAlert(
+                        @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
+                        {
+                            <a class="btn btn-danger" href="#"
+                               onclick="deleteAlert(
                                     'VolunteerPanelArea',
                                     'VolunteerPanel',
                                     'RemoveVolunteerFromEvent',
@@ -93,8 +95,9 @@ else
                                     @item.EventId,
                                     'wydarzenie @item.Name',
                                     event)">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        }
                         @{
                             if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS | Model.ViewType == PanelViewType.EVENTS_WITHOUT_OPINION)
                             {
