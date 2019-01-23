@@ -1,33 +1,6 @@
 @using Microsoft.AspNetCore.Identity
 @using WolontariuszPlus.Models
 
-@*@if (User.Identity.IsAuthenticated)
-    {
-        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    @if (User.IsInRole(Roles.VolunteerRole))
-                    {
-                    <a asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="PersonalData">Panel</a>
-                    }
-                    else
-                    {
-                    <a asp-area="OrganizerPanelArea" asp-controller="OrganizerPanel" asp-action="PersonalData">Panel</a>
-                    }
-                </li>
-                <li>
-                    <button type="submit" class="btn btn-link navbar-btn navbar-link">Wyloguj</button>
-                </li>
-            </ul>
-        </form>
-    }
-    else
-    {
-        <ul class="nav navbar-nav navbar-right">
-            <li><a asp-area="Identity" asp-page="/Account/Register">Rejestracja</a></li>
-            <li><a asp-area="Identity" asp-page="/Account/Login">Logowanie</a></li>
-        </ul>
-    }*@
 @if (User.Identity.IsAuthenticated)
 {
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
@@ -35,27 +8,15 @@
             <li>
                 @if (User.IsInRole(Roles.VolunteerRole))
                 {
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="UpcomingEvents">Panel</a>
-                        </li>
-                    </ul>
+                    <a class="nav-link" asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="UpcomingEvents">Panel</a>   
                 }
                 else
                 {
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="OrganizerPanelArea" asp-controller="OrganizerPanel" asp-action="EventsList">Panel</a>
-                        </li>
-                    </ul>
+                    <a class="nav-link" asp-area="OrganizerPanelArea" asp-controller="OrganizerPanel" asp-action="EventsList">Panel</a>
                 }
             </li>
             <li>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <button type="submit" class="btn btn-link navbar-btn navbar-link">Wyloguj</button>
-                    </li>
-                </ul>
+                <a class="nav-link" onclick="document.getElementById('logoutForm').submit();">Wyloguj</a>  
             </li>
         </ul>
     </form>
