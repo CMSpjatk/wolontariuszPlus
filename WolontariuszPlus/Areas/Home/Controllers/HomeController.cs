@@ -131,12 +131,12 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
             }
 
-            AppUser loggedUser = LoggedUser;
-            ViewBag.VolunteerPoints = ((Volunteer)loggedUser).Points;
-            ViewBag.IsOnEvent = false;
-
             if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
             {
+                AppUser loggedUser = LoggedUser;
+                ViewBag.VolunteerPoints = ((Volunteer)loggedUser).Points;
+                ViewBag.IsOnEvent = false;
+            
                 var isOnEvent = _db.VolunteersOnEvent
                     .Include(voe => voe.Volunteer)
                     .Include(voe => voe.Event)
