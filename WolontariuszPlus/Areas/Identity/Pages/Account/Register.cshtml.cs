@@ -70,7 +70,8 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
 
 
             [Display(Name = "PESEL")]
-            [StringLength(11)]
+            [MinLength(11, ErrorMessage = "{0} musi mieć 11 znaków")]
+            [MaxLength(11, ErrorMessage = "{0} musi mieć 11 znaków")]
             public string PESEL { get; set; }
 
 

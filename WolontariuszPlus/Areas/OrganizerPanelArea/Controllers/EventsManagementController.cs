@@ -106,7 +106,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             if (eventToUpdate.Date < DateTime.Now.AddMinutes(1))
             {
-                return BadRequest();
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventDatePassed);
             }
 
             return View(new EventViewModel
@@ -143,7 +143,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             if (eventToUpdate.Date < DateTime.Now.AddMinutes(1))
             {
-                return BadRequest();
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventDatePassed);
             }
 
             Address address = null;

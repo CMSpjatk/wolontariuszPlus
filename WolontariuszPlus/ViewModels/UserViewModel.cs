@@ -12,40 +12,41 @@ namespace WolontariuszPlus.ViewModels
 
         public string Email { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+        [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+        [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
-        [Required]
-        [MaxLength(15)]
+        [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+        [MaxLength(15, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
         [Display(Name = "Numer telefonu")]
+        [Phone]
         public string PhoneNumber { get; set; }
-        
-        [Required]
-        [MaxLength(50)]
+
+        [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+        [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
         [Display(Name = "Miasto")]
         public string City { get; set; }
 
-        [Required]
-        [MaxLength(50)]
+        [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+        [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
         [Display(Name = "Ulica")]
         public string Street { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
         [Display(Name = "Numer budynku")]
         public int BuildingNumber { get; set; }
 
-        [Display(Name = "Numer mieszkania")]
+        [Display(Name = "Numer lokalu")]
         public int? ApartmentNumber { get; set; }
 
-        [Required]
-        [RegularExpression("\\d{2}[-]\\d{3}")]
+        [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+        [RegularExpression("\\d{2}[-]\\d{3}", ErrorMessage = "Wprowadzony kod pocztowy ma niepoprawny format.")]
         [Display(Name = "Kod pocztowy")]
         public string PostalCode { get; set; }
 
