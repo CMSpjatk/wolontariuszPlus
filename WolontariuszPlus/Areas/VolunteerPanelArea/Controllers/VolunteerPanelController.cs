@@ -278,7 +278,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             _db.VolunteersOnEvent.Remove(userInEvent);
             _db.SaveChanges();
 
-            return $"/VolunteerPanelArea/VolunteerPanelController/PlannedEventDetails/{userInEvent.EventId}";
+            return $"/VolunteerPanelArea/VolunteerPanel/UpcomingEvents";
         }
 
         public AppUser LoggedUser => _db.AppUsers.First(u => u.IdentityUserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
