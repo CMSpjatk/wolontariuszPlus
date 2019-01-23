@@ -17,8 +17,8 @@ namespace WolontariuszPlus.Models
             Initialize();
         }
 
-        public Organizer(string identityUserId, string firstName, string lastName, string phoneNumber, Address address)
-            : base(identityUserId, firstName, lastName, phoneNumber, address)
+        public Organizer(string identityUserId, string firstName, string lastName, string email, string phoneNumber, Address address)
+            : base(identityUserId, firstName, lastName, email, phoneNumber, address)
         {
             Initialize();
         }

@@ -20,6 +20,9 @@ namespace WolontariuszPlus.Models
         public string LastName { get; private set; }
 
         [Required]
+        public string Email { get; private set; }
+
+        [Required]
         [MaxLength(15)]
         public string PhoneNumber { get; private set; }
         
@@ -37,11 +40,12 @@ namespace WolontariuszPlus.Models
         {
         }
 
-        public AppUser(string identityUserId, string firstName, string lastName, string phoneNumber, Address address) : this()
+        public AppUser(string identityUserId, string firstName, string lastName, string email, string phoneNumber, Address address) : this()
         {
             IdentityUserId = identityUserId;
             FirstName = firstName;
             LastName = lastName;
+            Email = email;
             PhoneNumber = phoneNumber;
 
             if (address == null) throw new Exception("Address cannot be null");

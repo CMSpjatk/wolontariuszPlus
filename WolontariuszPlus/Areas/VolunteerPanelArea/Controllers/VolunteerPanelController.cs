@@ -33,6 +33,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
 
             var vm = new UserViewModel
             {
+                Email = volunteer.Email,
                 FirstName = volunteer.FirstName,
                 LastName = volunteer.LastName,
                 PhoneNumber = volunteer.PhoneNumber,
@@ -59,7 +60,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
             }
 
             var volunteer = LoggedUser as Volunteer;
-            volunteer.Update(vm.PhoneNumber, vm.City, vm.Street, vm.BuildingNumber, vm.ApartmentNumber, vm.PostalCode, vm.PESEL);
+            volunteer.Update(vm.PhoneNumber, vm.City, vm.Street, vm.BuildingNumber, vm.ApartmentNumber, vm.PostalCode);
             
             _db.AppUsers.Update(volunteer);
             _db.SaveChanges();

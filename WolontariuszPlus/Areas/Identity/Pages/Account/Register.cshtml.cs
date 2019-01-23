@@ -142,6 +142,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                             Input.FirstName,
                             Input.LastName,
                             Input.PhoneNumber,
+                            Input.Email,
                             address,
                             Input.PESEL
                         );
@@ -154,6 +155,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
                             user.Id,
                             Input.FirstName,
                             Input.LastName,
+                            Input.Email,
                             Input.PhoneNumber,
                             address
                         );

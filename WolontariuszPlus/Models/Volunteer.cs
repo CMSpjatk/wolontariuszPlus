@@ -20,8 +20,8 @@ namespace WolontariuszPlus.Models
             Initialize();
         }
 
-        public Volunteer(string identityUserId, string firstName, string lastName, string phoneNumber, Address address, string pesel) 
-            : base(identityUserId, firstName, lastName, phoneNumber, address)
+        public Volunteer(string identityUserId, string firstName, string lastName, string email, string phoneNumber, Address address, string pesel) 
+            : base(identityUserId, firstName, lastName, email, phoneNumber, address)
         {
             Initialize();
             PESEL = pesel;
@@ -30,12 +30,6 @@ namespace WolontariuszPlus.Models
         private void Initialize()
         {
             VolunteersOnEvent = new List<VolunteerOnEvent>();
-        }
-
-        public void Update(string phoneNumber, string city, string street, int buildingNumber, int? apartmentNumber, string postalCode, string PESEL)
-        {
-            base.Update(phoneNumber, city, street, buildingNumber, apartmentNumber, postalCode);
-            this.PESEL = PESEL;
         }
     }
 }

@@ -35,6 +35,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             var vm = new UserViewModel
             {
+                Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
