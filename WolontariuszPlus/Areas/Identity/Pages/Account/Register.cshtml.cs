@@ -52,12 +52,14 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
 
             [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
             [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [RegularExpression("[a-zA-Z]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
             [Display(Name = "Imię")]
             public string FirstName { get; set; }
 
 
             [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
             [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [RegularExpression("[a-zA-Z]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
             [Display(Name = "Nazwisko")]
             public string LastName { get; set; }
 
@@ -65,7 +67,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
             [MaxLength(15, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
             [Display(Name = "Numer telefonu")]
-            [Phone]
+            [Phone(ErrorMessage = "Wprowadzy numer telefonu jest niepoprawny")]
             public string PhoneNumber { get; set; }
 
 
@@ -77,12 +79,14 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
 
             [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
             [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [RegularExpression("[a-zA-Z]+", ErrorMessage = "Nazwa miasta może zawierać jedynie litery.")]
             [Display(Name = "Miasto")]
             public string City { get; set; }
 
 
             [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
             [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
+            [RegularExpression("[a-zA-Z]+", ErrorMessage = "Nazwa ulicy może zawierać jedynie litery.")]
             [Display(Name = "Ulica")]
             public string Street { get; set; }
 
@@ -93,7 +97,7 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
 
             
             [Display(Name = "Numer lokalu")]
-            public int ApartmentNumber { get; set; }
+            public int? ApartmentNumber { get; set; }
 
 
             [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
