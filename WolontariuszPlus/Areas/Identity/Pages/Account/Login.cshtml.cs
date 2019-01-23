@@ -36,15 +36,18 @@ namespace WolontariuszPlus.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [EmailAddress(ErrorMessage = "Wprowadzony email ma niepoprawny format.")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
+            [StringLength(100, ErrorMessage = "{0} musi mieć przynajmniej {2} i maksymalnie {1} znaków.", MinimumLength = 6)]
             [DataType(DataType.Password)]
+            [Display(Name = "Hasło")]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Zapamiętaj mnie")]
             public bool RememberMe { get; set; }
         }
 
