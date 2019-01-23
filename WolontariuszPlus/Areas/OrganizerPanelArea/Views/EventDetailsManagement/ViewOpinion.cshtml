@@ -1,7 +1,34 @@
-﻿@model  WolontariuszPlus.Areas.VolunteerPanelArea.Models.OpinionViewModel
+﻿@model WolontariuszPlus.Areas.VolunteerPanelArea.Models.OpinionViewModel
+<div class="col-md-9">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 style="text-align:center">Opinia wolontariusza o tym wydarzeniu</h4>
+                    <hr>
+                </div>
+            </div>
+            <div class="form-group" style="align-content:center">
 
-@Html.DisplayNameFor(m => m.Opinion): @Html.DisplayFor(m => m.Opinion) <br /><br />
+                <label>@Html.DisplayNameFor(m => m.Opinion):</label>
+                @Html.DisplayFor(m => m.Opinion) <br /><br />
 
-@Html.DisplayNameFor(m => m.Rate): @Html.DisplayFor(m => m.Rate) <br /><br />
+                <label>@Html.DisplayNameFor(m => m.Rate):</label>
+                @if (Model.Rate.Value == '+')
+                {
+                    @:Pozytywna
+                }
+                else
+                {
+                    @:Negatywna
+                } <br /><br />
+            </div>
 
-@Html.ActionLink("Wróć", "PastEventDetails", "EventDetailsManagement", new { eventId = Model.EventId })
+            <div class="form-row">
+                <div class="form-group col-md-12" align="center">
+                    <a class="btn btn-outline-danger" asp-action="PastEventDetails" asp-route-eventId="@Model.EventId">Powrót</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

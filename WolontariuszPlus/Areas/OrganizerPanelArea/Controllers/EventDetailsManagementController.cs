@@ -93,7 +93,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                     ReceivedPoints = voe.PointsReceived,
                     CollectedMoney = voe.AmountOfMoneyCollected,
                     VolunteerOnEventId = voe.VolunteerOnEventId,
-                    IsRated = !string.IsNullOrEmpty(voe.OpinionAboutVolunteer)
+                    IsVolunteerRated = !string.IsNullOrEmpty(voe.OpinionAboutVolunteer),
+                    HasRatedTheEvent = !string.IsNullOrEmpty(voe.OpinionAboutEvent)
                 }
             ).ToList();
 
