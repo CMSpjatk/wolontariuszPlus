@@ -12,27 +12,8 @@
                 <textarea asp-for="Opinion" class="form-control">@Model.Opinion</textarea>
                 <span asp-validation-for="Opinion" class="text-danger"></span>
             </div>
-
-            @*<label asp-for="Rate" class="control-label"></label>:<br />
-                <div class="form-check-inline">
-                    <label class="form-check-label">
-                        <input asp-for="Rate" type="radio" name="decision" value="+" class="form-check-input" /> Pozytywna
-                    </label>
-                </div>
-                <div class="form-check-inline">
-                    <label class="form-check-label">
-                        <input asp-for="Rate" type="radio" name="decision" value="-" class="form-check-input" /> Negatywna
-                    </label>
-                </div>
-                <span asp-validation-for="Rate" class="text-danger"></span>
-                <input type="hidden" asp-for="EventId" />
-                <br />*@
-
-
             @Html.RadioButtonFor(r => Model.Rate, "+", new { @class = "radio" }) Pozytywna
             @Html.RadioButtonFor(r => Model.Rate, "-", new { @class = "radio" }) Negatywna
-            @*<input asp-for="Rate" type="radio" name="decision" value="+" class="radio" /> +
-                <input asp-for="Rate" type="radio" name="decision" value="-" class="radio" /> -*@
             <span asp-validation-for="Rate" class="text-danger"></span>
             <input type="hidden" asp-for="EventId" />
             <br />

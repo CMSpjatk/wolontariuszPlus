@@ -10,24 +10,6 @@
 @section Scripts {
     @RenderSection("Scripts", false)
 }
-
-@*<h2>Panel organizatora</h2>*@
-
-@*<div>
-        <hr />
-        <div class="row">
-            <div class="col-md-3">
-                <ul class="nav nav-pills nav-stacked">
-                    <li><a asp-controller="OrganizerPanel" asp-action="PersonalData">Dane osobowe</a></li>
-                    <li><a asp-controller="OrganizerPanel" asp-action="EventsList">Lista wydarzeń</a></li>
-                    <li><a asp-controller="OrganizerPanel" asp-action="PastEvents">Zakończone wydarzenia</a></li>
-                </ul>
-            </div>
-            <div class="col-md-9">
-                @RenderBody()
-            </div>
-        </div>
-    </div>*@
 <div class="flex-kama">
     <div><h1>Panel organizatora</h1></div>
     <div>
@@ -36,30 +18,7 @@
         </span>
     </div>
 </div>
-
-@*<div>
-        @if (Model.IsVolunteer)
-        {
-            <div class="points">
-                <label asp-for="Points"></label>:
-                @Html.DisplayFor(m => m.Points)
-            </div>
-        }
-        else
-        {
-            <div class="points" style="margin-left:10px">
-                <label asp-for="CreatedEventsCount"></label>:
-                @Html.DisplayFor(m => m.CreatedEventsCount)
-            </div>
-        }
-    </div>*@
-
 <hr />
-
-@*<div class="container">
-        <h1>Panel organizatora</h1>
-        <hr>
-    </div>*@
 <div class="container">
     <div class="row">
         <div class="col-md-3 mb-4">
