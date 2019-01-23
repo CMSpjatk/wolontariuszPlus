@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WolontariuszPlus.Models;
 
 namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
 {
@@ -18,6 +19,8 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:d MMMM yyyy} o godzinie {0:HH:mm}")]
         public DateTime Date { get; set; }
+
+        public Address Address { get; set; }
 
         [Display(Name = "Ilość zebranych pieniędzy")]
         public double CollectedMoneySum { get; set; }
