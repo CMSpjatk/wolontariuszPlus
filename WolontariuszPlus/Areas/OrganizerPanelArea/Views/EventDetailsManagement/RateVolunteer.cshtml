@@ -1,11 +1,13 @@
 ﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement.RateVolunteerViewModel
-
+@{
+    ViewData["Title"] = "Oceń wolontariusza";
+}
 <div class="col-md-9">
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    @{ 
+                    @{
                         var title = "Wystaw opinię wolontariuszowi";
 
                         if (!string.IsNullOrEmpty(Model.RateContent))
