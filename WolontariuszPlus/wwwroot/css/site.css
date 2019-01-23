@@ -37,6 +37,10 @@ body {
     }
 }
 
+.my-card-size {
+    min-width: 20rem
+}
+
 .flex-body {
     display: flex;
     flex-direction: column;
