@@ -6,9 +6,9 @@
         <div class="card-body flex-body" style="        text-align: center">
             <h3>@Html.DisplayFor(model => model.Name)</h3>
             <h6>
-                @{string apartmentNumber = "/" + Model.Address.ApartmentNumber.ToString(); }
+                @{string apartmentNumber = (Model.Address.ApartmentNumber != null ?  ("/" + Model.Address.ApartmentNumber.ToString()) : ""); }
                 Adres:<br />
-                @Model.Address.Street @Model.Address.BuildingNumber@(Model.Address.ApartmentNumber != null ? apartmentNumber : "")<br />
+                @Model.Address.Street @Model.Address.BuildingNumber@apartmentNumber<br />
                 @Model.Address.PostalCode @Model.Address.City
             </h6>
             <h6>@Html.DisplayFor(model => model.Date)</h6>

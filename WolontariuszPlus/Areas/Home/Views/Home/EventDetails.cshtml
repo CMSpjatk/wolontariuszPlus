@@ -5,10 +5,11 @@
         <img class="card-img-top" src="~/@WolontariuszPlus.Properties.Resources.UploadsFolderName/@Model.ImageRelativePath" alt="zdjecie-tytulowe-wydarzenia">
         <div class="card-body flex-body" style="text-align: center">
             <h3>@Html.DisplayFor(model => model.Name)</h3>
-            @{string apartmentNumber = "/" + Model.Address.ApartmentNumber.ToString(); }
-            <h6>Adres:<br />
-            @Model.Address.Street @Model.Address.BuildingNumber@(Model.Address.ApartmentNumber != null ? apartmentNumber : "")<br />
-            @Model.Address.PostalCode @Model.Address.City
+            <h6>
+                @{string apartmentNumber = (Model.Address.ApartmentNumber != null ? ("/" + Model.Address.ApartmentNumber.ToString()) : ""); }
+                Adres:<br />
+                @Model.Address.Street @Model.Address.BuildingNumber@apartmentNumber<br />
+                @Model.Address.PostalCode @Model.Address.City
             </h6>
             <h6>@Html.DisplayFor(model => model.Date)</h6>
         </div>

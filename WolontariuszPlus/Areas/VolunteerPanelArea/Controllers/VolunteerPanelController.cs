@@ -172,6 +172,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                 EventId = eventId,
                 Date = ev.Date,
                 Name = ev.Name,
+                Address = ev.Address,
                 Description = ev.Description,
                 CollectedMoneySum = ev.CollectedMoney,
                 Volunteers = volunteers,
