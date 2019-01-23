@@ -84,7 +84,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                             .ThenInclude(e => e.Organizer)
                        .Include(voe => voe.Volunteer)
                        .AsNoTracking()
-                       .Where(voe => voe.Event.Date >= DateTime.Now && voe.Volunteer == user)
+                       .Where(voe => voe.Event.Date >= DateTime.Now.AddHours(8) && voe.Volunteer == user)
                        .OrderByDescending(voe => voe.Event.Date)
                        .ToList()
                        .Select(voe => CreateEventViewModel(voe)),
@@ -109,7 +109,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                             .ThenInclude(e => e.Organizer)
                        .Include(voe => voe.Volunteer)
                        .AsNoTracking()
-                       .Where(e => e.Event.Date < DateTime.Now && e.Volunteer == user)
+                       .Where(e => e.Event.Date < DateTime.Now.AddHours(8) && e.Volunteer == user)
                        .OrderByDescending(e => e.Event.Date)
                        .ToList()
                        .Select(e => CreateEventViewModel(e)),
@@ -134,7 +134,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                             .ThenInclude(e => e.Organizer)
                        .Include(voe => voe.Volunteer)
                        .AsNoTracking()
-                       .Where(voe => voe.Event.Date < DateTime.Now && voe.Volunteer == user && string.IsNullOrEmpty(voe.OpinionAboutEvent))
+                       .Where(voe => voe.Event.Date < DateTime.Now.AddHours(8) && voe.Volunteer == user && string.IsNullOrEmpty(voe.OpinionAboutEvent))
                        .ToList()
                        .Select(e => CreateEventViewModel(e)),
                 ViewType = PanelViewType.EVENTS_WITHOUT_OPINION
