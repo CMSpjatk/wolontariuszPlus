@@ -1,6 +1,5 @@
 ﻿@model EventsViewModel
 
-
 @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
 {
     <h3>Wydarzenia zaplanowane</h3>
@@ -10,7 +9,6 @@ else
     <h3>Wydarzenia zakończone</h3>
 }
 <br />
-
 <table id="organizer-table" class="table table-striped">
     <thead>
         <tr>
@@ -68,13 +66,13 @@ else
                     {
 
                         <div class="btn-group" role="group">
-                            <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PlannedEventDetails" asp-route-eventId="@item.EventId">
+                            <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PlannedEventDetails" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Szczegóły wydarzenia">
                                 <i class="far fa-list-alt"></i>
                             </a>
-                            <a class="btn btn-primary" asp-controller="EventsManagement" asp-action="UpdateEvent" asp-route-eventId="@item.EventId">
+                            <a class="btn btn-primary" asp-controller="EventsManagement" asp-action="UpdateEvent" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Edytuj wydarzenie">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a class="btn btn-danger" href="#"
+                            <a class="btn btn-danger" href="#" data-toggle="tooltip" data-placement="top" title="Usuń wydarzenie"
                                onclick="deleteAlert(
                                     'OrganizerPanelArea',
                                     'EventsManagement',
@@ -89,7 +87,7 @@ else
                     }
                     else
                     {
-                        <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PastEventDetails" asp-route-eventId="@item.EventId">
+                        <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PastEventDetails" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Szczegóły wydarzenia">
                             <i class="far fa-list-alt"></i>
                         </a>
                     }

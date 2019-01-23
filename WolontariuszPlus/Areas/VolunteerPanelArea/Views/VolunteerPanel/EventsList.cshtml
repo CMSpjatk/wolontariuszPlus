@@ -80,25 +80,28 @@ else
                     </td>
                 }
                 <td>
-                    <a class="btn btn-success" asp-action="EventDetails" asp-route-eventId="@item.EventId">
-                        <i class="far fa-list-alt"></i>
-                    </a>
-                    @*@Html.ActionLink("Szczegóły", "EventDetails", new { eventId = item.EventId, panelViewType = Model.ViewType })*@
-
-                    @{
-                        if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
-                        {
-                            if (item.IsRated)
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-success" asp-action="EventDetails" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Szczegóły wydarzenia">
+                            <i class="far fa-list-alt"></i>
+                        </a>
+                        @{
+                            if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS | Model.ViewType == PanelViewType.EVENTS_WITHOUT_OPINION)
                             {
-                                @:|@Html.ActionLink("Aktualizuj ocenę", "UpdateOpinionAboutEvent", new { eventId = item.EventId })
-                            }
-                            else
-                            {
-
-                                @:| @Html.ActionLink("Oceń", "AddOpinionAboutEvent", new { eventId = item.EventId })
+                                if (item.IsRated)
+                                {
+                                    <a class="btn btn-warning" asp-action="UpdateOpinionAboutEvent" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Aktualizuj opinię">
+                                        <i class="far fa-star"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-danger" asp-action="AddOpinionAboutEvent" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Dodaj opinię">
+                                        <i class="far fa-star"></i>
+                                    </a>
+                                }
                             }
                         }
-                    }
+                    </div>
                 </td>
             </tr>
         }
