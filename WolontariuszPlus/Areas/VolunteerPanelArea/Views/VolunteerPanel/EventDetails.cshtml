@@ -24,9 +24,6 @@
             <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
         </div>
         <div class="card-footer text-muted" style="background-color:rgba(0,0,0,.03)">
-            @*Organizator: @Html.DisplayFor(model => Model.Organizer.FullName)
-                <br />
-                Wymagane punkty: @Html.DisplayFor(modelItem => Model.RequiredPoints)*@
         </div>
     </div>
 
@@ -102,13 +99,3 @@
         </tbody>
     </table>
 </div>
-@*<div>
-        @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
-        {
-            <a asp-action="UpcomingEvents">Wróć do grafiku</a>
-        }
-        else
-        {
-            <a asp-action="ArchivedEvents">Wróć do listy zakończonych wydarzeń</a>
-        }
-    </div>*@
