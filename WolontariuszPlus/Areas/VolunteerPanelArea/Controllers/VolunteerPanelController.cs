@@ -263,7 +263,7 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
 
             var currentUserId = LoggedUser.AppUserId;
 
-            var userInEvent = _db.VolunteersOnEvent.First(x => x.EventId == vm.EventId && x.VolunteerId == currentUserId);
+            var userInEvent = _db.VolunteersOnEvent.FirstOrDefault(x => x.EventId == vm.EventId && x.VolunteerId == currentUserId);
 
             if (userInEvent == null)
             {
