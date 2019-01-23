@@ -22,6 +22,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         public string Email { get; set; }
 
         [Display(Name = "Oceniony?")]
-        public bool IsRated { get; set; }
+        public bool IsVolunteerRated { get; set; }
+
+        public bool HasRatedTheEvent { get; set; }
     }
 }

@@ -1,35 +1,41 @@
 ﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement.RateVolunteerViewModel
 
-<h4>Oceń wolontariusza</h4>
-<hr />
+<div class="col-md-9">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12">
+                    @{ 
+                        var title = "Wystaw opinię wolontariuszowi";
 
-<div class="row">
-    <div class="col-md-8">
-        <h5>Wystaw opinię wolontariuszowi @Html.DisplayFor(m => m.VolunteerName) za wydarzenie @Html.DisplayFor(m => m.EventName).</h5>
-        <h5>Wolontariusz zgromadził @Html.DisplayFor(m => m.Points) punktów na tym wydarzeniu.</h5>
-    </div>
-</div>
-
-<hr />
-
-<div class="row">
-    <div class="col-md-8">
-        <form asp-action="RateVolunteer">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <input type="hidden" asp-for="VolunteerOnEventId" />
-            <div class="form-group">
-                <label asp-for="RateContent" class="control-label"></label>
-                <textarea asp-for="RateContent" class="form-control" rows="7"></textarea>
-                <span asp-validation-for="RateContent" class="text-danger"></span>
+                        if (!string.IsNullOrEmpty(Model.RateContent))
+                        {
+                            title = "Aktualizuj opinię o wolontariuszu";
+                        }
+                    }
+                    <h4 style="text-align:center">@title</h4>
+                    <hr>
+                    <h6 style="text-align:center">@title <b>@Html.DisplayFor(m => m.VolunteerName)</b> za wydarzenie <b>"@Html.DisplayFor(m => m.EventName)"</b></h6>
+                    <h6 style="text-align:center">Wolontariusz zgromadził <b>@Html.DisplayFor(m => m.CollectedMoney) zł</b> na tym wydarzeniu.</h6>
+                    <hr>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Wystaw opinię" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
+            <form asp-action="RateVolunteer">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<div>
-    <a asp-action="PastEventDetails" asp-route-eventId="@Model.EventId">Wróć do szczegółów wydarzenia</a>
+                <input type="hidden" asp-for="VolunteerOnEventId" />
+                <div class="form-group" style="align-content:center">
+                    <label asp-for="RateContent" class="control-label"></label>
+                    <textarea asp-for="RateContent" class="form-control" rows="7"></textarea>
+                    <span asp-validation-for="RateContent" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12" align="center">
+                        <input type="submit" value="Wystaw opinię" class="btn btn-outline-primary" />
+                        <a class="btn btn-outline-danger" asp-action="PastEventDetails" asp-route-eventId="@Model.EventId">Powrót</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

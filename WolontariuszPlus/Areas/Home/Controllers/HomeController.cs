@@ -113,6 +113,13 @@ namespace WolontariuszPlus.Areas.Home.Controllers
             _db.Events.Update(choosenEvent);
             _db.SaveChanges();
 
+            string referrer = Request.Headers["Referer"].ToString();
+
+            if (referrer.Contains("EventDetails"))
+            {
+                return RedirectToAction("EventDetails", new { eventId = eventId });
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -122,6 +129,22 @@ namespace WolontariuszPlus.Areas.Home.Controllers
             if (@event == null)
             {
                 return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
+
+            AppUser loggedUser = LoggedUser;
+            ViewBag.VolunteerPoints = ((Volunteer)loggedUser).Points;
+            ViewBag.IsOnEvent = false;
+
+            if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
+            {
+                var isOnEvent = _db.VolunteersOnEvent
+                    .Include(voe => voe.Volunteer)
+                    .Include(voe => voe.Event)
+                    .Where(voe => voe.Volunteer.IdentityUserId == loggedUser.IdentityUserId)
+                    .Select(voe => voe.Event)
+                    .Any(e => e.EventId == eventId);
+
+                ViewBag.IsOnEvent = isOnEvent;
             }
 
             return View(@event);

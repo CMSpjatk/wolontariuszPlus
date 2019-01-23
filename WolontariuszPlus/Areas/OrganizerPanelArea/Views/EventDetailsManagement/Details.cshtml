@@ -54,7 +54,7 @@
                         @Html.DisplayNameFor(model => model.DefaultVolunteer.ReceivedPoints)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.DefaultVolunteer.IsRated)
+                        @Html.DisplayNameFor(model => model.DefaultVolunteer.IsVolunteerRated)
                     </th>
                     <th></th>
                 }
@@ -85,50 +85,59 @@
                             @Html.DisplayFor(modelItem => v.ReceivedPoints)
                         </td>
                         <td>
-                            @(v.IsRated ? "Tak" : "Nie")
+                            @(v.IsVolunteerRated ? "Tak" : "Nie")
                         </td>
                     }
                     <td>
                         <div class="btn-group" role="group">
                             @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS && Model.CanModify)
                             {
-                                var opinionText = v.IsRated ? "Aktualizuj opinię" : "Wystaw opinię";
-                                var moneyText = v.CollectedMoney == 0 ? "Dodaj zebraną kwotę" : "Aktualizuj zebraną kwotę";
+                                if (v.IsVolunteerRated)
+                                {
+                                    <a asp-action="RateVolunteer" asp-route-volunteerOnEventId="@v.VolunteerOnEventId" 
+                                        class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Aktualizuj opinię">
 
-                                @Html.ActionLink(opinionText, "RateVolunteer", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId }) @:|
-                                @Html.ActionLink(moneyText, "AddMoney", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId, collectedMoney = v.CollectedMoney }) @:|
-                                @Html.ActionLink("Zobacz opinie", "ViewOpinion", "EventDetailsManagement", new { volunteerOnEventId = v.VolunteerOnEventId })
+                                        <i class="far fa-star"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-action="RateVolunteer" asp-route-volunteerOnEventId="@v.VolunteerOnEventId" 
+                                        class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Wystaw opinię">
 
+                                        <i class="far fa-star"></i>
+                                    </a>
+                                }
 
-                                @*if (v.IsRated)
-                                    {
-                                        <a class="btn btn-success" asp-action="RateVolunteer" asp-route-eventId="@v.VolunteerOnEventId" data-toggle="tooltip" data-placement="top" title="Aktualizuj opinię">
-                                            <i class="far fa-star"></i>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-warning" asp-action="RateVolunteer" asp-route-eventId="@v.VolunteerOnEventId" data-toggle="tooltip" data-placement="top" title="Wystaw opinię">
-                                            <i class="far fa-star"></i>
-                                        </a>
-                                    }
+                                if (v.CollectedMoney == 0)
+                                {
+                                    <a asp-action="AddMoney" asp-route-volunteerOnEventId="@v.VolunteerOnEventId"
+                                        class="btn btn-warning" data-toggle="tooltip" data-placement="top" title="Dodaj zebraną kwotę">
 
-                                    if (v.CollectedMoney == 0)
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    var parms = new Dictionary<string, string>
                                     {
-                                        <a class="btn btn-warning" asp-action="AddMoney" asp-route-eventId="@v.VolunteerOnEventId" data-toggle="tooltip" data-placement="top" title="Dodaj zebraną kwotę">
-                                            <i class="fas fa-hand-holding-usd"></i>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a class="btn btn-success" asp-action="AddMoney" asp-route-eventId="@v.VolunteerOnEventId" data-toggle="tooltip" data-placement="top" title="Aktualizuj zebraną kwotę">
-                                            <i class="fas fa-hand-holding-usd"></i>
-                                        </a>
-                                    }
-                                    <a class="btn btn-success" asp-action="ViewOpinion" asp-route-eventId="@v.VolunteerOnEventId" data-toggle="tooltip" data-placement="top" title="Zobacz opinie">
+                                        { "volunteerOnEventId", v.VolunteerOnEventId.ToString() },
+                                        { "collectedMoney", v.CollectedMoney.ToString() }
+                                    };
+
+                                    <a asp-action="AddMoney" asp-all-route-data="parms"
+                                        class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Aktualizuj zebraną kwotę">
+
+                                        <i class="fas fa-hand-holding-usd"></i>
+                                    </a>
+                                }
+                                
+                                if (v.HasRatedTheEvent)
+                                {
+                                    <a class="btn btn-success" asp-action="ViewOpinion" asp-route-volunteerOnEventId="@v.VolunteerOnEventId" data-toggle="tooltip" data-placement="top" title="Zobacz opinię">
                                         <i class="fas fa-gavel"></i>
-                                    </a>*@
-
+                                    </a>
+                                }
                             }
                             else if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
                             {
