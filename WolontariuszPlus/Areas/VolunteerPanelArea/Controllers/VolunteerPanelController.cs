@@ -174,6 +174,8 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Controllers
                 Date = ev.Date,
                 Name = ev.Name,
                 Address = ev.Address,
+                Organizer = ev.Organizer,
+                RequiredPoints = ev.RequiredPoints,
                 Description = ev.Description,
                 CollectedMoneySum = ev.CollectedMoney,
                 Volunteers = volunteers,

@@ -20,6 +20,10 @@ namespace WolontariuszPlus.Areas.VolunteerPanelArea.Models
         [DisplayFormat(DataFormatString = "{0:d MMMM yyyy} o godzinie {0:HH:mm}")]
         public DateTime Date { get; set; }
 
+        public Organizer Organizer { get; set; }
+
+        public int RequiredPoints { get; set; }
+
         public Address Address { get; set; }
 
         [Display(Name = "Ilość zebranych pieniędzy")]

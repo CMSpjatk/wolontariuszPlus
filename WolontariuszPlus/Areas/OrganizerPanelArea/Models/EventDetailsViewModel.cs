@@ -22,6 +22,10 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 
         public Address Address { get; set; }
 
+        public Organizer Organizer { get; set; }
+
+        public int RequiredPoints { get; set; }
+
         [Display(Name = "Ilość zebranych pieniędzy")]
         public double CollectedMoneySum { get; set; }
 

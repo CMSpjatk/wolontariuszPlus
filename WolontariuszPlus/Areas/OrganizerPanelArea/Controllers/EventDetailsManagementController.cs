@@ -62,6 +62,8 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
                 Date = ev.Date,
                 Name = ev.Name,
                 Address = ev.Address,
+                Organizer = ev.Organizer,
+                RequiredPoints = ev.RequiredPoints,
                 Description = ev.Description,
                 Volunteers = volunteers,
                 ViewType = PanelViewType.UPCOMING_EVENTS,
