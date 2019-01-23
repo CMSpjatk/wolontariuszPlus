@@ -1,4 +1,10 @@
 ﻿#uploaded-image-container {
     display: flex;
     justify-content: center;
+    height: 300px;
 }
+
+#uploaded-image-container img {
+    max-width: 100%;
+}
+
