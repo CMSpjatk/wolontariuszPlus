@@ -71,15 +71,15 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)
                 </td>
-                <td>
+                <td class="right-aligned">
                     @Html.DisplayFor(modelItem => item.RequiredPoints)
                 </td>
-                <td>
+                <td class="right-aligned">
                     @Html.DisplayFor(modelItem => item.ReceivedPoints)
                 </td>
                 @if (Model.ViewType == PanelViewType.ARCHIVED_EVENTS)
                 {
-                    <td>
+                    <td class="centered">
                         @(item.IsRated ? "Tak" : "Nie")
                     </td>
                 }

@@ -54,15 +54,15 @@ else
                 </td>
                 @if (Model.ViewType == PanelViewType.UPCOMING_EVENTS)
                 {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequiredPoints)
-                    </td>
+                <td class="right-aligned">
+                    @Html.DisplayFor(modelItem => item.RequiredPoints)
+                </td>
                 }
                 else
                 {
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CollectedMoney)
-                    </td>
+                <td class="right-aligned">
+                    @Html.DisplayFor(modelItem => item.CollectedMoney)
+                </td>
                 }
                 <td>
                     @Html.DisplayFor(modelItem => item.Address)

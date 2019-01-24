@@ -8,3 +8,6 @@
     max-width: 100%;
 }
 
+.time-expired {
+    color: orangered;
+}

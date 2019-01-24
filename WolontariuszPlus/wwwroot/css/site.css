@@ -70,3 +70,11 @@ body {
 .nav-link {
     cursor: pointer;
 }
+
+.right-aligned {
+    text-align: right;
+}
+
+.centered {
+    text-align: center;
+}
