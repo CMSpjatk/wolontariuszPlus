@@ -169,8 +169,10 @@ namespace WolontariuszPlus.Areas.Home.Controllers
                 }).ToDictionary(k => k.VolunteerId, v => v.PointsCollected);
 
             vms.ForEach(dvm =>
-                dvm.Points = pointsCollectedFromEvents.ContainsKey(dvm.Points) ? pointsCollectedFromEvents[dvm.Points] : 0
+                dvm.Points = pointsCollectedFromEvents.ContainsKey(dvm.VolunteerId) ? pointsCollectedFromEvents[dvm.VolunteerId] : 0
             );
+
+            vms = vms.OrderByDescending(v => v.Points).ToList();
 
             return View(vms);
         }
@@ -226,8 +228,6 @@ namespace WolontariuszPlus.Areas.Home.Controllers
             {
                 VolunteerId = volunteer.AppUserId,
                 FullName = volunteer.FullName,
-                Email = volunteer.Email,
-                PhoneNumber = volunteer.PhoneNumber,
                 City = volunteer.Address.City,
                 PastEventViewModelList = pastEvents,
                 Points = volunteer.Points
