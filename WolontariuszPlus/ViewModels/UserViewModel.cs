@@ -40,7 +40,7 @@ namespace WolontariuszPlus.ViewModels
 
         [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
         [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
-        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+", ErrorMessage = "Nazwa ulicy może zawierać jedynie litery.")]
+        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż\\-1-9 ]+", ErrorMessage = "Nazwa ulicy może zawierać jedynie litery, cyfry, spacje lub myślnik.")]
         [Display(Name = "Ulica")]
         public string Street { get; set; }
 
