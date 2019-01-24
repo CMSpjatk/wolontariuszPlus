@@ -179,6 +179,49 @@ namespace WolontariuszPlus.Areas.AdministratorPanelArea.Controllers
             return "/AdministratorPanelArea/AdministratorPanel/EventsList";
         }
 
+        public IActionResult PlannedEventDetails(int eventId)
+        {
+            var ev = _db.Events.Find(eventId);
+            if (ev == null)
+            {
+                return BadRequest(ErrorMessagesProvider.EventErrors.EventNotExists);
+            }
+
+            var voes = _db.VolunteersOnEvent
+                .Include(voe => voe.Volunteer)
+                .Where(voe => voe.EventId == eventId)
+                .ToList();
+
+            var volunteers = voes.Select(voe =>
+                new VolunteerViewModel
+                {
+                    VolunteerId = voe.Volunteer.AppUserId,
+                    Name = voe.Volunteer.FullName,
+                    Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
+                    PhoneNumber = voe.Volunteer.PhoneNumber,
+                    ReceivedPoints = voe.PointsReceived,
+                    CollectedMoney = voe.AmountOfMoneyCollected,
+                    VolunteerOnEventId = voe.VolunteerOnEventId
+                }
+            ).ToList();
+
+            var vm = new EventDetailsViewModel
+            {
+                EventId = eventId,
+                Date = ev.Date,
+                Name = ev.Name,
+                Address = ev.Address,
+                Organizer = ev.Organizer,
+                RequiredPoints = ev.RequiredPoints,
+                Description = ev.Description,
+                Volunteers = volunteers,
+                ViewType = PanelViewType.UPCOMING_EVENTS,
+                ImageRelativePath = ev.ImageRelativePath
+            };
+
+            return View("PlannedEventDetails", vm);
+        }
+
         private DisplayEventViewModel CreateEventViewModelForDisplaying(Event e)
         {
             var n = (e.Address.ApartmentNumber == null) ? "" : ("/" + e.Address.ApartmentNumber.ToString());
