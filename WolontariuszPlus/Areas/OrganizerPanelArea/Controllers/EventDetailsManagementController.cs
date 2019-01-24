@@ -278,6 +278,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             return $"/OrganizerPanelArea/EventDetailsManagement/PlannedEventDetails?eventId={voe.EventId}";
         }
         
+
         public IActionResult VolunteerProfile(int volunteerId)
         {
             var volunteer = _db.Volunteers.Find(volunteerId);

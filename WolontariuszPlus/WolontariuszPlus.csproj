@@ -91,4 +91,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="_Uploads\" />
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,7 @@
 ﻿#uploaded-image-container {
     display: flex;
     justify-content: center;
-    max-height: 400px;
+    max-height: 500px;
 }
 
 #uploaded-image-container img {
