@@ -1,0 +1,41 @@
+﻿@model WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventsViewModel
+@using Microsoft.AspNetCore.Identity
+@using WolontariuszPlus.Models
+@{
+    ViewData["Title"] = "Strona główna";
+}
+<div class="jumbotron m-jumbo text-center">
+    <h1 class="display-3 text-center">Platforma Wolontariusz+</h1>
+    <p class="lead">Aplikacja łącząca wolontariuszy z organiztorami.</p>
+</div>
+<br />
+<h2 class="text-center">Wydarzenia archiwalne</h2>
+<div class="container">
+    <div class="card-deck-wrapper">
+        <div class="card-deck text-center">
+            @foreach (var item in Model.EventViewModels)
+            {
+                <div class="my-card-size card m-4">
+                    <img class="card-img-top" src="~/@WolontariuszPlus.Properties.Resources.UploadsFolderName/@item.ImageRelativePath" alt="zdjecie-tytulowe-wydarzenia">
+                    <div class="card-body flex-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.ShortenedDescription)</p>
+                        <div class="row button-bottom">
+                            <div class="col">
+                                <a asp-action="EventDetails" class="btn button btn-outline-primary" asp-route-eventId="@item.EventId">Szczegóły</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        @Html.DisplayNameFor(model => model.DefaultEvent.OrganizerName): @Html.DisplayFor(modelItem => item.OrganizerName)
+                        <br />
+                        @Html.DisplayNameFor(model => model.DefaultEvent.Date): @Html.DisplayFor(modelItem => item.Date)
+                        <br />
+                        @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints): @Html.DisplayFor(modelItem => item.RequiredPoints)
+                    </div>
+                </div>
+                <br>
+            }
+        </div>
+    </div>
+</div>

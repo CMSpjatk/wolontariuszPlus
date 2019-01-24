@@ -149,5 +149,29 @@ namespace WolontariuszPlus.Areas.Home.Controllers
 
             return View(@event);
         }
+
+        public IActionResult PastEvents()
+        {
+            var displayEventVms = _db.Events
+                .Include(e => e.Address)
+                .Include(e => e.Organizer)
+                .AsNoTracking()
+                .Where(e => e.Date < DateTime.Now.AddHours(8))
+                .OrderBy(e => e.Date)
+                .Select(e => CreateEventViewModelForDisplaying(e))
+                .ToList();
+
+            if (User.Identity.IsAuthenticated && User.IsInRole(Roles.VolunteerRole))
+            {
+                ViewBag.VolunteerPoints = 0;
+            }
+
+            var vm = new EventsViewModel
+            {
+                EventViewModels = displayEventVms
+            };
+
+            return View(vm);
+        }
     }
 }

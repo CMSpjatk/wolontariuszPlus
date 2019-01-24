@@ -8,7 +8,7 @@
             <li>
                 @if (User.IsInRole(Roles.VolunteerRole))
                 {
-                    <a class="nav-link" asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="UpcomingEvents">Panel</a>   
+                    <a class="nav-link" asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="UpcomingEvents">Panel</a>
                 }
                 else
                 {
@@ -16,7 +16,7 @@
                 }
             </li>
             <li>
-                <a class="nav-link" onclick="document.getElementById('logoutForm').submit();">Wyloguj</a>  
+                <a class="nav-link" onclick="document.getElementById('logoutForm').submit();">Wyloguj</a>
             </li>
         </ul>
     </form>
