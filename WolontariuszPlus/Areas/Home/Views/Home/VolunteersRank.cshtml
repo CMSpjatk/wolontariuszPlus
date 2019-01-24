@@ -1,0 +1,41 @@
+﻿@model ICollection<WolontariuszPlus.Areas.Home.Models.VolunteerRankViewModel>
+@{
+    ViewData["Title"] = "Ranking wolontariuszy";
+}
+
+<h4>Ranking wolontariuszy:</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Imię i nazwisko
+            </th>
+            <th>
+                Liczba punktów
+            </th>
+            <th>
+                Profil
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => v.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => v.Points)
+                </td>
+                <td>
+                    <a asp-area="OrganizerPanelArea" asp-controller="EventDetailsManagement" asp-action="VolunteerProfile" asp-route-id="@v.VolunteerId"
+                       class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Aktualizuj zebraną kwotę">
+
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
