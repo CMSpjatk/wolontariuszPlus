@@ -1,0 +1,65 @@
+﻿@model EventsViewModel
+@{
+    ViewData["Title"] = "Panel Administratora";
+}
+<h3>Panel Administratora</h3>
+<br />
+<table id="organizer-table" class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.Name)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.Date)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.RequiredPoints)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.DefaultEvent.Address)
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.EventViewModels)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequiredPoints)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a class="btn btn-success" asp-controller="EventDetailsManagement" asp-action="PlannedEventDetails" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Szczegóły wydarzenia">
+                            <i class="far fa-list-alt"></i>
+                        </a>
+                        <a class="btn btn-primary" asp-action="UpdateEvent" asp-route-eventId="@item.EventId" data-toggle="tooltip" data-placement="top" title="Edytuj wydarzenie">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger" href="#" data-toggle="tooltip" data-placement="top" title="Usuń wydarzenie"
+                           onclick="deleteAlert(
+                                    'AdministratorPanelArea',
+                                    'AdministratorPanel',
+                                    'DeleteEvent',
+                                    'EventId',
+                                    @item.EventId,
+                                    'wydarzenie &quot;@item.Name&quot;',
+                                    event)">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

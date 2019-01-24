@@ -21,6 +21,7 @@ namespace WolontariuszPlus.Areas
         {
             var volunteerAlreadyExists = await roleManager.RoleExistsAsync(Roles.VolunteerRole);
             var organizerAlreadyExists = await roleManager.RoleExistsAsync(Roles.OrganizerRole);
+            var administratorAlreadyExists = await roleManager.RoleExistsAsync(Roles.AdministratorRole);
 
             if (!volunteerAlreadyExists)
             {
@@ -30,6 +31,11 @@ namespace WolontariuszPlus.Areas
             if (!organizerAlreadyExists)
             {
                 await roleManager.CreateAsync(new IdentityRole(Roles.OrganizerRole));
+            }
+
+            if (!administratorAlreadyExists)
+            {
+                await roleManager.CreateAsync(new IdentityRole(Roles.AdministratorRole));
             }
         }
     }

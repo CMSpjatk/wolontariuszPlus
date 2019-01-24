@@ -10,5 +10,7 @@ namespace WolontariuszPlus.Models
         public const string VolunteerRole = "Volunteer";
 
         public const string OrganizerRole = "Organizer";
+
+        public const string AdministratorRole = "Administrator";
     }
 }
