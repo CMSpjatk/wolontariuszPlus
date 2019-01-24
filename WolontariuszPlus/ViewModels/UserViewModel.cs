@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using WolontariuszPlus.Areas.Home.Models;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 
 namespace WolontariuszPlus.ViewModels
@@ -15,13 +16,13 @@ namespace WolontariuszPlus.ViewModels
 
         [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
         [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
-        [RegularExpression("[a-zA-Z]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
+        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
         [Display(Name = "Imię")]
         public string FirstName { get; set; }
 
         [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
         [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
-        [RegularExpression("[a-zA-Z]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
+        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
 
@@ -33,13 +34,13 @@ namespace WolontariuszPlus.ViewModels
 
         [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
         [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
-        [RegularExpression("[a-zA-Z]+", ErrorMessage = "Nazwa miasta może zawierać jedynie litery.")]
+        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+", ErrorMessage = "Nazwa miasta może zawierać jedynie litery.")]
         [Display(Name = "Miasto")]
         public string City { get; set; }
 
         [Required(ErrorMessage = "Pole \"{0}\" jest wymagane")]
         [MaxLength(50, ErrorMessage = "Maksymalna długość pola \"{0}\" wynosi {1}")]
-        [RegularExpression("[a-zA-Z]+", ErrorMessage = "Nazwa ulicy może zawierać jedynie litery.")]
+        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+", ErrorMessage = "Nazwa ulicy może zawierać jedynie litery.")]
         [Display(Name = "Ulica")]
         public string Street { get; set; }
 

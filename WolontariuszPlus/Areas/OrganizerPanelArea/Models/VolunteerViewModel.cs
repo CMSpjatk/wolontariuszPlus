@@ -4,6 +4,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
 {
     public class VolunteerViewModel
     {
+        public int VolunteerId { get; set; }
         public int VolunteerOnEventId { get; set; }
 
         [Display(Name = "Imię i nazwisko")]

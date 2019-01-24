@@ -49,6 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Home\Views\Home\PersonalData.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Home\Views\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

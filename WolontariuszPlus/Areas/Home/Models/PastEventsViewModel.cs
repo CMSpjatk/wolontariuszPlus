@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
+namespace WolontariuszPlus.Areas.Home.Models
 {
     public class PastEventsViewModel
     {

@@ -1,0 +1,89 @@
+﻿@model WolontariuszPlus.Areas.Home.Models.VolunteerProfileViewModel
+@{
+    ViewData["Title"] = "Profil wolontariusza";
+}
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-10">
+                    <h4>
+                        Profil użytkownika
+                    </h4>
+                    <hr>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.City)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Points)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(x => x.FullName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => x.Points)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Nazwa Wydarzenia
+                        </th>
+                        <th>
+                            Organizator
+                        </th>
+                        <th>
+                            Opinia o wolontariuszu
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var v in Model.PastEventViewModelList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.OrganizerName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => v.Rating)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WolontariuszPlus.Areas.Home.Models;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models.EventDetailsManagement;
 using WolontariuszPlus.Common;
@@ -47,6 +48,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             var volunteers = voes.Select(voe =>
                 new VolunteerViewModel
                 {
+                    VolunteerId = voe.Volunteer.AppUserId,
                     Name = voe.Volunteer.FullName,
                     Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
                     PhoneNumber = voe.Volunteer.PhoneNumber,
@@ -90,6 +92,7 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
             var volunteers = voes.Select(voe =>
                 new VolunteerViewModel
                 {
+                    VolunteerId = voe.Volunteer.AppUserId,
                     Name = voe.Volunteer.FullName,
                     Email = _db.Users.Find(voe.Volunteer.IdentityUserId).Email,
                     PhoneNumber = voe.Volunteer.PhoneNumber,
@@ -274,35 +277,29 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Controllers
 
             return $"/OrganizerPanelArea/EventDetailsManagement/PlannedEventDetails?eventId={voe.EventId}";
         }
-
-        [AllowAnonymous]
-        public IActionResult VolunteerProfile(int id)
+        
+        public IActionResult VolunteerProfile(int volunteerId)
         {
-            var volunteerOnEvent = _db.VolunteersOnEvent
-               .Include(voe => voe.Volunteer)
-               .ThenInclude(v => v.Address)
-               .FirstOrDefault(voe => voe.VolunteerOnEventId == id);
+            var volunteer = _db.Volunteers.Find(volunteerId);
 
-            if (volunteerOnEvent == null)
+            if (volunteer == null)
             {
-                return BadRequest(ErrorMessagesProvider.VolunteerOnEventErrors.VolunteerOnEventNotExists);
+                return BadRequest(ErrorMessagesProvider.VolunteerErrors.VolunteerNotExists);
             }
 
-            var volunteer = volunteerOnEvent.Volunteer;
-
             var pastEvents = _db.VolunteersOnEvent
-                       .Include(voe => voe.Event)
-                            .ThenInclude(e => e.Organizer)
-                       .Include(voe => voe.Volunteer)
-                       .AsNoTracking()
-                       .Where(voe => voe.Event.Date < DateTime.Now && voe.Volunteer == volunteer)
-                       .OrderByDescending(voe => voe.Event.Date)
-                       .Select(voe => new PastEventsViewModel
-                       {
-                           Name = voe.Event.Name,
-                           OrganizerName = voe.Event.Organizer.FullName,
-                           Rating = voe.OpinionAboutVolunteer
-                       }).ToList();
+                .Include(voe => voe.Event)
+                    .ThenInclude(e => e.Organizer)
+                .Include(voe => voe.Volunteer)
+                .AsNoTracking()
+                .Where(voe => voe.Event.Date < DateTime.Now && voe.Volunteer == volunteer)
+                .OrderByDescending(voe => voe.Event.Date)
+                .Select(voe => new PastEventsViewModel
+                {
+                    Name = voe.Event.Name,
+                    OrganizerName = voe.Event.Organizer.FullName,
+                    Rating = voe.OpinionAboutVolunteer
+                }).ToList();
 
               var vm = new UserViewModel 
               {

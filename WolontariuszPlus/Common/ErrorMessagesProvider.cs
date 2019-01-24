@@ -15,6 +15,11 @@ namespace WolontariuszPlus.Common
             public const string NotEnoughPoints = "Wolontariusz nie ma wystarczającej liczby punktów, aby zapisać się na to wydarzenie";
         }
 
+        public static class VolunteerErrors
+        {
+            public const string VolunteerNotExists = "Wolontariusz o podanym Id nie istnieje";
+        }
+
         public static class VolunteerOnEventErrors
         {
             public const string VolunteerOnEventNotExists = "VolunteerOnEvent o podanym Id nie istnieje";

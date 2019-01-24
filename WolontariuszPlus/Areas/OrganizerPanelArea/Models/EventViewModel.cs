@@ -35,13 +35,13 @@ namespace WolontariuszPlus.Areas.OrganizerPanelArea.Models
         [Display(Name = "Miasto")]
         [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [MaxLength(50, ErrorMessage = "Pole \"{0}\" nie może mieć więcej niż {1} znaków")]
-        [RegularExpression("[a-zA-Z]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
+        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
         public string City { get; set; }
 
         [Display(Name = "Ulica")]
         [Required(ErrorMessage = "Pole {0} jest wymagane")]
         [MaxLength(50, ErrorMessage = "Pole \"{0}\" nie może mieć więcej niż {1} znaków")]
-        [RegularExpression("[a-zA-Z]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
+        [RegularExpression("[a-zA-ZĄĆĘŁŃÓŚŹŻąćęłńóśźż]+", ErrorMessage = "{0} może zawierać jedynie litery.")]
         public string Street { get; set; }
 
         [Display(Name = "Numer budynku")]

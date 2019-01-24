@@ -29,10 +29,10 @@
                     @Html.DisplayFor(modelItem => v.Points)
                 </td>
                 <td>
-                    <a asp-area="OrganizerPanelArea" asp-controller="EventDetailsManagement" asp-action="VolunteerProfile" asp-route-id="@v.VolunteerId"
+                    <a asp-action="VolunteerProfile" asp-route-volunteerId="@v.VolunteerId"
                        class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Aktualizuj zebraną kwotę">
 
-                        <i class="fas fa-hand-holding-usd"></i>
+                        <i class="fas fa-user"></i>
                     </a>
                 </td>
             </tr>
