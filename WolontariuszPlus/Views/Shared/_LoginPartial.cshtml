@@ -10,9 +10,13 @@
                 {
                     <a class="nav-link" asp-area="VolunteerPanelArea" asp-controller="VolunteerPanel" asp-action="UpcomingEvents">Panel</a>
                 }
-                else
+                else if (User.IsInRole(Roles.OrganizerRole))
                 {
                     <a class="nav-link" asp-area="OrganizerPanelArea" asp-controller="OrganizerPanel" asp-action="EventsList">Panel</a>
+                }
+                else if (User.IsInRole(Roles.AdministratorRole))
+                {
+                    <a class="nav-link" asp-area="AdministratorPanelArea" asp-controller="AdministratorPanel" asp-action="EventsList">Panel</a>
                 }
             </li>
             <li>
