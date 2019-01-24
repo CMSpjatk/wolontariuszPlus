@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WolontariuszPlus.Areas.Home.Models;
 using WolontariuszPlus.Areas.OrganizerPanelArea.Models;
 using WolontariuszPlus.Common;
 using WolontariuszPlus.Data;
@@ -148,6 +149,23 @@ namespace WolontariuszPlus.Areas.Home.Controllers
             }
 
             return View(@event);
+        }
+
+        public IActionResult VolunteersRank()
+        {
+            var vms = _db.VolunteersOnEvent
+                .Include(voe => voe.Volunteer)
+                .Select(voe =>
+                    new VolunteerRankViewModel
+                    {
+                        VolunteerId = voe.Volunteer.AppUserId,
+                        FullName = voe.Volunteer.FullName,
+                        Points = voe.PointsReceived
+                    })
+                .OrderByDescending(v => v.Points)
+                .ToList();
+
+            return View(vms);
         }
 
         public IActionResult PastEvents()
